@@ -19,7 +19,7 @@ Or with composer command:
 
 Add provider to your app/config/app.php providers
 
-    Jelovac\Bitly4laravel\Bitly4laravelServiceProvider
+    'Jelovac\Bitly4laravel\Bitly4laravelServiceProvider',
 
 Optional (recommended)
 ======================
@@ -35,3 +35,8 @@ Converted bitly-url-shortener yii framework extension to a Laravel package.
 
 The original YII extension you can download here: 
 http://www.yiiframework.com/extension/bitly-url-shortener
+
+Licesne
+=======
+
+http://opensource.org/licenses/bsd-license.php
