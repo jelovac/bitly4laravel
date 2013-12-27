@@ -1,6 +1,6 @@
 {
     "name": "jelovac/bitly4laravel",
-    "description": "",
+    "description": "Provides basic bitly API to use with Laravel 4",
     "authors": [
         {
             "name": "Vladimir Jelovac",
