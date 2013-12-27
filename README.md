@@ -36,7 +36,7 @@ Converted bitly-url-shortener yii framework extension to a Laravel package.
 The original YII extension you can download here: 
 http://www.yiiframework.com/extension/bitly-url-shortener
 
-Licesne
+License
 =======
 
 http://opensource.org/licenses/bsd-license.php
