@@ -26,7 +26,7 @@ Optional (recommended)
 
 Add alias to app/config/app.php aliases
 
-    'Bitly' => 'VladimirJelovac\Bitly4laravel\Facades\Bitly4laravel'
+    'Bitly' => 'Jelovac\Bitly4laravel\Facades\Bitly4laravel',
 
 About
 =====
