@@ -17,7 +17,9 @@ Or with composer command:
 
     composer require "jelovac/bitly4laravel": "dev-master"
 
-Add 'Jelovac\Bitly4laravel\Bitly4laravelServiceProvider' provider to your app/config/app.php providers
+Add provider to your app/config/app.php providers
+
+    Jelovac\Bitly4laravel\Bitly4laravelServiceProvider
 
 Optional (recommended)
 ======================
