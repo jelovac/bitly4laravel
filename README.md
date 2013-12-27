@@ -39,9 +39,11 @@ http://www.yiiframework.com/extension/bitly-url-shortener
 Credits
 =======
 
-bitly-url-shortener - Vadim Gabriel, <vadimg88[at]gmail[dot]com>
 
-laravel4bitly - Vladimir Jelovac, <vladimir.jelovac[at]jeftinodosajta[dot]com>
+
+bitly-url-shortener - [a link](https://github.com/VinceG) [a name](Vadim Gabriel)
+
+laravel4bitly - [a link](https://github.com/jelovac) [a name](Vladimir Jelovac)
 
 License
 =======
