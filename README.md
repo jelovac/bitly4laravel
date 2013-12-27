@@ -39,8 +39,6 @@ http://www.yiiframework.com/extension/bitly-url-shortener
 Credits
 =======
 
-
-
 bitly-url-shortener - [Vadim Gabriel](https://github.com/VinceG "Github profile")
 
 laravel4bitly - [Vladimir Jelovac](https://github.com/jelovac "Github profile")
