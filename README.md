@@ -41,9 +41,9 @@ Credits
 
 
 
-bitly-url-shortener - [a link](https://github.com/VinceG) [a name](Vadim Gabriel)
+bitly-url-shortener - [Vadim Gabriel](https://github.com/VinceG "Github profile")
 
-laravel4bitly - [a link](https://github.com/jelovac) [a name](Vladimir Jelovac)
+laravel4bitly - [Vladimir Jelovac](https://github.com/jelovac "Github profile")
 
 License
 =======
