@@ -3,8 +3,31 @@ bitly4laravel
 
 Provides basic bitly API to use with Laravel 4.
 
-Description
+Instalation
 ===========
+
+Add bitly4laravel to your composer.json file.
+
+    require : {
+        "laravel/framework": "4.0.*",
+        "jelovac/bitly4laravel": "dev-master"
+    }
+
+Or with composer command:
+
+    composer require "jelovac/bitly4laravel": "dev-master"
+
+Add 'Jelovac\Bitly4laravel\Bitly4laravelServiceProvider' provider to your app/config/app.php providers
+
+Optional (recommended)
+======================
+
+Add alias to app/config/app.php aliases
+
+    'Bitly' => 'VladimirJelovac\Bitly4laravel\Facades\Bitly4laravel'
+
+About
+=====
 
 Converted bitly-url-shortener yii framework extension to a Laravel package.
 
