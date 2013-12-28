@@ -2,8 +2,7 @@
 
 namespace Jelovac\Bitly4laravel;
 
-use Cache,
-    Log;
+use Carbon;
 
 class Bitly4laravel
 {
@@ -50,10 +49,10 @@ class Bitly4laravel
     public $useCache = false;
 
     /**
-     * @var integer the time in seconds that the messages can remain valid in cache.
-     * Defaults to 60 seconds valid in cache.
+     * @var integer the time in minutes that the messages can remain valid in cache.
+     * Defaults to 3600 minutes.
      */
-    public $cachingDuration = 60;
+    public $cachingDuration = 3600;
 
     /**
      * @var Set true/false if you want to throw exceptions when error
@@ -62,7 +61,7 @@ class Bitly4laravel
      * And you can access the headers returned to see if there is an error there as well
      * By using the method getHeaders().
      */
-    public $throwExceptions = true;
+    public $throwExceptions = false;
 
     /**
      * @var boolean - Set this property to true if you want to return the JSON response
@@ -129,6 +128,10 @@ class Bitly4laravel
             $this->login = $config['login'];
             if (isset($config['use_cache'])) {
                 $this->useCache = $config['use_cache'];
+            }
+            if (isset($config['cache_expires'])) {
+                $this->cachingDuration = $config['cache_expires'];
+
             }
         }
     }
@@ -377,7 +380,8 @@ class Bitly4laravel
 
         // We store it in the cache if we need to
         if (isset($cache) && $cache !== null) {
-            Cache::put(self::CACHE_KEY . $this->apiCallType . implode(':', $this->postParams), $this->getResponseData(), $this->cachingDuration);
+            $key = self::CACHE_KEY . $this->apiCallType . implode(':', $this->postParams);
+            Cache::put($key, $this->getResponseData(), Carbon::now()->addMinutes($this->cachingDuration));
         }
 
         return $this;
@@ -437,6 +441,7 @@ class Bitly4laravel
 
         // validate body
         if ($this->format == 'xml') {
+            // need to check why author surpressed warnings?!
             $xml = @simplexml_load_string($this->response);
             if (($xml !== false && isset($xml->error)) && $this->throwExceptions) {
                 throw new Exception($xml->error);
@@ -444,11 +449,10 @@ class Bitly4laravel
 
             $this->setResponseData($this->simplexml2array($xml));
         } else if (($this->format == 'json') && ($this->returnAsArray)) {
-            $this->setResponseData(CJSON::decode($this->response));
+            $this->setResponseData(json_decode($this->response));
         } else {
             $this->setResponseData($this->response);
         }
-
         // invalid headers
         if (!in_array($this->headers['http_code'], array(0, 200))) {
             // throw error
