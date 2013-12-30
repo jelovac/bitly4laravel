@@ -2,10 +2,9 @@
 
 namespace Jelovac\Bitly4laravel;
 
-use Carbon;
+use Carbon, Cache, Log;
 
-class Bitly4laravel
-{
+class Bitly4laravel {
 
     /**
      * @var API URL
@@ -53,6 +52,11 @@ class Bitly4laravel
      * Defaults to 3600 minutes.
      */
     public $cachingDuration = 3600;
+    
+    /**
+     * @var variable for storing cache result
+     */
+    private $cache = null;
 
     /**
      * @var Set true/false if you want to throw exceptions when error
@@ -116,8 +120,7 @@ class Bitly4laravel
      *
      * @throws Exception on missing CURL PHP Extension
      */
-    public function __construct(array $config)
-    {
+    public function __construct(array $config) {
         // Check if cURL extension is enabled
         if (!function_exists('curl_init')) {
             $message = "Sorry, Buy you need to have the CURL extension enabled in order to be able to use this class.";
@@ -131,7 +134,6 @@ class Bitly4laravel
             }
             if (isset($config['cache_expires'])) {
                 $this->cachingDuration = $config['cache_expires'];
-
             }
         }
     }
@@ -172,8 +174,7 @@ class Bitly4laravel
      *
      *
      */
-    public function shorten($uri = null, $login = null, $apiKey = null, $format = null)
-    {
+    public function shorten($uri = null, $login = null, $apiKey = null, $format = null) {
         $this->postParams['longUrl'] = $uri;
         return $this->get('shorten', $login, $apiKey, $format);
     }
@@ -217,8 +218,7 @@ class Bitly4laravel
      *
      *
      */
-    public function expand($uri = null, $login = null, $apiKey = null, $format = null)
-    {
+    public function expand($uri = null, $login = null, $apiKey = null, $format = null) {
         $this->postParams['shortUrl'] = $uri;
         return $this->get('expand', $login, $apiKey, $format);
     }
@@ -253,8 +253,7 @@ class Bitly4laravel
      * )
      *
      */
-    public function validate($xlogin = null, $xapi = null, $login = null, $apiKey = null, $format = null)
-    {
+    public function validate($xlogin = null, $xapi = null, $login = null, $apiKey = null, $format = null) {
         $this->postParams['x_login'] = $xlogin;
         $this->postParams['x_apiKey'] = $xapi;
         return $this->get('validate', $login, $apiKey, $format);
@@ -300,8 +299,7 @@ class Bitly4laravel
      *
      *
      */
-    public function clicks($uri = null, $login = null, $apiKey = null, $format = null)
-    {
+    public function clicks($uri = null, $login = null, $apiKey = null, $format = null) {
         $this->postParams['shortUrl'] = $uri;
         return $this->get('clicks', $login, $apiKey, $format);
     }
@@ -336,8 +334,7 @@ class Bitly4laravel
      *   [status_txt] => OK
      * )
      */
-    public function bitly_pro_domain($domain = null, $login = null, $apiKey = null, $format = null)
-    {
+    public function bitly_pro_domain($domain = null, $login = null, $apiKey = null, $format = null) {
         $this->postParams['domain'] = $domain;
         return $this->get('bitly_pro_domain', $login, $apiKey, $format);
     }
@@ -351,14 +348,26 @@ class Bitly4laravel
      * So you can either change this globally in the class property or locally when calling this method.
      * @return mixed - can be either XML as an array or XML, json string or a normal string depends on the format used.
      */
-    public function get($type = null, $login = null, $apiKey = null, $format = null)
-    {
-        $this->format = (($format !== null) && in_array($format, $this->allowedFormats)) ? $format : $this->format;
-        $this->apiCallType = ($type !== null) ? $type : $this->apiCallType;
-        $this->login = ($login !== null) ? $login : $this->login;
-        $this->apiKey = ($apiKey !== null) ? $apiKey : $this->apiKey;
+    public function get($type = null, $login = null, $apiKey = null, $format = null) {
 
-        $params = array('login' => $this->login, 'apiKey' => $this->apiKey, 'format' => $this->format,);
+        if ($format !== null && in_array($format, $this->allowedFormats)) {
+            $this->format = $format;
+        }
+
+        if ($type !== null) {
+            $this->apiCallType = $type;
+        }
+
+        if ($login !== null) {
+            $this->login = $login;
+        }
+
+        if ($apiKey !== null) {
+            $this->apiKey = $apiKey;
+        }
+
+        $params = array('login' => $this->login,
+            'apiKey' => $this->apiKey, 'format' => $this->format);
 
         if (is_array($this->postParams) && count($this->postParams)) {
             $this->postParams = array_merge($params, $this->postParams);
@@ -366,20 +375,16 @@ class Bitly4laravel
             $this->postParams = $params;
         }
 
-        // We first check and see if cache is enabled
-        // If it is then see if we have something that is valid in the cache already
-        if ($this->useCache !== false && ($cache = Cache::get($this->useCache) !== null)) {
-            if (($data = $cache->get(self::CACHE_KEY . $this->apiCallType . implode(':', $this->postParams))) !== false) {
-                $this->setResponseData($data);
-                return $this;
-            }
+        // Check if cache is enabled and get cache
+        if ($this->useCache !== false) {
+            $this->getCachedItem();
         }
 
         // Make the call
         $this->doCall($this->apiCallType);
 
         // We store it in the cache if we need to
-        if (isset($cache) && $cache !== null) {
+        if (isset($this->cache) && $this->cache !== null) {
             $key = self::CACHE_KEY . $this->apiCallType . implode(':', $this->postParams);
             Cache::put($key, $this->getResponseData(), Carbon::now()->addMinutes($this->cachingDuration));
         }
@@ -393,8 +398,7 @@ class Bitly4laravel
      * @throws CException if the property throwExceptions evaluates to true
      * @return $this object reference
      */
-    protected function doCall($url)
-    {
+    protected function doCall($url) {
         // build url
         $url = self::API_URL . $url;
 
@@ -476,32 +480,28 @@ class Bitly4laravel
      * @param mixed - the data to store in the responseData property
      * @return void
      */
-    public function setResponseData($data)
-    {
+    public function setResponseData($data) {
         $this->responseData = $data;
     }
 
     /**
      * @return mixed - Return the default CURL response
      */
-    public function getResponse()
-    {
+    public function getResponse() {
         return $this->response;
     }
 
     /**
      * @return mixed - Return the response code after being parsed
      */
-    public function getResponseData()
-    {
+    public function getResponseData() {
         return $this->responseData;
     }
 
     /**
      * @return array - Return the CURL HTTP headers
      */
-    public function getHeaders()
-    {
+    public function getHeaders() {
         return $this->headers;
     }
 
@@ -509,8 +509,7 @@ class Bitly4laravel
      * @return int - If error occurs while performing the CURL
      * Request then the error code will be retrieved by this method
      */
-    public function getErrorNumber()
-    {
+    public function getErrorNumber() {
         return $this->errorNumber;
     }
 
@@ -518,17 +517,29 @@ class Bitly4laravel
      * @return string - If error occurs while performing the CURL
      * Request then the error code will be retrieved by this method
      */
-    public function getErrorMessage()
-    {
+    public function getErrorMessage() {
         return $this->errorMessage;
+    }
+
+    /**
+     * 
+     */
+    public function getCachedItem() {
+        $this->cache = Cache::get($this->useCache);
+        if ($this->cache !== null) {
+            $data = $this->cache->get(self::CACHE_KEY . $this->apiCallType . implode(':', $this->postParams));
+            if ($data !== false) {
+                $this->setResponseData($data);
+                return $this;
+            }
+        }
     }
 
     /**
      * @return array - Convert a SimpleXML object to an array so we
      * Could safely store it in the cache and retrieve it when needed.
      */
-    protected function simplexml2array($xml)
-    {
+    protected function simplexml2array($xml) {
         if (get_class($xml) == 'SimpleXMLElement') {
             $attributes = $xml->attributes();
             foreach ($attributes as $k => $v) {
