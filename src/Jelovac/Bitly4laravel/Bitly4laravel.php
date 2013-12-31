@@ -14,21 +14,6 @@ class Bitly4laravel {
     const API_URL = 'http://api.bit.ly/v3/';
 
     /**
-     * @var oAuth API URL
-     */
-    const OAUTH_URL = "https://api-ssl.bitly.com/";
-
-    /**
-     * @var oAuth Authorization URL
-     */
-    const OAUTH_AUTH_URL = "https://bitly.com/oauth/authorize";
-
-    /**
-     * @var oAuth API Port
-     */
-    const OAUTH_PORT = 443;
-
-    /**
      * @var API Port
      */
     const API_PORT = 80;
@@ -47,23 +32,6 @@ class Bitly4laravel {
      * @var Login API Key
      */
     public $apiKey = null;
-
-    /**
-     *
-     * @var oAuth Client ID
-     */
-    private $oAuthClientId = null;
-
-    /**
-     *
-     * @var oAuth Client Secret
-     */
-    private $oAuthClientSecret = null;
-
-    /**
-     * @var oAuth Access Token 
-     */
-    private $oAuthAccessToken = null;
 
     /**
      * @var Default response format
@@ -150,34 +118,27 @@ class Bitly4laravel {
     protected $errorMessage = '';
 
     /**
-     * Component initializer
-     *
-     * @throws Exception on missing CURL PHP Extension
+     * Get configuration options
+     * @param array $config
      */
     public function __construct(array $config) {
-        // Check if cURL extension is enabled
-        if (!function_exists('curl_init')) {
-            $message = "Sorry, But you need to have the CURL extension enabled in order to be able to use this class.";
-            Log::critical($message);
-            throw new Exception($message);
-        } else {
-            $this->apiKey = $config['apiKey'];
-            $this->login = $config['login'];
-            if (isset($config['use_cache'])) {
-                $this->useCache = $config['use_cache'];
-            }
-            if (isset($config['cache_expires'])) {
-                $this->cachingDuration = $config['cache_expires'];
-            }
-            if (isset($config['oauth_access_token'])) {
-                $this->oAuthAccessToken = $config['oauth_access_token'];
-            }
-            if (isset($config['oauth_client_id'])) {
-                $this->oAuthClientId = $config['oauth_client_id'];
-            }
-            if (isset($config['oauth_client_secret'])) {
-                $this->oAuthClientSecret = $config['oauth_client_secret'];
-            }
+
+        $this->apiKey = $config['apiKey'];
+        $this->login = $config['login'];
+        if (isset($config['use_cache'])) {
+            $this->useCache = $config['use_cache'];
+        }
+        if (isset($config['cache_expires'])) {
+            $this->cachingDuration = $config['cache_expires'];
+        }
+        if (isset($config['oauth_access_token'])) {
+            $this->oAuthAccessToken = $config['oauth_access_token'];
+        }
+        if (isset($config['oauth_client_id'])) {
+            $this->oAuthClientId = $config['oauth_client_id'];
+        }
+        if (isset($config['oauth_client_secret'])) {
+            $this->oAuthClientSecret = $config['oauth_client_secret'];
         }
     }
 
@@ -433,47 +394,6 @@ class Bitly4laravel {
         }
 
         return $this;
-    }
-
-    private function oAuthAuthorize() {
-        $url = self::OAUTH_AUTH_URL . "?" . "client_id=" . $this->oAuthClientId
-                . "&amp;" . "client_secret=" . $this->oAuthClientSecret
-                . "&amp;" . "redirect_uri=" . $this->oAuthRedirectURL;
-        $this->executeCURL(urlencode(utf8_encode($url)), self::OAUTH_PORT);
-        $this->responseData = json_decode($this->response);
-        $code = $this->responseData->{'code'};
-        $url = self::OAUTH_AUTH_URL . "?" . "client_id=" . $this->oAuthClientId
-                . "&amp;" . "client_secret=" . $this->oAuthClientSecret
-                . "&amp;" . "code=" . $code
-                . "&amp;" . "redirect_uri=" . $this->oAuthRedirectURL;
-        $this->executeCURL(urlencode(utf8_encode($url)), self::OAUTH_PORT);
-        $this->responseData = json_decode($this->response);
-        $this->oAuthAccessToken = $this->responseData->{'access_token'};
-        $this->login = $this->responseData->{'login'};
-        $this->apiKey = $this->responseData->{'apiKey'};
-    }
-
-    private function executeCURL($url, $port) {
-        // Initiate cURL
-        $curl = curl_init();
-
-        // Set parameters
-        $options[CURLOPT_URL] = $url;
-        $options[CURLOPT_PORT] = $port;
-        $options[CURLOPT_FOLLOWLOCATION] = true;
-        $options[CURLOPT_RETURNTRANSFER] = true;
-        $options[CURLOPT_TIMEOUT] = $this->timeOut;
-
-        
-        // Execute
-        $this->response = curl_exec($curl);
-        $this->headers = curl_getinfo($curl);
-
-        // Fetch Errors
-        $this->errorNumber = curl_errno($curl);
-        $this->errorMessage = curl_error($curl);
-
-        curl_close($curl);
     }
 
     /**
