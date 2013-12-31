@@ -2,7 +2,9 @@
 
 namespace Jelovac\Bitly4laravel;
 
-use Carbon, Cache, Log;
+use Carbon,
+    Cache,
+    Log;
 
 class Bitly4laravel {
 
@@ -10,6 +12,21 @@ class Bitly4laravel {
      * @var API URL
      */
     const API_URL = 'http://api.bit.ly/v3/';
+
+    /**
+     * @var oAuth API URL
+     */
+    const OAUTH_URL = "https://api-ssl.bitly.com/";
+
+    /**
+     * @var oAuth Authorization URL
+     */
+    const OAUTH_AUTH_URL = "https://bitly.com/oauth/authorize";
+
+    /**
+     * @var oAuth API Port
+     */
+    const OAUTH_PORT = 443;
 
     /**
      * @var API Port
@@ -32,6 +49,23 @@ class Bitly4laravel {
     public $apiKey = null;
 
     /**
+     *
+     * @var oAuth Client ID
+     */
+    private $oAuthClientId = null;
+
+    /**
+     *
+     * @var oAuth Client Secret
+     */
+    private $oAuthClientSecret = null;
+
+    /**
+     * @var oAuth Access Token 
+     */
+    private $oAuthAccessToken = null;
+
+    /**
      * @var Default response format
      */
     public $format = 'json';
@@ -52,7 +86,7 @@ class Bitly4laravel {
      * Defaults to 3600 minutes.
      */
     public $cachingDuration = 3600;
-    
+
     /**
      * @var variable for storing cache result
      */
@@ -134,6 +168,15 @@ class Bitly4laravel {
             }
             if (isset($config['cache_expires'])) {
                 $this->cachingDuration = $config['cache_expires'];
+            }
+            if (isset($config['oauth_access_token'])) {
+                $this->oAuthAccessToken = $config['oauth_access_token'];
+            }
+            if (isset($config['oauth_client_id'])) {
+                $this->oAuthClientId = $config['oauth_client_id'];
+            }
+            if (isset($config['oauth_client_secret'])) {
+                $this->oAuthClientSecret = $config['oauth_client_secret'];
             }
         }
     }
@@ -392,15 +435,60 @@ class Bitly4laravel {
         return $this;
     }
 
+    private function oAuthAuthorize() {
+        $url = self::OAUTH_AUTH_URL . "?" . "client_id=" . $this->oAuthClientId
+                . "&amp;" . "client_secret=" . $this->oAuthClientSecret
+                . "&amp;" . "redirect_uri=" . $this->oAuthRedirectURL;
+        $this->executeCURL(urlencode(utf8_encode($url)), self::OAUTH_PORT);
+        $this->responseData = json_decode($this->response);
+        $code = $this->responseData->{'code'};
+        $url = self::OAUTH_AUTH_URL . "?" . "client_id=" . $this->oAuthClientId
+                . "&amp;" . "client_secret=" . $this->oAuthClientSecret
+                . "&amp;" . "code=" . $code
+                . "&amp;" . "redirect_uri=" . $this->oAuthRedirectURL;
+        $this->executeCURL(urlencode(utf8_encode($url)), self::OAUTH_PORT);
+        $this->responseData = json_decode($this->response);
+        $this->oAuthAccessToken = $this->responseData->{'access_token'};
+        $this->login = $this->responseData->{'login'};
+        $this->apiKey = $this->responseData->{'apiKey'};
+    }
+
+    private function executeCURL($url, $port) {
+        // Initiate cURL
+        $curl = curl_init();
+
+        // Set parameters
+        $options[CURLOPT_URL] = $url;
+        $options[CURLOPT_PORT] = $port;
+        $options[CURLOPT_FOLLOWLOCATION] = true;
+        $options[CURLOPT_RETURNTRANSFER] = true;
+        $options[CURLOPT_TIMEOUT] = $this->timeOut;
+
+        // Execute
+        $this->response = curl_exec($curl);
+        $this->headers = curl_getinfo($curl);
+
+        // Fetch Errors
+        $this->errorNumber = curl_errno($curl);
+        $this->errorMessage = curl_error($curl);
+
+        curl_close($curl);
+    }
+
     /**
      *
      * @param string - The API Call to load
      * @throws CException if the property throwExceptions evaluates to true
      * @return $this object reference
      */
-    protected function doCall($url) {
+    protected function doCall($url, $oAuth = false) {
+
         // build url
         $url = self::API_URL . $url;
+
+        if ($oAuth !== false) {
+            
+        }
 
         // rebuild url if we don't use post
         if (count($this->postParams)) {
@@ -522,7 +610,7 @@ class Bitly4laravel {
     }
 
     /**
-     * 
+     * Get cached item from Laravels cache 
      */
     public function getCachedItem() {
         $this->cache = Cache::get($this->useCache);
