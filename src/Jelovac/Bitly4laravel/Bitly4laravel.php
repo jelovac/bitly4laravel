@@ -157,11 +157,11 @@ class Bitly4laravel {
     public function __construct(array $config) {
         // Check if cURL extension is enabled
         if (!function_exists('curl_init')) {
-            $message = "Sorry, Buy you need to have the CURL extension enabled in order to be able to use this class.";
+            $message = "Sorry, But you need to have the CURL extension enabled in order to be able to use this class.";
             Log::critical($message);
             throw new Exception($message);
         } else {
-            $this->apiKey = $config['key'];
+            $this->apiKey = $config['apiKey'];
             $this->login = $config['login'];
             if (isset($config['use_cache'])) {
                 $this->useCache = $config['use_cache'];
