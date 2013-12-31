@@ -464,6 +464,7 @@ class Bitly4laravel {
         $options[CURLOPT_RETURNTRANSFER] = true;
         $options[CURLOPT_TIMEOUT] = $this->timeOut;
 
+        
         // Execute
         $this->response = curl_exec($curl);
         $this->headers = curl_getinfo($curl);
