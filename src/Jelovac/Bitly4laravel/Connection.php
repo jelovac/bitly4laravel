@@ -24,23 +24,30 @@ class Connection {
         }
     }
 
-    public static function make($url, $port = null, $timeout = null) {
-        if ($port !== null) {
-            static::$port = $port;
-        }
-        if ($timeout !== null) {
-            static::$timeout = $timeout;
-        }
+    public static function make($url, array $options = array()) {
         // Initiate cURL
         $curl = curl_init();
 
         // Set parameters
         $options[CURLOPT_URL] = $url;
-        $options[CURLOPT_PORT] = static::$port;
-        $options[CURLOPT_FOLLOWLOCATION] = true;
-        $options[CURLOPT_RETURNTRANSFER] = true;
-        $options[CURLOPT_TIMEOUT] = static::$timeout;
 
+        if (!isset($options[CURLOPT_PORT])) {
+            $options[CURLOPT_PORT] = static::$port;
+        }
+        
+        if (!isset($options[CURLOPT_FOLLOWLOCATION])) {
+            $options[CURLOPT_FOLLOWLOCATION] = true;
+        }
+        
+        if (!isset($options[CURLOPT_RETURNTRANSFER])) {
+            $options[CURLOPT_RETURNTRANSFER] = true;
+        }
+        
+        if (!isset($options[CURLOPT_TIMEOUT])) {
+            $options[CURLOPT_TIMEOUT] = static::$timeout;
+        }
+
+        curl_setopt_array($curl, $options);
 
         // Execute
         $response = curl_exec($curl);
