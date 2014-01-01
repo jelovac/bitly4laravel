@@ -23,37 +23,47 @@ class OAuth {
      *
      * @var type 
      */
-    private static $login = null;
+    private $login = null;
 
     /**
      *
      * @var type 
      */
-    private static $key = null;
+    private $key = null;
 
     /**
      *
      * @var type 
      */
-    private static $accessToken = null;
+    private $accessToken = null;
 
     /**
      *
      * @var type 
      */
-    private static $clientId = null;
+    private $clientId = null;
 
     /**
      *
      * @var type 
      */
-    private static $clientSecret = null;
+    private $clientSecret = null;
 
     /**
      *
      * @var type 
      */
-    private static $redirectURI = null;
+    private $redirectURI = null;
+
+    /**
+     * 
+     */
+    private $username = null;
+
+    /**
+     * 
+     */
+    private $password = null;
 
     /**
      * Using constructor to get configuration options
@@ -61,32 +71,65 @@ class OAuth {
      */
     public function __construct(array $config) {
         if (isset($config['login'])) {
-            static::$login = $config['login'];
+            $this->login = $config['login'];
         }
         if (isset($config['key'])) {
-            static::$key = $config['key'];
+            $this->key = $config['key'];
         }
         if (isset($config['oauth_access_token'])) {
-            static::$accessToken = $config['oauth_access_token'];
+            $this->accessToken = $config['oauth_access_token'];
         }
         if (isset($config['oauth_client_id'])) {
-            static::$clientId = $config['oauth_client_id'];
+            $this->clientId = $config['oauth_client_id'];
         }
         if (isset($config['oauth_client_secret'])) {
-            static::$clientSecret = $config['oauth_client_secret'];
+            $this->clientSecret = $config['oauth_client_secret'];
         }
         if (isset($config['oauth_redirect_uri'])) {
-            static::$redirectURI = $config['oauth_redirect_uri'];
+            $this->redirectURI = $config['oauth_redirect_uri'];
         }
     }
 
-    private function authorize($clientId = null, $clientSecret = null, $redirectURI = null) {
-        $data = "client_id=" . static::$clientId;
-        $data .= "&client_secret=" . static::$clientSecret;
-        $data .= "&redirect_uri=" . static::$redirectURI;
-        $url = urlencode($url) = static::AUTH_URL . "?" . $data;
-        // returned value is multi dimensional array
-        $connection = Connection::make($url);
+    /**
+     * This method needs more research
+     * Need to chech if its possible to retrieve access token 
+     * without user confirmation
+     * @param type $clientId
+     * @param type $clientSecret
+     * @param type $redirectURI
+     */
+    public function getAccessToken($username = null, $password = null, $clientId = null, $clientSecret = null) {
+        if ($username !== null && $password !== null && $clientId !== null && $clientSecret !== null) {
+            $this->username = $username;
+            $this->password = $password;
+            $this->clientId = $clientId;
+            $this->clientSecret = $clientSecret;
+        } elseif ($username !== null && $password !== null) {
+            $this->username = $username;
+            $this->password = $password;
+        }
+
+        $authorization = "Basic " . base64_encode($this->clientId . ":" . $this->clientSecret);
+
+        $url = static::API_URL . "oauth/access_token";
+
+        $options = array(
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => array(
+                'grant_type' => 'password',
+                'username' => $this->username,
+                'password' => $this->password
+            ),
+            CURLOPT_HEADER => array(
+                'Authorization: ' . $authorization,
+                'Content-Type: application/x-www-form-urlencoded'
+            )
+        );
+
+        $response = Connection::make($url, $options);
+    }
+
+    public function shorten($url) {
         
     }
 
