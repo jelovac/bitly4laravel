@@ -34,7 +34,7 @@ class Bitly4laravelServiceProvider extends ServiceProvider
         
         $this->app['bitly4laravel'] = $this->app->share(function($app) {
             $config = $app['config']->get('bitly4laravel::config');
-            return new Bitly4laravel($config);
+            return new Actions($config);
         });
         
         $this->app['bitly4laravel'] = $this->app->share(function($app) {
