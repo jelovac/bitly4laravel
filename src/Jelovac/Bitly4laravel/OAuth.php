@@ -10,58 +10,60 @@ use Cache,
 class OAuth {
 
     /**
-     * 
+     * The URL of bitly API
      */
     const API_URL = "https://api-ssl.bitly.com/";
 
     /**
-     * 
+     * Bitly authorization URL
      */
     const AUTH_URL = "https://bitly.com/oauth/authorize";
 
     /**
-     *
-     * @var type 
+     * Bitly username
+     * @var string 
      */
     private $login = null;
 
     /**
-     *
-     * @var type 
+     * Old bitly API KEY
+     * @var string 
      */
     private $key = null;
 
     /**
-     *
-     * @var type 
+     * Bitly Generic Access Token
+     * @var string 
      */
     private $accessToken = null;
 
     /**
-     *
-     * @var type 
+     * Bittly Application Client ID
+     * @var string 
      */
     private $clientId = null;
 
     /**
-     *
-     * @var type 
+     * Bitly Application Client Secret
+     * @var string 
      */
     private $clientSecret = null;
 
     /**
-     *
-     * @var type 
+     * Bitly Application Redirect URL (Callback)
+     * @var string 
      */
     private $redirectURI = null;
 
     /**
-     * 
+     * Bitly username
+     * @var string
      */
     private $username = null;
 
     /**
-     * 
+     * Bitly password
+     * @var string
      */
     private $password = null;
 
@@ -91,12 +93,11 @@ class OAuth {
     }
 
     /**
-     * This method needs more research
-     * Need to chech if its possible to retrieve access token 
-     * without user confirmation
+     * Method for retrieving Bitly oAuth Access Token
+     * @param type $username
+     * @param type $password
      * @param type $clientId
      * @param type $clientSecret
-     * @param type $redirectURI
      */
     public function getAccessToken($username = null, $password = null, $clientId = null, $clientSecret = null) {
         if ($username !== null && $password !== null && $clientId !== null && $clientSecret !== null) {
@@ -109,24 +110,30 @@ class OAuth {
             $this->password = $password;
         }
 
-        $authorization = "Basic " . base64_encode($this->clientId . ":" . $this->clientSecret);
+        if ($this->username !== null && $this->password !== null && $this->clientId !== null && $this->clientSecret !== null) {
+            $authorization = "Basic " . base64_encode(($this->username . ":" . $this->password));
 
-        $url = static::API_URL . "oauth/access_token";
+            $url = static::API_URL . "oauth/access_token";
 
-        $options = array(
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => array(
-                'grant_type' => 'password',
-                'username' => $this->username,
-                'password' => $this->password
-            ),
-            CURLOPT_HEADER => array(
-                'Authorization: ' . $authorization,
-                'Content-Type: application/x-www-form-urlencoded'
-            )
-        );
+            $options = array(
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => array(
+                    'client_id' => $this->clientId,
+                    'client_secret' => $this->clientSecret
+                ),
+                CURLOPT_HEADER => array(
+                    "Authorization: $authorization",
+                    "Content-Type: application/x-www-form-urlencoded"
+                )
+            );
 
-        $response = Connection::make($url, $options);
+            $connection = Connection::make($url, $options);
+            
+            return $connection;
+            
+        } else {
+            throw new Exception("Authorization data is not properly set.");
+        }
     }
 
     public function shorten($url) {
