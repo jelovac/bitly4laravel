@@ -19,7 +19,6 @@ class Connection {
     public function __construct() {
         if (!function_exists('curl_init')) {
             $message = "Sorry, But you need to have the CURL extension enabled in order to be able to use this class.";
-            Log::critical($message);
             throw new Exception($message);
         }
     }
