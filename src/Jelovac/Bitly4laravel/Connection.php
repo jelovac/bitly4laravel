@@ -23,7 +23,7 @@ class Connection {
         }
     }
 
-    public static function make($url, array $options) {
+    public static function make($url, array $options = array()) {
         // Initiate cURL
         $curl = curl_init();
 
