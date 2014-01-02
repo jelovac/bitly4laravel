@@ -24,7 +24,7 @@ class Connection {
         }
     }
 
-    public static function make($url, array $options = array()) {
+    public static function make($url, array $options) {
         // Initiate cURL
         $curl = curl_init();
 
@@ -48,7 +48,7 @@ class Connection {
         }
 
         curl_setopt_array($curl, $options);
-
+        
         // Execute
         $response = curl_exec($curl);
         $headers = curl_getinfo($curl);
