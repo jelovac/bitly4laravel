@@ -71,7 +71,8 @@ class OAuth {
      * Using constructor to get configuration options
      * @param array $config
      */
-    public function __construct(array $config) {
+    public function __construct(array $config)
+    {
         if (isset($config['login'])) {
             $this->login = $config['login'];
         }
@@ -92,52 +93,25 @@ class OAuth {
         }
     }
 
-    /**
-     * Method for retrieving Bitly oAuth Access Token
-     * @param type $username
-     * @param type $password
-     * @param type $clientId
-     * @param type $clientSecret
-     */
-    public function getAccessToken($username = null, $password = null, $clientId = null, $clientSecret = null) {
-        if ($username !== null && $password !== null && $clientId !== null && $clientSecret !== null) {
-            $this->username = $username;
-            $this->password = $password;
+    public function getAccessToken($clientId = null, $redirectURI = null)
+    {
+        if ($clientId !== null && $redirectURI !== null) {
+            $this->redirectURI = $redirectURI;
             $this->clientId = $clientId;
-            $this->clientSecret = $clientSecret;
-        } elseif ($username !== null && $password !== null) {
-            $this->username = $username;
-            $this->password = $password;
         }
-
-        if ($this->username !== null && $this->password !== null && $this->clientId !== null && $this->clientSecret !== null) {
-            $authorization = "Basic " . base64_encode(($this->username . ":" . $this->password));
-
-            $url = static::API_URL . "oauth/access_token";
-
+        if ($this->redirectURI !== null && $this->clientId !== null) {
+            $url = static::AUTH_URL . "?client_id=" . $this->clientId;
+            $url .= "&redirect_uri=" . urldecode($this->redirectURI);
             $options = array(
-                CURLOPT_POST => true,
-                CURLOPT_POSTFIELDS => array(
-                    'client_id' => $this->clientId,
-                    'client_secret' => $this->clientSecret
-                ),
                 CURLOPT_HEADER => array(
-                    "Authorization: $authorization",
-                    "Content-Type: application/x-www-form-urlencoded"
+                    'Content-Type: application/json'
                 )
             );
-
             $connection = Connection::make($url, $options);
-            
-            return $connection;
-            
+            // TO DO ...
         } else {
             throw new Exception("Authorization data is not properly set.");
         }
-    }
-
-    public function shorten($url) {
-        
     }
 
 }
