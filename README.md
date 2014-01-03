@@ -35,8 +35,9 @@ Usage
 =====
 
     shorten
+    =======
 
-        Bitly::shorten('http://www.betaworks.com')->getResponseData();
+        Bitly::shorten('http://spea.rs')->getResponseData();
         
         Output: (xml 2 array)
 
