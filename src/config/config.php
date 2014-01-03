@@ -18,11 +18,11 @@ return array(
     // oAuth Generic Access Token
     'access_token' => 'your-access-token',
     // Cache enabled?
-    'use_cache' => false,
+    'use_cache' => true,
     // Cache Duration in minutes
     'cache_expires' => 3600, // Default 3600 = 24 h - 1 Day
     // Unique cache key
-    'cache_key' => 'Laravel.bitly.Class.Cache.',
+    'cache_key' => 'Laravel.Bitly.',
     // Format to fetch from Bitly API: json, xml
     'format' => 'json',
     // variable output: string, object, array

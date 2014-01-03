@@ -50,7 +50,7 @@ class Model {
      * Cache key
      * @var string 
      */
-    private static $cacheKey = "Laravel.bitly.Class.Cache.";
+    private static $cacheKey = "Laravel.Bitly.";
 
     /**
      * Cache duration in minutes

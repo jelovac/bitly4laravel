@@ -80,7 +80,7 @@ class CallbackEngine {
         // If cache enabled, check if item is cached and return it
         if ($this->model->getUseCache()) {
             $item = $this->getCachedItem();
-            if ($item !== null || $item !== "") {
+            if (!empty($item)) {
                 $this->model->setResponseData($item);
                 return $this;
             }
@@ -90,7 +90,7 @@ class CallbackEngine {
         $this->doCall($this->model->getCallType());
 
         // If cache is enabled, save cache if needed
-        if ($this->model->getCache() !== null) {
+        if ($this->model->getUseCache()) {
             $this->cacheItem();
         }
 
