@@ -135,7 +135,7 @@ class CallbackEngine {
                         return $this->decodeJSONRespone($response);
                     case 'array':
                         return $this->decodeJSONRespone($response, true);
-                    case 'string':
+                    default:
                         return $response['response']['content'];
                 }
 
@@ -146,11 +146,11 @@ class CallbackEngine {
                         return simplexml_load_string($response['response']['content']);
                     case 'array':
                         return $this->convertXMLResponeToArray($response);
-                    case 'string':
+                    default:
                         return $response['response']['content'];
                 }
 
-            default :
+            default:
                 return $response['response']['content'];
         }
     }
