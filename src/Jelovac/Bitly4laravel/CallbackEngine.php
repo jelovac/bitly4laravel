@@ -98,7 +98,7 @@ class CallbackEngine {
         $url = static::$apiURL . $url;
 
         if (count($this->params['post'])) {
-            $url = $this->rebuildURL($url, $this->params['post']);
+            $url = Helper::rebuildURL($url, $this->params['post']);
         }
 
         // Execute cURL call and retrieve response array
