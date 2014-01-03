@@ -43,7 +43,7 @@ class CallbackEngine {
      * So you can either change this globally in the class property or locally when calling this method.
      * @return mixed - can be either XML as an array or XML, json string or a normal string depends on the format used.
      */
-    public function get($type = null, $login = null, $apiKey = null, $format = null)
+    public function get($type = null, $login = null, $apiKey = null, $format = null, $output = null)
     {
         if ($format !== null) {
             $this->model->setFormat($format);
@@ -59,6 +59,10 @@ class CallbackEngine {
 
         if ($apiKey !== null) {
             $this->model->setApiKey($apiKey);
+        }
+
+        if ($output !== null && is_bool($output)) {
+            $this->model->setVariableOutput($output);
         }
 
         $params = array(
@@ -103,7 +107,7 @@ class CallbackEngine {
         $url = self::$apiURL . $url;
 
         if (count($this->postParams)) {
-            $url = Helper::rebuildURL($url, $this->postParams);
+            $url = $this->rebuildURL($url, $this->postParams);
         }
 
         // Execute cURL call and retrieve response array
@@ -125,13 +129,19 @@ class CallbackEngine {
     {
         switch ($format) {
             case 'json':
-                return Helper::responseToJSON($response);
+                if ($this->model->getVariableOutput()) {
+                    return $this->decodeJSONRespone($response);
+                } else {
+                    return $response['response']['content'];
+                }
             case 'xml':
-                return Helper::responseToXML($response);
-            case 'array':
-                return Helper::responseToArray($response);
+                if ($this->model->getVariableOutput()) {
+                    return $this->convertXMLResponeToArray($response);
+                } else {
+                    return $response['response']['content'];
+                }
             default :
-                return Helper::responseToJSON($response);
+                return $response['response']['content'];
         }
     }
 
@@ -149,6 +159,72 @@ class CallbackEngine {
                 . $this->model->getCallType()
                 . implode(':', $this->postParams);
         Cache::put($key, $this->model->getResponseData(), Carbon::now()->addMinutes($this->model->getCacheDuration()));
+    }
+
+    private function rebuildURL($url, array $params)
+    {
+        // Initiate query string
+        $queryString = '';
+
+        // loop parameters and add them to the queryString
+        foreach ($params as $key => $value) {
+            $queryString .= '&' . $key . '=' . urlencode(utf8_encode($value));
+        }
+
+        // Trim query string
+        $queryString = trim($queryString, '&');
+
+        // Append query string to URL
+        $url .= '?' . $queryString;
+        return $url;
+    }
+
+    private function decodeJSONRespone(array $response)
+    {
+        return json_decode($response['response']['content']);
+    }
+
+    private function convertXMLResponeToArray(array $response)
+    {
+        $xml = simplexml_load_string($response['response']['content'], 'SimpleXMLElement');
+        return $this->simpleXMLToArray($xml);
+    }
+
+    /**
+     * @return array - Convert a SimpleXML object to an array so we
+     * Could safely store it in the cache and retrieve it when needed.
+     */
+    private function simpleXMLToArray($xml)
+    {
+        if (is_object($xml)) {
+            if (get_class($xml) == 'SimpleXMLElement') {
+                $attributes = $xml->attributes();
+                foreach ($attributes as $k => $v) {
+                    if ($v)
+                        $a[$k] = (string) $v;
+                }
+                $x = $xml;
+                $xml = get_object_vars($xml);
+            }
+
+            if (is_array($xml)) {
+                if (count($xml) == 0)
+                    return (string) $x;
+                // for CDATA
+                foreach ($xml as $key => $value) {
+                    if (is_object($value)) {
+                        $r[$key] = $this->simpleXMLToArray($value);
+                    } else {
+                        $r[$key] = $value;
+                    }
+                }
+                if (isset($a))
+                    $r['@attributes'] = $a;
+                // Attributes
+                return $r;
+            }
+        }
+        return (string) $xml;
     }
 
 }

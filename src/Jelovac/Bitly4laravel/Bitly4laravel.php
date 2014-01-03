@@ -20,6 +20,8 @@ class Bitly4laravel extends CallbackEngine {
      * @param string $apiKey - this is used to override the default apiKey set by the class
      * @param string $format - this is set to be xml by default. bit.ly returns json by default
      * So you can either change this globally in the class property or locally when calling this method.
+     * @param boolean $output - if true returns array or object depending on format
+     * if false returns json or xml string
      * @return mixed - can be either XML as an array or XML, json string or a normal string depends on the format used.
      *
      * Usage:
@@ -45,10 +47,10 @@ class Bitly4laravel extends CallbackEngine {
      *
      *
      */
-    public function shorten($uri = null, $login = null, $apiKey = null, $format = null)
+    public function shorten($uri = null, $login = null, $apiKey = null, $format = null, $output = null)
     {
         $this->postParams['longUrl'] = $uri;
-        return $this->get('shorten', $login, $apiKey, $format);
+        return $this->get('shorten', $login, $apiKey, $format, $output);
     }
 
     /**
@@ -62,6 +64,8 @@ class Bitly4laravel extends CallbackEngine {
      * @param string $apiKey - this is used to override the default apiKey set by the class
      * @param string $format - this is set to be xml by default. bit.ly returns json by default
      * So you can either change this globally in the class property or locally when calling this method.
+     * @param boolean $output - if true returns array or object depending on format
+     * if false returns json or xml string
      * @return mixed - can be either XML as an array or XML, json string or a normal string depends on the format used.
      *
      * Usage:
@@ -90,10 +94,10 @@ class Bitly4laravel extends CallbackEngine {
      *
      *
      */
-    public function expand($uri = null, $login = null, $apiKey = null, $format = null)
+    public function expand($uri = null, $login = null, $apiKey = null, $format = null, $output = null)
     {
         $this->postParams['shortUrl'] = $uri;
-        return $this->get('expand', $login, $apiKey, $format);
+        return $this->get('expand', $login, $apiKey, $format, $output);
     }
 
     /**
@@ -106,6 +110,8 @@ class Bitly4laravel extends CallbackEngine {
      * @param string $apiKey - this is used to override the default apiKey set by the class
      * @param string $format - this is set to be xml by default. bit.ly returns json by default
      * So you can either change this globally in the class property or locally when calling this method.
+     * @param boolean $output - if true returns array or object depending on format
+     * if false returns json or xml string
      * @return mixed - can be either XML as an array or XML, json string or a normal string depends on the format used.
      *
      * Usage:
@@ -126,11 +132,11 @@ class Bitly4laravel extends CallbackEngine {
      * )
      *
      */
-    public function validate($xlogin = null, $xapi = null, $login = null, $apiKey = null, $format = null)
+    public function validate($xlogin = null, $xapi = null, $login = null, $apiKey = null, $format = null, $output = null)
     {
         $this->postParams['x_login'] = $xlogin;
         $this->postParams['x_apiKey'] = $xapi;
-        return $this->get('validate', $login, $apiKey, $format);
+        return $this->get('validate', $login, $apiKey, $format, $output);
     }
 
     /**
@@ -144,6 +150,8 @@ class Bitly4laravel extends CallbackEngine {
      * @param string $apiKey - this is used to override the default apiKey set by the class
      * @param string $format - this is set to be xml by default. bit.ly returns json by default
      * So you can either change this globally in the class property or locally when calling this method.
+     * @param boolean $output - if true returns array or object depending on format
+     * if false returns json or xml string
      * @return mixed - can be either XML as an array or XML, json string or a normal string depends on the format used.
      *
      * Usage:
@@ -173,10 +181,10 @@ class Bitly4laravel extends CallbackEngine {
      *
      *
      */
-    public function clicks($uri = null, $login = null, $apiKey = null, $format = null)
+    public function clicks($uri = null, $login = null, $apiKey = null, $format = null, $output = null)
     {
         $this->postParams['shortUrl'] = $uri;
-        return $this->get('clicks', $login, $apiKey, $format);
+        return $this->get('clicks', $login, $apiKey, $format, $output);
     }
 
     /**
@@ -189,6 +197,8 @@ class Bitly4laravel extends CallbackEngine {
      * @param string $apiKey - this is used to override the default apiKey set by the class
      * @param string $format - this is set to be xml by default. bit.ly returns json by default
      * So you can either change this globally in the class property or locally when calling this method.
+     * @param boolean $output - if true returns array or object depending on format
+     * if false returns json or xml string
      * @return mixed - can be either XML as an array or XML, json string or a normal string depends on the format used.
      *
      * Usage:
@@ -209,10 +219,10 @@ class Bitly4laravel extends CallbackEngine {
      *   [status_txt] => OK
      * )
      */
-    public function bitly_pro_domain($domain = null, $login = null, $apiKey = null, $format = null)
+    public function bitly_pro_domain($domain = null, $login = null, $apiKey = null, $format = null, $output = null)
     {
         $this->postParams['domain'] = $domain;
-        return $this->get('bitly_pro_domain', $login, $apiKey, $format);
+        return $this->get('bitly_pro_domain', $login, $apiKey, $format, $output);
     }
 
 }

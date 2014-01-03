@@ -65,6 +65,14 @@ class Model {
     private $format = 'xml';
 
     /**
+     * If true convert from format to object or array depending on the format
+     * if json => object
+     * if xml => array
+     * @var boolean 
+     */
+    private $variableOutput = false;
+
+    /**
      * Default callback call type
      * @var string
      */
@@ -159,6 +167,11 @@ class Model {
         return $this->format;
     }
 
+    public function getVariableOutput()
+    {
+        return $this->variableOutput;
+    }
+
     public function getCallType()
     {
         return $this->callType;
@@ -227,6 +240,11 @@ class Model {
     public function setFormat($format)
     {
         $this->format = $format;
+    }
+
+    public function setVariableOutput($variableOutput)
+    {
+        $this->variableOutput = $variableOutput;
     }
 
     public function setCallType($callType)

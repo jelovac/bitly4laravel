@@ -33,7 +33,7 @@ class Connection {
         $options[CURLOPT_URL] = $url;
 
         if (!isset($options[CURLOPT_PORT])) {
-            $options[CURLOPT_PORT] = static::$port;
+            $options[CURLOPT_PORT] = self::$port;
         }
 
         if (!isset($options[CURLOPT_FOLLOWLOCATION])) {
@@ -45,7 +45,7 @@ class Connection {
         }
 
         if (!isset($options[CURLOPT_TIMEOUT])) {
-            $options[CURLOPT_TIMEOUT] = static::$timeout;
+            $options[CURLOPT_TIMEOUT] = self::$timeout;
         }
 
         curl_setopt_array($curl, $options);

@@ -31,6 +31,48 @@ Add alias to app/config/app.php aliases
 
     'Bitly' => 'Jelovac\Bitly4laravel\Facades\Bitly4laravel',
 
+Usage
+=====
+
+    shorten
+
+        Bitly::shorten('http://www.betaworks.com')->getResponseData();
+        
+        Output: (xml 2 array)
+
+        array (size=4)
+            'errorCode' => string '0' (length=1)
+            'errorMessage' => string '' (length=0)
+            'results' => 
+                array (size=1)
+                    'nodeKeyVal' => 
+                        array (size=6)
+                            'shortKeywordUrl' => string '' (length=0)
+                            'hash' => string 'KoaLbI' (length=6)
+                            'userHash' => string 'KoaLbH' (length=6)
+                            'nodeKey' => string 'http://spea.rs' (length=14)
+                            'shortUrl' => string 'http://bit.ly/KoaLbH' (length=20)
+                            'shortCNAMEUrl' => string 'http://bit.ly/KoaLbH' (length=20)
+            'statusCode' => string 'OK' (length=2)
+
+            
+        deserialized JSON
+
+        object(stdClass)[139]
+            public 'errorCode' => int 0
+            public 'errorMessage' => string '' (length=0)
+            public 'results' => 
+              object(stdClass)[140]
+                public 'http://spea.rs' => 
+                  object(stdClass)[141]
+                    public 'userHash' => string 'KoaLbH' (length=6)
+                    public 'shortKeywordUrl' => string '' (length=0)
+                    public 'hash' => string 'KoaLbI' (length=6)
+                    public 'shortCNAMEUrl' => string 'http://bit.ly/KoaLbH' (length=20)
+                    public 'shortUrl' => string 'http://bit.ly/KoaLbH' (length=20)
+            public 'statusCode' => string 'OK' (length=2)
+
+
 About
 =====
 
