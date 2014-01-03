@@ -2,17 +2,11 @@
 
 namespace Jelovac\Bitly4laravel;
 
-class Bitly4laravel {
-
-    /**
-     * Callback engine
-     * @var class 
-     */
-    private $callbackEngine = null;
+class Bitly4laravel extends CallbackEngine {
 
     public function __construct(array $config)
     {
-        $this->callbackEngine = new CallbackEngine($config);
+        parent::__construct($config);
     }
 
     /**
@@ -53,8 +47,8 @@ class Bitly4laravel {
      */
     public function shorten($uri = null, $login = null, $apiKey = null, $format = null)
     {
-        $this->callbackEngine->postParams['longUrl'] = $uri;
-        return $this->callbackEngine->get('shorten', $login, $apiKey, $format);
+        $this->postParams['longUrl'] = $uri;
+        return $this>get('shorten', $login, $apiKey, $format);
     }
 
     /**
@@ -98,8 +92,8 @@ class Bitly4laravel {
      */
     public function expand($uri = null, $login = null, $apiKey = null, $format = null)
     {
-        $this->callbackEngine->postParams['shortUrl'] = $uri;
-        return $this->callbackEngine->get('expand', $login, $apiKey, $format);
+        $this->postParams['shortUrl'] = $uri;
+        return $this->get('expand', $login, $apiKey, $format);
     }
 
     /**
@@ -134,9 +128,9 @@ class Bitly4laravel {
      */
     public function validate($xlogin = null, $xapi = null, $login = null, $apiKey = null, $format = null)
     {
-        $this->callbackEngine->postParams['x_login'] = $xlogin;
-        $this->callbackEngine->postParams['x_apiKey'] = $xapi;
-        return $this->callbackEngine->get('validate', $login, $apiKey, $format);
+        $this->postParams['x_login'] = $xlogin;
+        $this->postParams['x_apiKey'] = $xapi;
+        return $this->get('validate', $login, $apiKey, $format);
     }
 
     /**
@@ -181,8 +175,8 @@ class Bitly4laravel {
      */
     public function clicks($uri = null, $login = null, $apiKey = null, $format = null)
     {
-        $this->callbackEngine->postParams['shortUrl'] = $uri;
-        return $this->callbackEngine->get('clicks', $login, $apiKey, $format);
+        $this->postParams['shortUrl'] = $uri;
+        return $this->get('clicks', $login, $apiKey, $format);
     }
 
     /**
@@ -217,8 +211,8 @@ class Bitly4laravel {
      */
     public function bitly_pro_domain($domain = null, $login = null, $apiKey = null, $format = null)
     {
-        $this->callbackEngine->postParams['domain'] = $domain;
-        return $this->callbackEngine->get('bitly_pro_domain', $login, $apiKey, $format);
+        $this->postParams['domain'] = $domain;
+        return $this->get('bitly_pro_domain', $login, $apiKey, $format);
     }
 
 }

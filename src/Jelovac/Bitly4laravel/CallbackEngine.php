@@ -17,8 +17,8 @@ class CallbackEngine {
      * Storing post parameters
      * @var array 
      */
-    public $postParams = array();
-    
+    protected $postParams = array();
+
     /**
      * Model
      * @var class 
@@ -68,7 +68,7 @@ class CallbackEngine {
         );
 
         if (count($this->postParams)) {
-           $this->postParams = array_merge($params, $this->postParams);
+            $this->postParams = array_merge($params, $this->postParams);
         } else {
             $this->postParams = $params;
         }
@@ -93,6 +93,11 @@ class CallbackEngine {
         return $this;
     }
 
+    public function getResponseData()
+    {
+        return $this->model->getResponseData();
+    }
+
     private function doCall($url)
     {
         $url = static::$apiURL . $url;
@@ -115,7 +120,7 @@ class CallbackEngine {
 
         return $this;
     }
-    
+
     private function convertConnectionToFormat(array $response, $format)
     {
         switch ($format) {
@@ -129,7 +134,7 @@ class CallbackEngine {
                 return Helper::responseToJSON($response);
         }
     }
-    
+
     private function getCachedItem()
     {
         $key = $this->model->getCacheKey()
