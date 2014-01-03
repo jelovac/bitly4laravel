@@ -2,7 +2,8 @@
 
 namespace Jelovac\Bitly4laravel;
 
-Use Cache, Carbon;
+Use Carbon\Carbon as Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class Actions {
 

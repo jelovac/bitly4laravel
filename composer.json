@@ -10,7 +10,8 @@
     "license": "BSD-2-Clause",
     "require": {
         "php": ">=5.3.0",
-        "illuminate/support": "4.1.*"
+        "illuminate/support": "4.1.*",
+        "nesbot/carbon": "*"
     },
     "autoload": {
         "psr-0": {

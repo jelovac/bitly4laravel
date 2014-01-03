@@ -2,11 +2,6 @@
 
 namespace Jelovac\Bitly4laravel;
 
-use Cache,
-    Log,
-    Carbon,
-    Jelovac\Bitly4laravel\Connection;
-
 class OAuth {
 
     /**

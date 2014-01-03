@@ -16,14 +16,16 @@ class Connection {
      */
     private static $timeout = 10;
 
-    public function __construct() {
+    public function __construct()
+    {
         if (!function_exists('curl_init')) {
             $message = "Sorry, But you need to have the CURL extension enabled in order to be able to use this class.";
             throw new Exception($message);
         }
     }
 
-    public static function make($url, array $options = array()) {
+    public static function make($url, array $options = array())
+    {
         // Initiate cURL
         $curl = curl_init();
 
@@ -33,21 +35,21 @@ class Connection {
         if (!isset($options[CURLOPT_PORT])) {
             $options[CURLOPT_PORT] = static::$port;
         }
-        
+
         if (!isset($options[CURLOPT_FOLLOWLOCATION])) {
             $options[CURLOPT_FOLLOWLOCATION] = true;
         }
-        
+
         if (!isset($options[CURLOPT_RETURNTRANSFER])) {
             $options[CURLOPT_RETURNTRANSFER] = true;
         }
-        
+
         if (!isset($options[CURLOPT_TIMEOUT])) {
             $options[CURLOPT_TIMEOUT] = static::$timeout;
         }
 
         curl_setopt_array($curl, $options);
-        
+
         // Execute
         $response = curl_exec($curl);
         $headers = curl_getinfo($curl);
