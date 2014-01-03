@@ -100,21 +100,21 @@ class CallbackEngine {
 
     private function doCall($url)
     {
-        $url = static::$apiURL . $url;
+        $url = self::$apiURL . $url;
 
-        if (count($this->params['post'])) {
-            $url = Helper::rebuildURL($url, $this->params['post']);
+        if (count($this->postParams)) {
+            $url = Helper::rebuildURL($url, $this->postParams);
         }
 
         // Execute cURL call and retrieve response array
-        $this->response = Connection::make($url);
+        $this->model->setResponse(Connection::make($url));
 
-        if ($this->response['error']['number'] == 0) {
-            $data = $this->convertConnectionToFormat($this->response, $this->params['format']);
+        if ($this->model->response['error']['number'] == 0) {
+            $data = $this->convertConnectionToFormat($this->model->response, $this->model->getFormat());
             $this->model->setResponseData($data);
         } else {
-            $message = $this->response['error']['message'];
-            $code = $this->response['error']['number'];
+            $message = $this->model->response['error']['message'];
+            $code = $this->model->response['error']['number'];
             throw new Exception($message, $code);
         }
 
