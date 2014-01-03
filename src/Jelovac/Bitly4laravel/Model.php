@@ -62,14 +62,14 @@ class Model {
      * Default format, values can be json, xml, array
      * @var string 
      */
-    private $format = 'xml';
+    private $format = 'json';
 
     /**
      * If true convert from format to object or array depending on the format
      * object, array, string
      * @var string 
      */
-    private $variableOutput = "object";
+    private $variableOutput = "array";
 
     /**
      * Default callback call type
@@ -114,6 +114,7 @@ class Model {
         $this->cacheDuration = isset($config['cache_duration']) ? $config['cache_duration'] : $this->cacheDuration;
         $this->format = isset($config['format']) ? $config['format'] : $this->format;
         $this->callType = isset($config['call_type']) ? $config['call_type'] : $this->callType;
+        $this->variableOutput = isset($config['variable_output']) ? $config['variable_output'] : $this->variableOutput;
     }
 
     public function getUsername()
