@@ -4,8 +4,7 @@ namespace Jelovac\Bitly4laravel;
 
 use Illuminate\Support\ServiceProvider;
 
-class Bitly4laravelServiceProvider extends ServiceProvider
-{
+class Bitly4laravelServiceProvider extends ServiceProvider {
 
     /**
      * Indicates if loading of the provider is deferred.
@@ -31,17 +30,10 @@ class Bitly4laravelServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
         $this->app['bitly4laravel'] = $this->app->share(function($app) {
             $config = $app['config']->get('bitly4laravel::config');
-            return new Actions($config);
+            return new Bitly4laravel($config);
         });
-        
-        $this->app['bitly4laravel'] = $this->app->share(function($app) {
-            $config = $app['config']->get('bitly4laravel::config');
-            return new OAuth($config);
-        });
-        
     }
 
     /**
