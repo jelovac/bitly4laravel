@@ -114,7 +114,7 @@ class CallbackEngine {
         $this->model->setResponse(Connection::make($url));
 
         if ($this->model->response['error']['number'] == 0) {
-            $data = $this->convertConnectionToFormat($this->model->response, $this->model->getFormat());
+            $data = $this->convertResponseToFormat($this->model->response, $this->model->getFormat());
             $this->model->setResponseData($data);
         } else {
             $message = $this->model->response['error']['message'];
@@ -125,21 +125,31 @@ class CallbackEngine {
         return $this;
     }
 
-    private function convertConnectionToFormat(array $response, $format)
+    private function convertResponseToFormat(array $response, $format)
     {
         switch ($format) {
             case 'json':
-                if ($this->model->getVariableOutput()) {
-                    return $this->decodeJSONRespone($response);
-                } else {
-                    return $response['response']['content'];
+
+                switch ($this->model->getVariableOutput()) {
+                    case 'object':
+                        return $this->decodeJSONRespone($response);
+                    case 'array':
+                        return $this->decodeJSONRespone($response, true);
+                    case 'string':
+                        return $response['response']['content'];
                 }
+
             case 'xml':
-                if ($this->model->getVariableOutput()) {
-                    return $this->convertXMLResponeToArray($response);
-                } else {
-                    return $response['response']['content'];
+
+                switch ($this->model->getVariableOutput()) {
+                    case 'object':
+                        return simplexml_load_string($response['response']['content']);
+                    case 'array':
+                        return $this->convertXMLResponeToArray($response);
+                    case 'string':
+                        return $response['response']['content'];
                 }
+
             default :
                 return $response['response']['content'];
         }
@@ -179,9 +189,9 @@ class CallbackEngine {
         return $url;
     }
 
-    private function decodeJSONRespone(array $response)
+    private function decodeJSONRespone(array $response, $toArray = false)
     {
-        return json_decode($response['response']['content']);
+        return json_decode($response['response']['content'], $toArray);
     }
 
     private function convertXMLResponeToArray(array $response)

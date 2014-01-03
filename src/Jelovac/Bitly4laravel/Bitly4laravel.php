@@ -20,8 +20,10 @@ class Bitly4laravel extends CallbackEngine {
      * @param string $apiKey - this is used to override the default apiKey set by the class
      * @param string $format - this is set to be xml by default. bit.ly returns json by default
      * So you can either change this globally in the class property or locally when calling this method.
-     * @param boolean $output - if true returns array or object depending on format
-     * if false returns json or xml string
+     * @param string $output
+     * $output = "object" returns format as object
+     * $output = "array" returns format as associative array
+     * $output = "string" returns format
      * @return mixed - can be either XML as an array or XML, json string or a normal string depends on the format used.
      *
      * Usage:
@@ -64,8 +66,10 @@ class Bitly4laravel extends CallbackEngine {
      * @param string $apiKey - this is used to override the default apiKey set by the class
      * @param string $format - this is set to be xml by default. bit.ly returns json by default
      * So you can either change this globally in the class property or locally when calling this method.
-     * @param boolean $output - if true returns array or object depending on format
-     * if false returns json or xml string
+     * @param string $output
+     * $output = "object" returns format as object
+     * $output = "array" returns format as associative array
+     * $output = "string" returns format
      * @return mixed - can be either XML as an array or XML, json string or a normal string depends on the format used.
      *
      * Usage:
@@ -110,8 +114,10 @@ class Bitly4laravel extends CallbackEngine {
      * @param string $apiKey - this is used to override the default apiKey set by the class
      * @param string $format - this is set to be xml by default. bit.ly returns json by default
      * So you can either change this globally in the class property or locally when calling this method.
-     * @param boolean $output - if true returns array or object depending on format
-     * if false returns json or xml string
+     * @param string $output
+     * $output = "object" returns format as object
+     * $output = "array" returns format as associative array
+     * $output = "string" returns format
      * @return mixed - can be either XML as an array or XML, json string or a normal string depends on the format used.
      *
      * Usage:
@@ -150,8 +156,10 @@ class Bitly4laravel extends CallbackEngine {
      * @param string $apiKey - this is used to override the default apiKey set by the class
      * @param string $format - this is set to be xml by default. bit.ly returns json by default
      * So you can either change this globally in the class property or locally when calling this method.
-     * @param boolean $output - if true returns array or object depending on format
-     * if false returns json or xml string
+     * @param string $output
+     * $output = "object" returns format as object
+     * $output = "array" returns format as associative array
+     * $output = "string" returns format
      * @return mixed - can be either XML as an array or XML, json string or a normal string depends on the format used.
      *
      * Usage:
@@ -197,8 +205,10 @@ class Bitly4laravel extends CallbackEngine {
      * @param string $apiKey - this is used to override the default apiKey set by the class
      * @param string $format - this is set to be xml by default. bit.ly returns json by default
      * So you can either change this globally in the class property or locally when calling this method.
-     * @param boolean $output - if true returns array or object depending on format
-     * if false returns json or xml string
+     * @param string $output
+     * $output = "object" returns format as object
+     * $output = "array" returns format as associative array
+     * $output = "string" returns format
      * @return mixed - can be either XML as an array or XML, json string or a normal string depends on the format used.
      *
      * Usage:

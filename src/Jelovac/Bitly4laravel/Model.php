@@ -66,11 +66,10 @@ class Model {
 
     /**
      * If true convert from format to object or array depending on the format
-     * if json => object
-     * if xml => array
-     * @var boolean 
+     * object, array, string
+     * @var string 
      */
-    private $variableOutput = false;
+    private $variableOutput = "object";
 
     /**
      * Default callback call type
