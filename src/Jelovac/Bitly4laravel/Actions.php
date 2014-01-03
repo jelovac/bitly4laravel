@@ -90,7 +90,7 @@ class Actions {
      */
     private function setParams(array $config)
     {
-        $keys = array('use_cache');
+        $keys = array('use_cache', 'cache_key', 'cache_duration');
         foreach ($keys as $key) {
             if (isset($config[$key])) {
                 $this->params[$key] = $config[$key];
