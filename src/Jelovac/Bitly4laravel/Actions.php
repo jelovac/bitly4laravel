@@ -2,13 +2,15 @@
 
 namespace Jelovac\Bitly4laravel;
 
+Use Cache, Carbon;
+
 class Actions {
 
     /**
      * Bitly API URL
      * @var string
      */
-    const API_URL = "https://api-ssl.bitly.com/";
+    private static $apiURL = "https://api-ssl.bitly.com/";
 
     /**
      * Storing bitly account parameters:
@@ -100,7 +102,7 @@ class Actions {
 
     private function doCall($url)
     {
-        $url = static::API_URL . $url;
+        $url = static::$apiURL . $url;
 
         if (count($this->params['post'])) {
             $url = $this->rebuildURL($url, $this->params['post']);
