@@ -86,7 +86,7 @@ class Model {
      *      [message]
      * @var array 
      */
-    private $response = null;
+    public $response = null;
 
     /**
      * Storing response data
