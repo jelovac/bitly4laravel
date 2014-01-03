@@ -12,12 +12,12 @@ class OAuth {
     /**
      * The URL of bitly API
      */
-    const API_URL = "https://api-ssl.bitly.com/";
+    private static $apiURL = "https://api-ssl.bitly.com/";
 
     /**
      * Bitly authorization URL
      */
-    const AUTH_URL = "https://bitly.com/oauth/authorize";
+    private static $authURL = "https://bitly.com/oauth/authorize";
 
     /**
      * Bitly username
@@ -100,7 +100,7 @@ class OAuth {
             $this->clientId = $clientId;
         }
         if ($this->redirectURI !== null && $this->clientId !== null) {
-            $url = static::AUTH_URL . "?client_id=" . $this->clientId;
+            $url = static::$authURL . "?client_id=" . $this->clientId;
             $url .= "&redirect_uri=" . urldecode($this->redirectURI);
             $options = array(
                 CURLOPT_HEADER => array(
