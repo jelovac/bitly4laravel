@@ -48,7 +48,7 @@ class Bitly4laravel extends CallbackEngine {
     public function shorten($uri = null, $login = null, $apiKey = null, $format = null)
     {
         $this->postParams['longUrl'] = $uri;
-        return $this>get('shorten', $login, $apiKey, $format);
+        return $this->get('shorten', $login, $apiKey, $format);
     }
 
     /**
