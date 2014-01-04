@@ -37,13 +37,12 @@ class CallbackEngine {
     /**
      * This method is the one that runs the above callbacks.
      * @param string $type - the callback that needs to be called.
-     * @param string $login - this is used to override the default login set by the class
-     * @param string $apiKey - this is used to override the default apiKey set by the class
+     * @param string $accessToken - Generic oAuth AccessToken which can be aquired from Bitly site
      * @param string $format - this is set to be xml by default. bit.ly returns json by default
      * So you can either change this globally in the class property or locally when calling this method.
      * @return mixed - can be either XML as an array or XML, json string or a normal string depends on the format used.
      */
-    public function get($type = null, $login = null, $apiKey = null, $format = null, $output = null)
+    public function get($type = null, $accessToken = null, $format = null, $output = null)
     {
         if ($format !== null) {
             $this->model->setFormat($format);
@@ -53,12 +52,8 @@ class CallbackEngine {
             $this->model->setCallType($type);
         }
 
-        if ($login !== null) {
-            $this->model->setUsername($login);
-        }
-
-        if ($apiKey !== null) {
-            $this->model->setApiKey($apiKey);
+        if ($accessToken !== null) {
+            $this->model->setAccessToken($accessToken);
         }
 
         if ($output !== null && is_bool($output)) {
@@ -66,8 +61,7 @@ class CallbackEngine {
         }
 
         $params = array(
-            'login' => $this->model->getUsername(),
-            'apiKey' => $this->model->getApiKey(),
+            'access_token' => $this->model->getAccessToken(),
             'format' => $this->model->getFormat()
         );
 

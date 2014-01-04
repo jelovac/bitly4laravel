@@ -16,8 +16,8 @@ class Bitly4laravel extends CallbackEngine {
      * @param string $uri - The long url needed to be shorten. You should use urlencode
      * In this case since bit.ly hates receiving urls with the characters such as ?, $, #
      * In it without being encoded.
-     * @param string $login - this is used to override the default login set by the class
-     * @param string $apiKey - this is used to override the default apiKey set by the class
+     * @param string $accessToken - Generic oAuth Access Token
+     * Can be aquired at Bitly site, or fetched using oAuth web flow (experimental)
      * @param string $format - this is set to be xml by default. bit.ly returns json by default
      * So you can either change this globally in the class property or locally when calling this method.
      * @param string $output
@@ -30,7 +30,7 @@ class Bitly4laravel extends CallbackEngine {
      * ------
      * Bitly::shorten('http://www.betaworks.com')->getResponseData();
      *
-     * Output:
+     * Output: (Warning Output has changed since new bitly API)
      * -------
      * Array
      * (
@@ -49,10 +49,10 @@ class Bitly4laravel extends CallbackEngine {
      *
      *
      */
-    public function shorten($uri = null, $login = null, $apiKey = null, $format = null, $output = null)
+    public function shorten($uri = null, $accessToken = null, $format = null, $output = null)
     {
         $this->postParams['longUrl'] = $uri;
-        return $this->get('shorten', $login, $apiKey, $format, $output);
+        return $this->get('shorten', $accessToken, $format, $output);
     }
 
     /**
@@ -62,8 +62,8 @@ class Bitly4laravel extends CallbackEngine {
      * @param string $uri - The short url needed to be expanded. You should use urlencode
      * In this case since bit.ly hates receiving urls with the characters such as ?, $, #
      * In it without being encoded.
-     * @param string $login - this is used to override the default login set by the class
-     * @param string $apiKey - this is used to override the default apiKey set by the class
+     * @param string $accessToken - Generic oAuth Access Token
+     * Can be aquired at Bitly site, or fetched using oAuth web flow (experimental)
      * @param string $format - this is set to be xml by default. bit.ly returns json by default
      * So you can either change this globally in the class property or locally when calling this method.
      * @param string $output
@@ -76,7 +76,7 @@ class Bitly4laravel extends CallbackEngine {
      * ------
      * Bitly::expand('http://bit.ly/1RmnUT')->getResponseData();
      *
-     * Output:
+     * Output: (Warning Output has changed since new bitly API)
      * -------
      * Array
      * (
@@ -98,10 +98,10 @@ class Bitly4laravel extends CallbackEngine {
      *
      *
      */
-    public function expand($uri = null, $login = null, $apiKey = null, $format = null, $output = null)
+    public function expand($uri = null, $accessToken = null, $format = null, $output = null)
     {
         $this->postParams['shortUrl'] = $uri;
-        return $this->get('expand', $login, $apiKey, $format, $output);
+        return $this->get('expand', $accessToken, $format, $output);
     }
 
     /**
@@ -110,8 +110,8 @@ class Bitly4laravel extends CallbackEngine {
      * This functions is used to validate the given login name and apikey
      * @param string $xlogin - the login to be validated
      * @param string $xapi - the apiKey to be validated
-     * @param string $login - this is used to override the default login set by the class
-     * @param string $apiKey - this is used to override the default apiKey set by the class
+     * @param string $accessToken - Generic oAuth Access Token
+     * Can be aquired at Bitly site, or fetched using oAuth web flow (experimental)
      * @param string $format - this is set to be xml by default. bit.ly returns json by default
      * So you can either change this globally in the class property or locally when calling this method.
      * @param string $output
@@ -124,7 +124,7 @@ class Bitly4laravel extends CallbackEngine {
      * ------
      * Bitly::validate('loginName', 'APIKEY')->getResponseData();
      *
-     * Output:
+     * Output: (Warning Output has changed since new bitly API)
      * -------
      * Array
      * (
@@ -138,11 +138,11 @@ class Bitly4laravel extends CallbackEngine {
      * )
      *
      */
-    public function validate($xlogin = null, $xapi = null, $login = null, $apiKey = null, $format = null, $output = null)
+    public function validate($xlogin = null, $xapi = null, $accessToken = null, $format = null, $output = null)
     {
         $this->postParams['x_login'] = $xlogin;
         $this->postParams['x_apiKey'] = $xapi;
-        return $this->get('validate', $login, $apiKey, $format, $output);
+        return $this->get('validate', $accessToken, $format, $output);
     }
 
     /**
@@ -152,8 +152,8 @@ class Bitly4laravel extends CallbackEngine {
      * @param string $uri - The short url that we want to know the amount of clicks. You should use urlencode
      * In this case since bit.ly hates receiving urls with the characters such as ?, $, #
      * In it without being encoded.
-     * @param string $login - this is used to override the default login set by the class
-     * @param string $apiKey - this is used to override the default apiKey set by the class
+     * @param string $accessToken - Generic oAuth Access Token
+     * Can be aquired at Bitly site, or fetched using oAuth web flow (experimental)
      * @param string $format - this is set to be xml by default. bit.ly returns json by default
      * So you can either change this globally in the class property or locally when calling this method.
      * @param string $output
@@ -166,7 +166,7 @@ class Bitly4laravel extends CallbackEngine {
      * ------
      * Bitly::clicks('http://bit.ly/1RmnUT')->getResponseData();
      *
-     * Output:
+     * Output: (Warning Output has changed since new bitly API)
      * -------
      * Array
      * (
@@ -189,10 +189,10 @@ class Bitly4laravel extends CallbackEngine {
      *
      *
      */
-    public function clicks($uri = null, $login = null, $apiKey = null, $format = null, $output = null)
+    public function clicks($uri = null, $accessToken = null, $format = null, $output = null)
     {
         $this->postParams['shortUrl'] = $uri;
-        return $this->get('clicks', $login, $apiKey, $format, $output);
+        return $this->get('clicks', $accessToken, $format, $output);
     }
 
     /**
@@ -201,8 +201,8 @@ class Bitly4laravel extends CallbackEngine {
      * This is used to query whether a given short domain is assigned for bitly.Pro, and is consequently a valid shortUrl parameter for other api calls.
      * keep in mind that bitly.pro domains are restricted to less than 15 characters in length.
      * @param string $domain - A short domain (ie: nyti.ms).
-     * @param string $login - this is used to override the default login set by the class
-     * @param string $apiKey - this is used to override the default apiKey set by the class
+     * @param string $accessToken - Generic oAuth Access Token
+     * Can be aquired at Bitly site, or fetched using oAuth web flow (experimental)
      * @param string $format - this is set to be xml by default. bit.ly returns json by default
      * So you can either change this globally in the class property or locally when calling this method.
      * @param string $output
@@ -215,7 +215,7 @@ class Bitly4laravel extends CallbackEngine {
      * ------
      * Bitly::bitly_pro_domain('nyti.ms')->getResponseData();
      *
-     * Output:
+     * Output: (Warning Output has changed since new bitly API)
      * -------
      * Array
      * (
@@ -229,10 +229,10 @@ class Bitly4laravel extends CallbackEngine {
      *   [status_txt] => OK
      * )
      */
-    public function bitly_pro_domain($domain = null, $login = null, $apiKey = null, $format = null, $output = null)
+    public function bitly_pro_domain($domain = null, $accessToken = null, $format = null, $output = null)
     {
         $this->postParams['domain'] = $domain;
-        return $this->get('bitly_pro_domain', $login, $apiKey, $format, $output);
+        return $this->get('bitly_pro_domain', $accessToken, $format, $output);
     }
 
 }
