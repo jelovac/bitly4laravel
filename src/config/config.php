@@ -5,18 +5,7 @@
  * Populate only the needed fields and comment others
  */
 return array(
-    // Bitly username
-    'username' => 'your-username',
-    // Bitly password
-    'password' => 'your-password',
-    // Bitly Deprecated API key
-    'api_key' => 'your-api-key',
-    // Bitly Application ID
-    'client_id' => 'your-client-id',
-    // Bitly Application Secret
-    'client_secret' => 'your-client-secret',
-    // oAuth Generic Access Token
-    'access_token' => 'your-access-token',
+    'access_token' => null,
     // Cache enabled?
     'use_cache' => true,
     // Cache Duration in minutes
@@ -27,6 +16,6 @@ return array(
     'format' => 'json',
     // variable output: string, object, array
     'variable_output' => 'array',
-    // default call type (look at bitly api for more information)
-    'call_type' => 'shorten'
+    // default get call type (look at bitly api for more information)
+    'call_type' => 'shorten',
 );

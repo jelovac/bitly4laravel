@@ -5,40 +5,10 @@ namespace Jelovac\Bitly4laravel;
 class Model {
 
     /**
-     * Bitly username
-     * @var string 
-     */
-    private $username = null;
-
-    /**
-     * Bitly password
-     * @var string
-     */
-    private $password = null;
-
-    /**
      * Bitly generic access token
      * @var string 
      */
     private $accessToken = null;
-
-    /**
-     * Bitly API key !deprecated
-     * @var string
-     */
-    private $apiKey = null;
-
-    /**
-     * Bitly app client ID
-     * @var string
-     */
-    private $clientId = null;
-
-    /**
-     * Bitly app client secret
-     * @var string
-     */
-    private $clientSecret = null;
 
     /**
      * Enable cache
@@ -103,12 +73,8 @@ class Model {
 
     function __construct(array $config)
     {
-        $this->username = isset($config['username']) ? $config['username'] : $this->username;
-        $this->password = isset($config['password']) ? $config['password'] : $this->password;
+
         $this->accessToken = isset($config['access_token']) ? $config['access_token'] : $this->accessToken;
-        $this->apiKey = isset($config['api_key']) ? $config['api_key'] : $this->apiKey;
-        $this->clientId = isset($config['client_id']) ? $config['client_id'] : $this->clientId;
-        $this->clientSecret = isset($config['client_secret']) ? $config['client_secret'] : $this->clientSecret;
         $this->useCache = isset($config['use_cache']) ? $config['use_cache'] : $this->useCache;
         self::$cacheKey = isset($config['cache_key']) ? $config['cache_key'] : self::$cacheKey;
         $this->cacheDuration = isset($config['cache_duration']) ? $config['cache_duration'] : $this->cacheDuration;
@@ -117,34 +83,9 @@ class Model {
         $this->variableOutput = isset($config['variable_output']) ? $config['variable_output'] : $this->variableOutput;
     }
 
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
     public function getAccessToken()
     {
         return $this->accessToken;
-    }
-
-    public function getApiKey()
-    {
-        return $this->apiKey;
-    }
-
-    public function getClientId()
-    {
-        return $this->clientId;
-    }
-
-    public function getClientSecret()
-    {
-        return $this->clientSecret;
     }
 
     public function getUseCache()
@@ -192,34 +133,9 @@ class Model {
         return $this->responseData;
     }
 
-    public function setUsername($username)
-    {
-        $this->username = $username;
-    }
-
-    public function setPassword($password)
-    {
-        $this->password = $password;
-    }
-
     public function setAccessToken($accessToken)
     {
         $this->accessToken = $accessToken;
-    }
-
-    public function setApiKey($apiKey)
-    {
-        $this->apiKey = $apiKey;
-    }
-
-    public function setClientId($clientId)
-    {
-        $this->clientId = $clientId;
-    }
-
-    public function setClientSecret($clientSecret)
-    {
-        $this->clientSecret = $clientSecret;
     }
 
     public function setUseCache($useCache)

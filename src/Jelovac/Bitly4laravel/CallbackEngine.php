@@ -11,7 +11,7 @@ class CallbackEngine {
      * Bitly API URL
      * @var string
      */
-    private static $apiURL = "https://api-ssl.bitly.com/";
+    public static $apiURL = "https://api-ssl.bitly.com/";
 
     /**
      * Storing post parameters
@@ -23,7 +23,7 @@ class CallbackEngine {
      * Model
      * @var class 
      */
-    private $model = null;
+    protected $model = null;
 
     /**
      * Constructor
@@ -60,10 +60,10 @@ class CallbackEngine {
             $this->model->setVariableOutput($output);
         }
 
-        $params = array(
-            'access_token' => $this->model->getAccessToken(),
-            'format' => $this->model->getFormat()
-        );
+        $params['access_token'] = $this->model->getAccessToken();
+        $params['format'] = $this->model->getFormat();
+
+        $params = array();
 
         if (count($this->postParams)) {
             $this->postParams = array_merge($params, $this->postParams);
@@ -100,12 +100,22 @@ class CallbackEngine {
     {
         $url = self::$apiURL . $url;
 
-        if (count($this->postParams)) {
-            $url = $this->rebuildURL($url, $this->postParams);
+        $options = array();
+
+        if ($this->model->getPostRequest()) {
+
+            $options[CURLOPT_POST] = true;
+            $options[CURLOPT_POSTFIELDS] = $this->postParams;
+
+        } else {
+
+            if (count($this->postParams)) {
+                $url = $this->rebuildURL($url, $this->postParams);
+            }
         }
 
         // Execute cURL call and retrieve response array
-        $this->model->setResponse(Connection::make($url));
+        $this->model->setResponse(Connection::make($url, $options));
 
         if ($this->model->response['error']['number'] == 0) {
             $data = $this->convertResponseToFormat($this->model->response, $this->model->getFormat());
@@ -165,7 +175,7 @@ class CallbackEngine {
         Cache::put($key, $this->model->getResponseData(), Carbon::now()->addMinutes($this->model->getCacheDuration()));
     }
 
-    private function rebuildURL($url, array $params)
+    protected function rebuildURL($url, array $params)
     {
         // Initiate query string
         $queryString = '';
