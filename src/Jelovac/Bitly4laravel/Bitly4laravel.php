@@ -30,7 +30,7 @@ class Bitly4laravel extends CallbackEngine {
      * ------
      * Bitly::shorten('http://www.betaworks.com')->getResponseData();
      *
-     * Output: (Warning Output has changed since new bitly API)
+     * Output:
      * -------
      * Array
      * (
@@ -76,7 +76,7 @@ class Bitly4laravel extends CallbackEngine {
      * ------
      * Bitly::expand('http://bit.ly/1RmnUT')->getResponseData();
      *
-     * Output: (Warning Output has changed since new bitly API)
+     * Output:
      * -------
      * Array
      * (
@@ -124,7 +124,7 @@ class Bitly4laravel extends CallbackEngine {
      * ------
      * Bitly::validate('loginName', 'APIKEY')->getResponseData();
      *
-     * Output: (Warning Output has changed since new bitly API)
+     * Output:
      * -------
      * Array
      * (
@@ -166,7 +166,7 @@ class Bitly4laravel extends CallbackEngine {
      * ------
      * Bitly::clicks('http://bit.ly/1RmnUT')->getResponseData();
      *
-     * Output: (Warning Output has changed since new bitly API)
+     * Output: 
      * -------
      * Array
      * (
@@ -215,7 +215,7 @@ class Bitly4laravel extends CallbackEngine {
      * ------
      * Bitly::bitly_pro_domain('nyti.ms')->getResponseData();
      *
-     * Output: (Warning Output has changed since new bitly API)
+     * Output:
      * -------
      * Array
      * (

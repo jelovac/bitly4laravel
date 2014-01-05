@@ -37,7 +37,7 @@ Add alias to app/config/app.php aliases
 Usage
 =====
 
-        Shorten links
+Shorten links
 
         Bitly::shorten('http://spea.rs')->getResponseData();
         
@@ -57,7 +57,7 @@ Usage
                     ) 
             )
 
-        Expand links
+Expand links
 
         Bitly::expand('http://bit.ly/1RmnUT')->getResponseData();
 
@@ -80,7 +80,7 @@ Usage
                     )
             )
 
-        Validate callback
+Validate callback
 
         Bitly::validate('loginName', 'APIKEY')->getResponseData();
 
@@ -96,7 +96,7 @@ Usage
                     )
             )
 
-        Clicks callback
+Clicks callback
 
         Bitly::clicks('http://bit.ly/1RmnUT')->getResponseData();
 
@@ -119,7 +119,7 @@ Usage
                 [status_txt] => OK
             )
 
-        Bitly.Pro callback
+Bitly.Pro callback
 
         Bitly::bitly_pro_domain('nyti.ms')->getResponseData();
 
