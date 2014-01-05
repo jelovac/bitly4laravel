@@ -66,10 +66,10 @@ class CallbackEngine {
             $this->model->setVariableOutput($output);
         }
 
+        $params = array();
+
         $params['access_token'] = $this->model->getAccessToken();
         $params['format'] = $this->model->getFormat();
-
-        $params = array();
 
         if (count($this->postParams)) {
             $this->postParams = array_merge($params, $this->postParams);
