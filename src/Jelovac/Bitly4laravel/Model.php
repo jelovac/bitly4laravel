@@ -54,6 +54,12 @@ class Model {
     private $cache = null;
 
     /**
+     * If true send post request
+     * @var boolean 
+     */
+    private $postRequest = false;
+
+    /**
      * Storing the connection response into multidimensional array
      * [response]
      *      [headers]
@@ -123,6 +129,11 @@ class Model {
         return $this->cache;
     }
 
+    public function getPostRequest()
+    {
+        return $this->postRequest;
+    }
+
     public function getResponse()
     {
         return $this->response;
@@ -171,6 +182,11 @@ class Model {
     public function setCache(type $cache)
     {
         $this->cache = $cache;
+    }
+
+    public function setPostRequest($postRequest)
+    {
+        $this->postRequest = $postRequest;
     }
 
     public function setResponse($response)
