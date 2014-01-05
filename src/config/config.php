@@ -7,7 +7,7 @@
 return array(
     'access_token' => null,
     // Cache enabled?
-    'use_cache' => true,
+    'use_cache' => false,
     // Cache Duration in minutes
     'cache_expires' => 3600, // Default 3600 = 24 h - 1 Day
     // Unique cache key
