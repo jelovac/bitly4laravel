@@ -37,44 +37,104 @@ Add alias to app/config/app.php aliases
 Usage
 =====
 
-    shorten
-    =======
+        Shorten links
 
         Bitly::shorten('http://spea.rs')->getResponseData();
         
-        Output: (xml 2 array)
+        Output: array
 
-        array (size=4)
-            'errorCode' => string '0' (length=1)
-            'errorMessage' => string '' (length=0)
-            'results' => 
-                array (size=1)
-                    'nodeKeyVal' => 
-                        array (size=6)
-                            'shortKeywordUrl' => string '' (length=0)
-                            'hash' => string 'KoaLbI' (length=6)
-                            'userHash' => string 'KoaLbH' (length=6)
-                            'nodeKey' => string 'http://spea.rs' (length=14)
-                            'shortUrl' => string 'http://bit.ly/KoaLbH' (length=20)
-                            'shortCNAMEUrl' => string 'http://bit.ly/KoaLbH' (length=20)
-            'statusCode' => string 'OK' (length=2)
+        Array
+            (
+                [status_code] => 200
+                [status_txt] => OK
+                [data] => Array
+                    (
+                        [url] => http://bit.ly/9PCy42
+                        [hash] => 9PCy42
+                        [global_hash] => 25iRBL
+                        [long_url] => http://www.betaworks.com
+                        [new_hash] => 0
+                    ) 
+            )
 
-            
-        deserialized JSON
+        Expand links
 
-        object(stdClass)[139]
-            public 'errorCode' => int 0
-            public 'errorMessage' => string '' (length=0)
-            public 'results' => 
-              object(stdClass)[140]
-                public 'http://spea.rs' => 
-                  object(stdClass)[141]
-                    public 'userHash' => string 'KoaLbH' (length=6)
-                    public 'shortKeywordUrl' => string '' (length=0)
-                    public 'hash' => string 'KoaLbI' (length=6)
-                    public 'shortCNAMEUrl' => string 'http://bit.ly/KoaLbH' (length=20)
-                    public 'shortUrl' => string 'http://bit.ly/KoaLbH' (length=20)
-            public 'statusCode' => string 'OK' (length=2)
+        Bitly::expand('http://bit.ly/1RmnUT')->getResponseData();
+
+        Output: array
+
+        Array
+            (
+                [status_code] => 200
+                [status_txt] => OK
+                [data] => Array
+                    (
+                        [entry] => Array
+                            (
+                                [short_url] => http://bit.ly/1RmnUT
+                                [long_url] => http://google.com
+                                [user_hash] => 1RmnUT
+                                [global_hash] => 1RmnUT
+                            )
+
+                    )
+            )
+
+        Validate callback
+
+        Bitly::validate('loginName', 'APIKEY')->getResponseData();
+
+        Output: array
+
+        Array
+            (
+                [status_code] => 200
+                [status_txt] => OK
+                [data] => Array
+                    (
+                        [valid] => 1
+                    )
+            )
+
+        Clicks callback
+
+        Bitly::clicks('http://bit.ly/1RmnUT')->getResponseData();
+
+        Output: array
+
+        Array
+            (
+                [status_code] => 200
+                [data] => Array
+                    (
+                        [clicks] => Array
+                            (
+                                [short_url] => http://bit.ly/1RmnUT
+                                [global_hash] => 1RmnUT
+                                [user_clicks] => 3508
+                                [user_hash] => 1RmnUT
+                                [global_clicks] => 3508
+                            )
+                )
+                [status_txt] => OK
+            )
+
+        Bitly.Pro callback
+
+        Bitly::bitly_pro_domain('nyti.ms')->getResponseData();
+
+        Output: array
+
+        Array
+            (
+                [status_code] => 200
+                [data] => Array
+                    (
+                        [domain] => nyti.ms
+                        [bitly_pro_domain] => 1
+                    )
+                [status_txt] => OK
+            )
 
 
 About
