@@ -14,6 +14,12 @@ class CallbackEngine {
     public static $apiURL = "https://api-ssl.bitly.com/";
 
     /**
+     * Bitly api version to use
+     * @var string 
+     */
+    public static $apiVersion = "v3/";
+
+    /**
      * Storing post parameters
      * @var array 
      */
@@ -98,7 +104,7 @@ class CallbackEngine {
 
     private function doCall($url)
     {
-        $url = self::$apiURL . $url;
+        $url = self::$apiURL . self::$apiVersion . $url;
 
         $options = array();
 
@@ -106,7 +112,6 @@ class CallbackEngine {
 
             $options[CURLOPT_POST] = true;
             $options[CURLOPT_POSTFIELDS] = $this->postParams;
-
         } else {
 
             if (count($this->postParams)) {
