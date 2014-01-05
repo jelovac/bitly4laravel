@@ -21,8 +21,6 @@ class Bitly4laravelServiceProvider extends ServiceProvider {
     public function boot()
     {
         $this->package('jelovac/bitly4laravel');
-        include __DIR__.'/../../filters.php';
-        include __DIR__.'/../../routes.php';
     }
 
     /**
