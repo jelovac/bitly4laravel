@@ -3,9 +3,8 @@ bitly4laravel
 
 Provides basic bitly API to use with Laravel 4.
 
-oAuth2 is currently under implementation, to use this package you need Bitly
-API KEY and login USERNAME which you can find at this [link](https://bitly.com/a/your_api_key) when logged in. 
-
+In order to use this API you need to get [OAuthGeneric Access Token](https://bitly.com/a/oauth_apps) from Bitly website.
+ 
 Instalation
 ===========
 
@@ -23,6 +22,10 @@ Or with composer command:
 Add provider to your app/config/app.php providers
 
     'Jelovac\Bitly4laravel\Bitly4laravelServiceProvider',
+
+Publish config
+
+    php artisan config:publish jelovac/bitly4laravel
 
 Optional (recommended)
 ======================
