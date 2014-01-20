@@ -1,5 +1,6 @@
 bitly4laravel
 =============
+[![Build Status](https://travis-ci.org/jelovac/bitly4laravel.png?branch=master)](https://travis-ci.org/jelovac/bitly4laravel)
 
 Provides basic bitly API to use with Laravel 4.
 
