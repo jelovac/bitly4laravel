@@ -1,6 +1,6 @@
 bitly4laravel
 =============
-[![Build Status](https://travis-ci.org/jelovac/bitly4laravel.png?branch=master)](https://travis-ci.org/jelovac/bitly4laravel)
+[![Build Status](https://travis-ci.org/jelovac/bitly4laravel.png?branch=master)](https://travis-ci.org/jelovac/bitly4laravel) [![Latest Stable Version](https://poser.pugx.org/jelovac/bitly4laravel/v/stable.png)](https://packagist.org/packages/jelovac/bitly4laravel) [![Total Downloads](https://poser.pugx.org/jelovac/bitly4laravel/downloads.png)](https://packagist.org/packages/jelovac/bitly4laravel) [![Latest Unstable Version](https://poser.pugx.org/jelovac/bitly4laravel/v/unstable.png)](https://packagist.org/packages/jelovac/bitly4laravel) [![License](https://poser.pugx.org/jelovac/bitly4laravel/license.png)](https://packagist.org/packages/jelovac/bitly4laravel)
 
 Provides basic bitly API to use with Laravel 4.
 
