@@ -1,8 +1,6 @@
-<?php
+<?php namespace Jelovac\Bitly4laravel;
 
-namespace Jelovac\Bitly4laravel;
-
-Use Carbon\Carbon as Carbon;
+use Carbon\Carbon as Carbon;
 use Illuminate\Support\Facades\Cache;
 
 class CallbackEngine {
@@ -48,22 +46,11 @@ class CallbackEngine {
      * So you can either change this globally in the class property or locally when calling this method.
      * @return mixed - can be either XML as an array or XML, json string or a normal string depends on the format used.
      */
-    public function get($type = null, $accessToken = null, $format = null, $output = null)
+    public function get($type = null)
     {
-        if ($format !== null) {
-            $this->model->setFormat($format);
-        }
 
         if ($type !== null) {
             $this->model->setCallType($type);
-        }
-
-        if ($accessToken !== null) {
-            $this->model->setAccessToken($accessToken);
-        }
-
-        if ($output !== null && is_bool($output)) {
-            $this->model->setVariableOutput($output);
         }
 
         $params = array();
@@ -244,6 +231,28 @@ class CallbackEngine {
             }
         }
         return (string) $xml;
+    }
+
+    protected function clearPostData()
+    {
+        $this->postParams = array();
+    }
+
+    protected function getPostData()
+    {
+        return $this->postParams;
+    }
+
+    protected function removePostData($key)
+    {
+        unset($this->postParams[$key]);
+    }
+
+    protected function setPostData($key, $value)
+    {
+        if ($value !== null) {
+            $this->postParams[$key] = $value;
+        }
     }
 
 }
