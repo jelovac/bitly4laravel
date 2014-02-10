@@ -81,62 +81,13 @@ Expand links
                     )
             )
 
-Validate callback
+To specifiy alternative Access Token, Format or VariableOutput you have following public setters which can be chained.
 
-        Bitly::validate('loginName', 'APIKEY')->getResponseData();
-
-        Output: array
-
-        Array
-            (
-                [status_code] => 200
-                [status_txt] => OK
-                [data] => Array
-                    (
-                        [valid] => 1
-                    )
-            )
-
-Clicks callback
-
-        Bitly::clicks('http://bit.ly/1RmnUT')->getResponseData();
-
-        Output: array
-
-        Array
-            (
-                [status_code] => 200
-                [data] => Array
-                    (
-                        [clicks] => Array
-                            (
-                                [short_url] => http://bit.ly/1RmnUT
-                                [global_hash] => 1RmnUT
-                                [user_clicks] => 3508
-                                [user_hash] => 1RmnUT
-                                [global_clicks] => 3508
-                            )
-                )
-                [status_txt] => OK
-            )
-
-Bitly.Pro callback
-
-        Bitly::bitly_pro_domain('nyti.ms')->getResponseData();
-
-        Output: array
-
-        Array
-            (
-                [status_code] => 200
-                [data] => Array
-                    (
-                        [domain] => nyti.ms
-                        [bitly_pro_domain] => 1
-                    )
-                [status_txt] => OK
-            )
-
+    Bitly::setAccessToken('my-access-token')
+        ->setFormat('json')
+        ->setVariableOutput('array')
+        ->expand('http://bit.ly/1RmnUT')
+        ->getResponseData();
 
 About
 =====
