@@ -3,85 +3,85 @@
 interface CallbackInterface {
     
     // Data APIs
-    public function highvalue(integer $limit);
-    public function search(string $query, string $fields, integer $offset, integer $limit, string $domain, string  $fullDomain, string $cities, string $lang);
+    public function highvalue($limit);
+    public function search($query, $fields, $offset, $limit, $domain,  $fullDomain, $cities, $lang);
     public function realtimeBurstingPhrases();
     public function realtimeHotPhrases();
-    public function realtimeClickrate(string $phrase);
-    public function linkInfo(string $link);
-    public function linkContent(string $link, string $contentType);
-    public function linkCategory(string $link);
-    public function linkSocial(string $link);
-    public function linkLocation(string $link);
-    public function linkLanguage(string $link);
+    public function realtimeClickrate($phrase);
+    public function linkInfo($link);
+    public function linkContent($link, $contentType);
+    public function linkCategory($link);
+    public function linkSocial($link);
+    public function linkLocation($link);
+    public function linkLanguage($link);
     
     // Links
-    public function expand(string $shortURLOrHash);
-    public function info(string $hash, string $shortURL, boolean $expandUser);
-    public function linkLookup(string $url);
-    public function shorten(string $longURL, $domain = null);
-    public function userLinkEdit(string $link, string $edit, string $title = null, string $note = null, boolean $private = null, integer $userTimeStamp = null, boolean $archived = null);
-    public function userLinkLookup(string $url);
-    public function userLinkSave(string $longURL, string $title = null, string $note = null, boolean $private = null, integer $userTimeStamp = null);
-    public function userSaveCustomDomainKeyword(string $keywordLink, string $targetLink);
+    public function expand($shortURLOrHash);
+    public function info($hash, $shortURL, $expandUser);
+    public function linkLookup($url);
+    public function shorten($longURL, $domain = null);
+    public function userLinkEdit($link, $edit, $title = null, $note = null, $private = null, $userTimeStamp = null, $archived = null);
+    public function userLinkLookup($url);
+    public function userLinkSave($longURL, $title = null, $note = null, $private = null, $userTimeStamp = null);
+    public function userSaveCustomDomainKeyword($keywordLink, $targetLink);
     
     // Link metrics
-    public function linkClicks(string $link, string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp);
-    public function linkCountries(string $link, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp);
-    public function linkEncoders(string $link, boolean $myNetwork = null, boolean $subaccounts = null, integer $limit = null, boolean $expandUser = null);
-    public function linkEncodersByCount(string $link, boolean $myNetwork = null, boolean $subaccounts = null, integer $limit = null, boolean $expandUser = null);
-    public function linkEncodersCount(string $link);
-    public function linkReferrers(string $link, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp);
-    public function linkReferrersByDomain(string $link, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp);
-    public function linkReferringDomains(string $link, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp);
-    public function linkShares(string $link, string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp);
+    public function linkClicks($link, $unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp);
+    public function linkCountries($link, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp);
+    public function linkEncoders($link, $myNetwork = null, $subaccounts = null, $limit = null, $expandUser = null);
+    public function linkEncodersByCount($link, $myNetwork = null, $subaccounts = null, $limit = null, $expandUser = null);
+    public function linkEncodersCount($link);
+    public function linkReferrers($link, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp);
+    public function linkReferrersByDomain($link, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp);
+    public function linkReferringDomains($link, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp);
+    public function linkShares($link, $unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp);
     
     // User info / history
-    public function oAuthApp(string $clientId);
-    public function userInfo(string $login = null, string $fullName = null);
-    public function userLinkHistory(string $link = null, string $query = null, integer $offset = null, integer $limit = null, integer $createdBefore = null, integer $createdAfter = null, integer $modifiedAfter = null, boolean $expandClientId = null, string $archived = null, string $private = null, string $user = null, string $exactDomain = null, string $rootDomain = null);
-    public function userNetworkHistory(integer $offset = null, boolean $expandClientId = null, integer $limit = null, boolean $expandUser = null);
+    public function oAuthApp($clientId);
+    public function userInfo($login = null, $fullName = null);
+    public function userLinkHistory($link = null, $query = null, $offset = null, $limit = null, $createdBefore = null, $createdAfter = null, $modifiedAfter = null, $expandClientId = null, $archived = null, $private = null, $user = null, $exactDomain = null, $rootDomain = null);
+    public function userNetworkHistory($offset = null, $expandClientId = null, $limit = null, $expandUser = null);
     public function userTrackingDomainList();
     
     // User metrics
-    public function userClicks(string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp);
-    public function userCountries(string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp);
-    public function userPopularEarnedByClicks(string $domain, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp);
-    public function userPopularEarnedByShortens(string $domain, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp);
-    public function userPopularLinks(string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp);
-    public function userPopularOwnedByClicks(string $domain, string $subaccount, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp);
-    public function userPopularOwnedByShortens(string $domain, string $subaccount, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp);
-    public function userReferrers(string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp);
-    public function userReferringDomains(string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp);
-    public function userShareCounts(string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp);
-    public function userShareCountsByShareType(string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp);
-    public function userShortenCounts(string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp);
+    public function userClicks($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp);
+    public function userCountries($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp);
+    public function userPopularEarnedByClicks($domain, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp);
+    public function userPopularEarnedByShortens($domain, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp);
+    public function userPopularLinks($unit, $units, $timezone, $limit, $unitReferenceTimeStamp);
+    public function userPopularOwnedByClicks($domain, $subaccount, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp);
+    public function userPopularOwnedByShortens($domain, $subaccount, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp);
+    public function userReferrers($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp);
+    public function userReferringDomains($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp);
+    public function userShareCounts($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp);
+    public function userShareCountsByShareType($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp);
+    public function userShortenCounts($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp);
     
     // Organization Metrics
-    public function organizationBrandMessages(string $domain, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp);
-    public function organizationIntersectingLinks(string $domain, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp);
-    public function organizationLeaderboard(string $domain, string $orderBy, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp);
-    public function organizationMissedOpportunities(string $domain, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp);
+    public function organizationBrandMessages($domain, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp);
+    public function organizationIntersectingLinks($domain, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp);
+    public function organizationLeaderboard($domain, $orderBy, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp);
+    public function organizationMissedOpportunities($domain, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp);
     
     // Bundles
-    public function bundleArchive(string $budleLink);
-    public function bundleBundlesByUser(string $user, boolean $expandUser = null);
-    public function bundleClone(string $budleLink);
-    public function bundleCollaboratorAdd(string $budleLink, string $collaborator);
-    public function bundleCollaboratorRemove(string $budleLink, string $collaborator);
-    public function bundleContents(string $bundleLink, boolean $expandUser = null);
-    public function bundleCreate(boolean $private = null, string $title = null, string $description = null);
-    public function bundleEdit(string $bundleLink, string $edit = null, string $title = null, string $description = null, boolean $private = null, boolean $preview = null, string $ogImage = null);
-    public function bundleLinkAdd(string $bundleLink, string $link, string $title = null);
-    public function bundleLinkCommentAdd(string $bundleLink, string $link, string $comment);
-    public function bundleLinkCommentEdit(string $bundleLink, string $link, integer $commentId, string $comment);
-    public function bundleLinkCommentRemove(string $bundleLink, string $link, integer $commentId);
-    public function bundleLinkEdit(string $bundleLink, string $link, string $edit, string $title = null, boolean $preview = null);
-    public function bundleLinkRemove(string $bundleLink, string $link);
-    public function bundleLinkReorder(string $bundleLink, string $link, integer $displayOrder);
-    public function bundlePendingCollaboratorRemove(string $bundleLink, string $collaborator);
-    public function bundleReorder(string $bundleLink, string $link);
-    public function bundleViewCount(string $bundleLink);
-    public function userBundleHistory(boolean $expandUser = null);
+    public function bundleArchive($budleLink);
+    public function bundleBundlesByUser($user, $expandUser = null);
+    public function bundleClone($budleLink);
+    public function bundleCollaboratorAdd($budleLink, $collaborator);
+    public function bundleCollaboratorRemove($budleLink, $collaborator);
+    public function bundleContents($bundleLink, $expandUser = null);
+    public function bundleCreate($private = null, $title = null, $description = null);
+    public function bundleEdit($bundleLink, $edit = null, $title = null, $description = null, $private = null, $preview = null, $ogImage = null);
+    public function bundleLinkAdd($bundleLink, $link, $title = null);
+    public function bundleLinkCommentAdd($bundleLink, $link, $comment);
+    public function bundleLinkCommentEdit($bundleLink, $link, $commentId, $comment);
+    public function bundleLinkCommentRemove($bundleLink, $link, $commentId);
+    public function bundleLinkEdit($bundleLink, $link, $edit, $title = null, $preview = null);
+    public function bundleLinkRemove($bundleLink, $link);
+    public function bundleLinkReorder($bundleLink, $link, $displayOrder);
+    public function bundlePendingCollaboratorRemove($bundleLink, $collaborator);
+    public function bundleReorder($bundleLink, $link);
+    public function bundleViewCount($bundleLink);
+    public function userBundleHistory($expandUser = null);
     
 }

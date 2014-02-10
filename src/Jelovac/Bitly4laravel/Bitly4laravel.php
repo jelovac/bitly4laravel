@@ -8,7 +8,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $accessToken
      * @return \Jelovac\Bitly4laravel\Bitly4laravel
      */
-    public function setAccessToken(string $accessToken)
+    public function setAccessToken($accessToken)
     {
         $this->model->setAccessToken($accessToken);
         return $this;
@@ -20,7 +20,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $format
      * @return \Jelovac\Bitly4laravel\Bitly4laravel
      */
-    public function setFormat(string $format)
+    public function setFormat($format)
     {
         $this->model->setFormat($format);
         return $this;
@@ -32,7 +32,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $variableOutput
      * @return \Jelovac\Bitly4laravel\Bitly4laravel
      */
-    public function setVariableOutput(string $variableOutput)
+    public function setVariableOutput($variableOutput)
     {
         $this->model->setVariableOutput($variableOutput);
         return $this;
@@ -44,7 +44,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $budleLink
      * @return type
      */
-    public function bundleArchive(string $budleLink)
+    public function bundleArchive($budleLink)
     {
         $this->setPostData('bundle_link', $budleLink);
         return $this->get('bundle/archive');
@@ -57,7 +57,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param boolean $expandUser
      * @return type
      */
-    public function bundleBundlesByUser(string $user, boolean $expandUser = null)
+    public function bundleBundlesByUser($user, $expandUser = null)
     {
         $this->setPostData('user', $user);
         $this->setPostData('expand_user', $expandUser);
@@ -70,7 +70,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $budleLink
      * @return type
      */
-    public function bundleClone(string $budleLink)
+    public function bundleClone($budleLink)
     {
         $this->setPostData('bundle_link', $budleLink);
         return $this->get('bundle/clone');
@@ -83,7 +83,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $collaborator
      * @return type
      */
-    public function bundleCollaboratorAdd(string $budleLink, string $collaborator)
+    public function bundleCollaboratorAdd($budleLink, $collaborator)
     {
         $this->setPostData('bundle_link', $budleLink);
         $this->setPostData('collaborator', $collaborator);
@@ -97,7 +97,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $collaborator
      * @return type
      */
-    public function bundleCollaboratorRemove(string $budleLink, string $collaborator)
+    public function bundleCollaboratorRemove($budleLink, $collaborator)
     {
         $this->setPostData('bundle_link', $budleLink);
         $this->setPostData('collaborator', $collaborator);
@@ -111,7 +111,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param boolean $expandUser
      * @return type
      */
-    public function bundleContents(string $bundleLink, boolean $expandUser = null)
+    public function bundleContents($bundleLink, $expandUser = null)
     {
         $this->setPostData('bundle_link', $bundleLink);
         $this->setPostData('expand_user', $expandUser);
@@ -126,7 +126,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $description
      * @return type
      */
-    public function bundleCreate(boolean $private = null, string $title = null, string $description = null)
+    public function bundleCreate($private = null, $title = null, $description = null)
     {
         $this->setPostData('private', $private);
         $this->setPostData('title', $title);
@@ -146,7 +146,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $ogImage
      * @return type
      */
-    public function bundleEdit(string $bundleLink, string $edit = null, string $title = null, string $description = null, boolean $private = null, boolean $preview = null, string $ogImage = null)
+    public function bundleEdit($bundleLink, $edit = null, $title = null, $description = null, $private = null, $preview = null, $ogImage = null)
     {
         $this->setPostData('bundle_link', $bundleLink);
         $this->setPostData('edit', $edit);
@@ -178,7 +178,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $title
      * @return type
      */
-    public function bundleLinkAdd(string $bundleLink, string $link, string $title = null)
+    public function bundleLinkAdd($bundleLink, $link, $title = null)
     {
         $this->setPostData('bundle_link', $bundleLink);
         $this->setPostData('link', $link);
@@ -194,7 +194,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $comment
      * @return type
      */
-    public function bundleLinkCommentAdd(string $bundleLink, string $link, string $comment)
+    public function bundleLinkCommentAdd($bundleLink, $link, $comment)
     {
         $this->setPostData('bundle_link', $bundleLink);
         $this->setPostData('link', $link);
@@ -211,7 +211,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $comment
      * @return type
      */
-    public function bundleLinkCommentEdit(string $bundleLink, string $link, integer $commentId, string $comment)
+    public function bundleLinkCommentEdit($bundleLink, $link, $commentId, $comment)
     {
         $this->setPostData('bundle_link', $bundleLink);
         $this->setPostData('link', $link);
@@ -228,7 +228,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $commentId
      * @return type
      */
-    public function bundleLinkCommentRemove(string $bundleLink, string $link, integer $commentId)
+    public function bundleLinkCommentRemove($bundleLink, $link, $commentId)
     {
         $this->setPostData('bundle_link', $bundleLink);
         $this->setPostData('link', $link);
@@ -246,7 +246,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param boolean $preview
      * @return type
      */
-    public function bundleLinkEdit(string $bundleLink, string $link, string $edit, string $title = null, boolean $preview = null)
+    public function bundleLinkEdit($bundleLink, $link, $edit, $title = null, $preview = null)
     {
         $this->setPostData('bundle_link', $bundleLink);
         $this->setPostData('link', $link);
@@ -263,7 +263,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $link
      * @return type
      */
-    public function bundleLinkRemove(string $bundleLink, string $link)
+    public function bundleLinkRemove($bundleLink, $link)
     {
         $this->setPostData('bundle_link', $bundleLink);
         $this->setPostData('link', $link);
@@ -278,7 +278,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $displayOrder
      * @return type
      */
-    public function bundleLinkReorder(string $bundleLink, string $link, integer $displayOrder)
+    public function bundleLinkReorder($bundleLink, $link, $displayOrder)
     {
         $this->setPostData('bundle_link', $bundleLink);
         $this->setPostData('link', $link);
@@ -293,7 +293,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $collaborator
      * @return type
      */
-    public function bundlePendingCollaboratorRemove(string $bundleLink, string $collaborator)
+    public function bundlePendingCollaboratorRemove($bundleLink, $collaborator)
     {
         $this->setPostData('bundle_link', $bundleLink);
         $this->setPostData('collaborator', $collaborator);
@@ -307,7 +307,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $link
      * @return type
      */
-    public function bundleReorder(string $bundleLink, string $link)
+    public function bundleReorder($bundleLink, $link)
     {
         $this->setPostData('bundle_link', $bundleLink);
         $this->setPostData('link', $link);
@@ -320,7 +320,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $bundleLink
      * @return type
      */
-    public function bundleViewCount(string $bundleLink)
+    public function bundleViewCount($bundleLink)
     {
         $this->setPostData('bundle_link', $bundleLink);
         return $this->get('bundle/view_count');
@@ -332,7 +332,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $shortURLOrHash
      * @return type
      */
-    public function expand(string $shortURLOrHash)
+    public function expand($shortURLOrHash)
     {
         if (filter_var($shortURLOrHash, FILTER_VALIDATE_URL) === true) {
             $this->setPostData('shortUrl', $shortURLOrHash);
@@ -348,7 +348,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $limit
      * @return type
      */
-    public function highvalue(integer $limit)
+    public function highvalue($limit)
     {
         $this->setPostData('limit', $limit);
         return $this->get('highvalue');
@@ -362,7 +362,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param boolean $expandUser
      * @return type
      */
-    public function info(string $hash, string $shortURL, boolean $expandUser)
+    public function info($hash, $shortURL, $expandUser)
     {
         $this->setPostData('shortUrl', $shortURL);
         $this->setPostData('hash', $hash);
@@ -376,7 +376,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $link
      * @return type
      */
-    public function linkCategory(string $link)
+    public function linkCategory($link)
     {
         $this->setPostData('link', $link);
         return $this->get('link/category');
@@ -394,7 +394,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function linkClicks(string $link, string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp)
+    public function linkClicks($link, $unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('link', $link);
         $this->setPostData('unit', $unit);
@@ -413,7 +413,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $contentType
      * @return type
      */
-    public function linkContent(string $link, string $contentType)
+    public function linkContent($link, $contentType)
     {
         $this->setPostData('link', $link);
         $this->setPostData('content_type', $contentType);
@@ -431,7 +431,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function linkCountries(string $link, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp)
+    public function linkCountries($link, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('link', $link);
         $this->setPostData('unit', $unit);
@@ -453,7 +453,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param boolean $expandUser
      * @return type
      */
-    public function linkEncoders(string $link, boolean $myNetwork = null, boolean $subaccounts = null, integer $limit = null, boolean $expandUser = null)
+    public function linkEncoders($link, $myNetwork = null, $subaccounts = null, $limit = null, $expandUser = null)
     {
         $this->setPostData('link', $link);
         $this->setPostData('my_network', $myNetwork);
@@ -474,7 +474,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param boolean $expandUser
      * @return type
      */
-    public function linkEncodersByCount(string $link, boolean $myNetwork = null, boolean $subaccounts = null, integer $limit = null, boolean $expandUser = null)
+    public function linkEncodersByCount($link, $myNetwork = null, $subaccounts = null, $limit = null, $expandUser = null)
     {
         $this->setPostData('link', $link);
         $this->setPostData('my_network', $myNetwork);
@@ -490,7 +490,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $link
      * @return type
      */
-    public function linkEncodersCount(string $link)
+    public function linkEncodersCount($link)
     {
         $this->setPostData('link', $link);
         return $this->get('link/encoders_count');
@@ -502,7 +502,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $link
      * @return type
      */
-    public function linkInfo(string $link)
+    public function linkInfo($link)
     {
         $this->setPostData('link', $link);
         return $this->get('link/info');
@@ -514,7 +514,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $link
      * @return type
      */
-    public function linkLanguage(string $link)
+    public function linkLanguage($link)
     {
         $this->setPostData('link', $link);
         return $this->get('link/language');
@@ -526,7 +526,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $link
      * @return type
      */
-    public function linkLocation(string $link)
+    public function linkLocation($link)
     {
         $this->setPostData('link', $link);
         return $this->get('link/location');
@@ -538,7 +538,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $url
      * @return type
      */
-    public function linkLookup(string $url)
+    public function linkLookup($url)
     {
         $this->setPostData('url', $url);
         return $this->get('link/lookup');
@@ -556,7 +556,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function linkReferrers(string $link, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp)
+    public function linkReferrers($link, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('link', $link);
         $this->setPostData('unit', $unit);
@@ -578,7 +578,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function linkReferrersByDomain(string $link, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp)
+    public function linkReferrersByDomain($link, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('link', $link);
         $this->setPostData('unit', $unit);
@@ -600,7 +600,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function linkReferringDomains(string $link, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp)
+    public function linkReferringDomains($link, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('link', $link);
         $this->setPostData('unit', $unit);
@@ -623,7 +623,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function linkShares(string $link, string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp)
+    public function linkShares($link, $unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('link', $link);
         $this->setPostData('unit', $unit);
@@ -641,7 +641,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $link
      * @return type
      */
-    public function linkSocial(string $link)
+    public function linkSocial($link)
     {
         $this->setPostData('link', $link);
         return $this->get('link/social');
@@ -653,7 +653,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $clientId
      * @return type
      */
-    public function oAuthApp(string $clientId)
+    public function oAuthApp($clientId)
     {
         $this->setPostData('client_id', $clientId);
         return $this->get('oauth/app');
@@ -671,7 +671,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function organizationBrandMessages(string $domain, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp)
+    public function organizationBrandMessages($domain, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('domain', $domain);
         $this->setPostData('unit', $unit);
@@ -694,7 +694,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function organizationIntersectingLinks(string $domain, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp)
+    public function organizationIntersectingLinks($domain, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('domain', $domain);
         $this->setPostData('unit', $unit);
@@ -718,7 +718,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function organizationLeaderboard(string $domain, string $orderBy, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp)
+    public function organizationLeaderboard($domain, $orderBy, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('domain', $domain);
         $this->setPostData('order_by', $orderBy);
@@ -742,7 +742,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function organizationMissedOpportunities(string $domain, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp)
+    public function organizationMissedOpportunities($domain, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('domain', $domain);
         $this->setPostData('unit', $unit);
@@ -769,7 +769,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $phrase
      * @return type
      */
-    public function realtimeClickrate(string $phrase)
+    public function realtimeClickrate($phrase)
     {
         $this->setPostData('phrase', $phrase);
         return $this->get('realtime/clickrate');
@@ -798,7 +798,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $lang
      * @return type
      */
-    public function search(string $query, string $fields, integer $offset, integer $limit, string $domain, string $fullDomain, string $cities, string $lang)
+    public function search($query, $fields, $offset, $limit, $domain, $fullDomain, $cities, $lang)
     {
         $this->setPostData('query', $query);
         $this->setPostData('fields', $fields);
@@ -818,7 +818,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param type $domain
      * @return type
      */
-    public function shorten(string $longURL, $domain = null)
+    public function shorten($longURL, $domain = null)
     {
         $this->setPostData('longUrl', $longURL);
         $this->setPostData('domain', $domain);
@@ -836,7 +836,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function userClicks(string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp)
+    public function userClicks($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('unit', $unit);
         $this->setPostData('units', $units);
@@ -858,7 +858,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function userCountries(string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp)
+    public function userCountries($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('unit', $unit);
         $this->setPostData('units', $units);
@@ -876,7 +876,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $fullName
      * @return type
      */
-    public function userInfo(string $login = null, string $fullName = null)
+    public function userInfo($login = null, $fullName = null)
     {
         $this->setPostData('login', $login);
         $this->setPostData('full_name', $fullName);
@@ -895,7 +895,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param boolean $archived
      * @return type
      */
-    public function userLinkEdit(string $link, string $edit, string $title = null, string $note = null, boolean $private = null, integer $userTimeStamp = null, boolean $archived = null)
+    public function userLinkEdit($link, $edit, $title = null, $note = null, $private = null, $userTimeStamp = null, $archived = null)
     {
         $this->setPostData('link', $link);
         $this->setPostData('edit', $edit);
@@ -926,7 +926,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $rootDomain
      * @return type
      */
-    public function userLinkHistory(string $link = null, string $query = null, integer $offset = null, integer $limit = null, integer $createdBefore = null, integer $createdAfter = null, integer $modifiedAfter = null, boolean $expandClientId = null, string $archived = null, string $private = null, string $user = null, string $exactDomain = null, string $rootDomain = null)
+    public function userLinkHistory($link = null, $query = null, $offset = null, $limit = null, $createdBefore = null, $createdAfter = null, $modifiedAfter = null, $expandClientId = null, $archived = null, $private = null, $user = null, $exactDomain = null, $rootDomain = null)
     {
         $this->setPostData('link', $link);
         $this->setPostData('query', $query);
@@ -951,7 +951,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $url
      * @return type
      */
-    public function userLinkLookup(string $url)
+    public function userLinkLookup($url)
     {
         $this->setPostData('url', $url);
         return $this->get('user/link_lookup');
@@ -967,7 +967,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $userTimeStamp
      * @return type
      */
-    public function userLinkSave(string $longURL, string $title = null, string $note = null, boolean $private = null, integer $userTimeStamp = null)
+    public function userLinkSave($longURL, $title = null, $note = null, $private = null, $userTimeStamp = null)
     {
         $this->setPostData('longUrl', $longURL);
         $this->setPostData('title', $title);
@@ -986,7 +986,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param boolean $expandUser
      * @return type
      */
-    public function userNetworkHistory(integer $offset = null, boolean $expandClientId = null, integer $limit = null, boolean $expandUser = null)
+    public function userNetworkHistory($offset = null, $expandClientId = null, $limit = null, $expandUser = null)
     {
         $this->setPostData('offset', $offset);
         $this->setPostData('expand_client_id', $expandClientId);
@@ -1008,7 +1008,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function userPopularEarnedByClicks(string $domain, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp)
+    public function userPopularEarnedByClicks($domain, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('domain', $domain);
         $this->setPostData('unit', $unit);
@@ -1032,7 +1032,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function userPopularEarnedByShortens(string $domain, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp)
+    public function userPopularEarnedByShortens($domain, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('domain', $domain);
         $this->setPostData('unit', $unit);
@@ -1054,7 +1054,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function userPopularLinks(string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp)
+    public function userPopularLinks($unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('unit', $unit);
         $this->setPostData('units', $units);
@@ -1078,7 +1078,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function userPopularOwnedByClicks(string $domain, string $subaccount, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp)
+    public function userPopularOwnedByClicks($domain, $subaccount, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('domain', $domain);
         $this->setPostData('subaccount', $subaccount);
@@ -1104,7 +1104,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function userPopularOwnedByShortens(string $domain, string $subaccount, string $unit, integer $units, string $timezone, integer $limit, integer $unitReferenceTimeStamp)
+    public function userPopularOwnedByShortens($domain, $subaccount, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('domain', $domain);
         $this->setPostData('subaccount', $subaccount);
@@ -1127,7 +1127,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function userReferrers(string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp)
+    public function userReferrers($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('unit', $unit);
         $this->setPostData('units', $units);
@@ -1149,7 +1149,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function userReferringDomains(string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp)
+    public function userReferringDomains($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('unit', $unit);
         $this->setPostData('units', $units);
@@ -1167,7 +1167,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param string $targetLink
      * @return type
      */
-    public function userSaveCustomDomainKeyword(string $keywordLink, string $targetLink)
+    public function userSaveCustomDomainKeyword($keywordLink, $targetLink)
     {
         $this->setPostData('keyword_link', $keywordLink);
         $this->setPostData('target_link', $targetLink);
@@ -1185,7 +1185,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function userShareCounts(string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp)
+    public function userShareCounts($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('unit', $unit);
         $this->setPostData('units', $units);
@@ -1207,7 +1207,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function userShareCountsByShareType(string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp)
+    public function userShareCountsByShareType($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('unit', $unit);
         $this->setPostData('units', $units);
@@ -1229,7 +1229,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param integer $unitReferenceTimeStamp
      * @return type
      */
-    public function userShortenCounts(string $unit, integer $units, string $timezone, boolean $rollup, integer $limit, integer $unitReferenceTimeStamp)
+    public function userShortenCounts($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
         $this->setPostData('unit', $unit);
         $this->setPostData('units', $units);
