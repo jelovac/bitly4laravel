@@ -4,7 +4,7 @@ bitly4laravel
 
 Provides basic bitly API to use with Laravel 4.
 
-In order to use this API you need to get [OAuthGeneric Access Token](https://bitly.com/a/oauth_apps) from Bitly website.
+In order to use this API you need to get [OAuth Generic Access Token](https://bitly.com/a/oauth_apps) from Bitly website.
  
 Instalation
 ===========

@@ -1,11 +1,8 @@
-<?php
-
-namespace Jelovac\Bitly4laravel\Facades;
+<?php namespace Jelovac\Bitly4laravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class Bitly4laravel extends Facade
-{
+class Bitly4laravel extends Facade {
 
     /**
      * Get the registered name of the component.

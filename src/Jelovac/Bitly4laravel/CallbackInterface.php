@@ -16,7 +16,7 @@ interface CallbackInterface {
     public function linkLanguage(string $link);
     
     // Links
-    public function expand(string $shortURL, string $hash);
+    public function expand(string $shortURLOrHash);
     public function info(string $hash, string $shortURL, boolean $expandUser);
     public function linkLookup(string $url);
     public function shorten(string $longURL, $domain = null);
@@ -82,6 +82,6 @@ interface CallbackInterface {
     public function bundlePendingCollaboratorRemove(string $bundleLink, string $collaborator);
     public function bundleReorder(string $bundleLink, string $link);
     public function bundleViewCount(string $bundleLink);
-    public function bundleHistory(boolean $expandUser = null);
+    public function userBundleHistory(boolean $expandUser = null);
     
 }

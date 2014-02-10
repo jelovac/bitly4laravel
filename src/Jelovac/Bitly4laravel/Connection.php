@@ -1,17 +1,17 @@
-<?php
-
-namespace Jelovac\Bitly4laravel;
+<?php namespace Jelovac\Bitly4laravel;
 
 class Connection {
 
     /**
      * Default 443 for https, and 80 for http
+     * 
      * @var integer port 
      */
     private static $port = 443;
 
     /**
-     *
+     * Default cURL connection timeout
+     * 
      * @var integer timeout
      */
     private static $timeout = 10;
@@ -24,7 +24,14 @@ class Connection {
         }
     }
 
-    public static function make($url, array $options = array())
+    /**
+     * Make a connection and return response data
+     * 
+     * @param string $url
+     * @param array $options
+     * @return mixed
+     */
+    public static function make(string $url, array $options = array())
     {
         // Initiate cURL
         $curl = curl_init();
