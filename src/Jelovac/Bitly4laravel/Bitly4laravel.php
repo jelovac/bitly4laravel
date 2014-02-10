@@ -164,7 +164,7 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
      * @param boolean $expandUser
      * @return type
      */
-    public function userBundleHistory(boolean $expandUser = null)
+    public function userBundleHistory($expandUser = null)
     {
         $this->setPostData('expand_user', $expandUser);
         return $this->get('user/bundle_history');
