@@ -31,7 +31,7 @@ class Connection {
      * @param array $options
      * @return mixed
      */
-    public static function make(string $url, array $options = array())
+    public static function make($url, array $options = array())
     {
         // Initiate cURL
         $curl = curl_init();
