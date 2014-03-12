@@ -2,6 +2,7 @@
 
 use Carbon\Carbon as Carbon;
 use Illuminate\Support\Facades\Cache;
+use Exception;
 
 class CallbackEngine {
 

@@ -1,5 +1,7 @@
 <?php namespace Jelovac\Bitly4laravel;
 
+use Exception;
+
 class Connection {
 
     /**
