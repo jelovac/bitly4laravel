@@ -1,6 +1,7 @@
 <?php namespace Jelovac\Bitly4laravel;
 
-class Bitly4laravel extends CallbackEngine implements CallbackInterface {
+class Bitly4laravel extends CallbackEngine implements CallbackInterface
+{
 
     /**
      * Set Generic oAuth Access Token
@@ -36,6 +37,16 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface {
     {
         $this->model->setVariableOutput($variableOutput);
         return $this;
+    }
+
+    /**
+     * Set additional cURL connection options
+     * 
+     * @param array $options
+     */
+    public function setConnectionOptions(array $options)
+    {
+        $this->connectionOptions = $options;
     }
 
     /**

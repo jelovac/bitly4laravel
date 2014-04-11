@@ -4,7 +4,8 @@ use Carbon\Carbon as Carbon;
 use Illuminate\Support\Facades\Cache;
 use Exception;
 
-class CallbackEngine {
+class CallbackEngine
+{
 
     /**
      * Bitly API URL
@@ -23,6 +24,12 @@ class CallbackEngine {
      * @var array 
      */
     protected $postParams = array();
+
+    /**
+     * Array variable for storing additional cURL connection options
+     * @var array
+     */
+    protected $connectionOptions = array();
 
     /**
      * Model
@@ -105,6 +112,11 @@ class CallbackEngine {
             if (count($this->postParams)) {
                 $url = $this->rebuildURL($url, $this->postParams);
             }
+        }
+
+        // Append additional connection settings
+        if (!empty($this->connectionOptions)) {
+            $options = array_merge($options, $this->connectionOptions);
         }
 
         // Execute cURL call and retrieve response array
