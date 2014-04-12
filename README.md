@@ -81,11 +81,12 @@ Expand links
                     )
             )
 
-To specifiy alternative Access Token, Format or VariableOutput you have following public setters which can be chained.
+To specifiy alternative Access Token, Format, Variable Output and Connection Options you have following public setters which can be chained.
 
     Bitly::setAccessToken('my-access-token')
         ->setFormat('json')
         ->setVariableOutput('array')
+        ->setConnectionOptions(array(CURLOPT_PORT => 443, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_SSL_VERIFYPEER => 0))
         ->expand('http://bit.ly/1RmnUT')
         ->getResponseData();
 
