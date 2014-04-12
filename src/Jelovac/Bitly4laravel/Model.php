@@ -80,7 +80,7 @@ class Model
      * Storing cURL connection options
      * @var array 
      */
-    private $connectionOptions = array();
+    public $connectionOptions = array();
 
     function __construct(array $config)
     {

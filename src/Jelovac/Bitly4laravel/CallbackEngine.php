@@ -109,8 +109,8 @@ class CallbackEngine
         }
 
         // Append additional connection settings
-        if (!empty($this->model->getConnectionOptions())) {
-            $options = array_replace($options, $this->model->getConnectionOptions());
+        if (!empty($this->model->connectionOptions)) {
+            $options = array_replace($options, $this->model->connectionOptions);
         }
 
         // Execute cURL call and retrieve response array
