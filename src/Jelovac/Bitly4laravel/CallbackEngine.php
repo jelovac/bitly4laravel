@@ -26,12 +26,6 @@ class CallbackEngine
     protected $postParams = array();
 
     /**
-     * Array variable for storing additional cURL connection options
-     * @var array
-     */
-    protected $connectionOptions = array();
-
-    /**
      * Model
      * @var class 
      */
@@ -115,8 +109,8 @@ class CallbackEngine
         }
 
         // Append additional connection settings
-        if (!empty($this->connectionOptions)) {
-            $options = array_merge($options, $this->connectionOptions);
+        if (!empty($this->model->getConnectionOptions())) {
+            $options = array_replace($options, $this->model->getConnectionOptions());
         }
 
         // Execute cURL call and retrieve response array

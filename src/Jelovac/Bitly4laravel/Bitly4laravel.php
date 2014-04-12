@@ -46,7 +46,8 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function setConnectionOptions(array $options)
     {
-        $this->connectionOptions = $options;
+        $this->model->setConnectionOptions($options);
+        return $this;
     }
 
     /**

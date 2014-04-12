@@ -1,6 +1,7 @@
 <?php namespace Jelovac\Bitly4laravel;
 
-class Model {
+class Model
+{
 
     /**
      * Bitly generic access token
@@ -75,6 +76,12 @@ class Model {
      */
     private $responseData = null;
 
+    /**
+     * Storing cURL connection options
+     * @var array 
+     */
+    private $connectionOptions = array();
+
     function __construct(array $config)
     {
 
@@ -85,6 +92,7 @@ class Model {
         $this->format = isset($config['format']) ? $config['format'] : $this->format;
         $this->callType = isset($config['call_type']) ? $config['call_type'] : $this->callType;
         $this->variableOutput = isset($config['variable_output']) ? $config['variable_output'] : $this->variableOutput;
+        $this->connectionOptions = isset($config['connection_options']) ? $config['connection_options'] : $this->connectionOptions;
     }
 
     public function getAccessToken()
@@ -142,59 +150,81 @@ class Model {
         return $this->responseData;
     }
 
+    public function getConnectionOptions()
+    {
+        return $this->connectionOptions;
+    }
+
     public function setAccessToken($accessToken)
     {
         $this->accessToken = $accessToken;
+        return $this;
     }
 
     public function setUseCache($useCache)
     {
         $this->useCache = $useCache;
+        return $this;
     }
 
     public static function setCacheKey($cacheKey)
     {
         self::$cacheKey = $cacheKey;
+        return self;
     }
 
     public function setCacheDuration($cacheDuration)
     {
         $this->cacheDuration = $cacheDuration;
+        return $this;
     }
 
     public function setFormat($format)
     {
         $this->format = $format;
+        return $this;
     }
 
     public function setVariableOutput($variableOutput)
     {
         $this->variableOutput = $variableOutput;
+        return $this;
     }
 
     public function setCallType($callType)
     {
         $this->callType = $callType;
+        return $this;
     }
 
     public function setCache(type $cache)
     {
         $this->cache = $cache;
+        return $this;
     }
 
     public function setPostRequest($postRequest)
     {
         $this->postRequest = $postRequest;
+        return $this;
     }
 
     public function setResponse($response)
     {
         $this->response = $response;
+        return $this;
     }
 
     public function setResponseData($responseData)
     {
         $this->responseData = $responseData;
+        return $this;
+    }
+
+    public function setConnectionOptions($connectionOptions)
+    {
+        $this->connectionOptions = $connectionOptions;
+        return $this;
     }
 
 }

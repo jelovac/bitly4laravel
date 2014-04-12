@@ -18,4 +18,6 @@ return array(
     'variable_output' => 'array',
     // default get call type (look at bitly api for more information)
     'call_type' => 'shorten',
+    // cURL connection options
+    'connection_options' => array()
 );
