@@ -90,6 +90,5 @@ interface CallbackInterface {
     public function userTrackingDomainShortenCounts($domain, $unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null);
     
     // Data Streams
-    public function nsqLookup();
     public function nsqStats($topic);
 }
