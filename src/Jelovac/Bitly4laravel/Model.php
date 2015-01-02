@@ -1,229 +1,311 @@
-<?php namespace Jelovac\Bitly4laravel;
+<?php
+
+namespace Jelovac\Bitly4laravel;
 
 class Model
 {
 
     /**
+     * Bitly API URL
+     * @var string
+     */
+    public static $apiURL = "https://api-ssl.bitly.com/";
+
+    /**
+     * Bitly api version to use
+     * @var string
+     */
+    public static $apiVersion = "v3/";
+
+    /**
      * Bitly generic access token
-     * @var string 
+     * @var string
      */
     private $accessToken = null;
 
     /**
      * Enable cache
-     * @var boolean 
+     * @var boolean
      */
-    private $useCache = false;
+    protected $useCache = false;
 
     /**
      * Cache key
-     * @var string 
+     * @var string
      */
-    private static $cacheKey = "Laravel.Bitly.";
+    protected $cacheKey = "Laravel.Bitly.";
 
     /**
      * Cache duration in minutes
-     * @var integer 
+     * @var integer
      */
-    private $cacheDuration = 3600;
+    protected $cacheDuration = 3600;
 
     /**
-     * Default format, values can be json, xml, array
-     * @var string 
-     */
-    private $format = 'json';
-
-    /**
-     * If true convert from format to object or array depending on the format
-     * object, array, string
-     * @var string 
-     */
-    private $variableOutput = "array";
-
-    /**
-     * Default callback call type
+     * Default response format, values can be json, xml
      * @var string
      */
-    private $callType = "shorten";
+    protected $responseFormat = 'json';
 
     /**
-     *
-     * @var type 
+     * GuzzleHttp Client configuration settings
+     * @var array
      */
-    private $cache = null;
+    protected $connectionOptions = array();
 
     /**
-     * If true send post request
-     * @var boolean 
+     * GuzzleHttp Client request options
+     * @var array
      */
-    private $postRequest = false;
+    protected $requestOptions = array();
 
     /**
-     * Storing the connection response into multidimensional array
-     * [response]
-     *      [headers]
-     *      [content]
-     * [error]
-     *      [number]
-     *      [message]
-     * @var array 
+     * Request parameters
+     * @var array
      */
-    public $response = null;
+    protected $requestParams = array();
 
     /**
-     * Storing response data
-     * @var mixed 
+     * Request Type (get/post)
+     * @var string
      */
-    private $responseData = null;
+    protected $requestType = "get";
 
-    /**
-     * Storing cURL connection options
-     * @var array 
-     */
-    public $connectionOptions = array();
-
-    function __construct(array $config)
+    public function __construct(array $config = array())
     {
-
+        self::$apiURL = isset($config['api_url']) ? $config['api_url'] : self::$apiURL;
+        self::$apiVersion = isset($config['api_version']) ? $config['api_version'] : self::$apiVersion;
         $this->accessToken = isset($config['access_token']) ? $config['access_token'] : $this->accessToken;
         $this->useCache = isset($config['use_cache']) ? $config['use_cache'] : $this->useCache;
-        self::$cacheKey = isset($config['cache_key']) ? $config['cache_key'] : self::$cacheKey;
+        $this->cacheKey = isset($config['cache_key']) ? $config['cache_key'] : $this->cacheKey;
         $this->cacheDuration = isset($config['cache_duration']) ? $config['cache_duration'] : $this->cacheDuration;
-        $this->format = isset($config['format']) ? $config['format'] : $this->format;
-        $this->callType = isset($config['call_type']) ? $config['call_type'] : $this->callType;
-        $this->variableOutput = isset($config['variable_output']) ? $config['variable_output'] : $this->variableOutput;
+        $this->responseFormat = isset($config['response_format']) ? $config['response_format'] : $this->responseFormat;
         $this->connectionOptions = isset($config['connection_options']) ? $config['connection_options'] : $this->connectionOptions;
+        $this->requestOptions = isset($config['request_options']) ? $config['request_options'] : $this->requestOptions;
+        $this->requestType = isset($config['request_type']) ? $config['request_type'] : $this->requestType;
     }
 
+    /**
+     * Get API URL
+     * @return string
+     */
+    public static function getApiURL()
+    {
+        return self::$apiURL;
+    }
+
+    /**
+     * Get API VERSION
+     * Used for URL building
+     * @return string
+     */
+    public static function getApiVersion()
+    {
+        return self::$apiVersion;
+    }
+
+    /**
+     * Get Bit.ly Generic OAuth Access Token
+     * @return type
+     */
     public function getAccessToken()
     {
         return $this->accessToken;
     }
 
+    /**
+     * Get if the cache is enabled or not
+     * @return boolean
+     */
     public function getUseCache()
     {
         return $this->useCache;
     }
 
-    public static function getCacheKey()
+    /**
+     * Get cache key (unique prefix)
+     * @return type
+     */
+    public function getCacheKey()
     {
-        return self::$cacheKey;
+        return $this->cacheKey;
     }
 
+    /**
+     * Get cache duration in minutes
+     * @return type
+     */
     public function getCacheDuration()
     {
         return $this->cacheDuration;
     }
 
-    public function getFormat()
+    /**
+     * Get response format (json/xml)
+     * @return type
+     */
+    public function getResponseFormat()
     {
-        return $this->format;
+        return $this->responseFormat;
     }
 
-    public function getVariableOutput()
-    {
-        return $this->variableOutput;
-    }
-
-    public function getCallType()
-    {
-        return $this->callType;
-    }
-
-    public function getCache()
-    {
-        return $this->cache;
-    }
-
-    public function getPostRequest()
-    {
-        return $this->postRequest;
-    }
-
-    public function getResponse()
-    {
-        return $this->response;
-    }
-
-    public function getResponseData()
-    {
-        return $this->responseData;
-    }
-
+    /**
+     * Get GuzzleHttp\Client config options
+     * @return array
+     */
     public function getConnectionOptions()
     {
         return $this->connectionOptions;
     }
 
+    /**
+     * Get GuzzleHttp\Client request options
+     * @return array
+     */
+    public function getRequestOptions()
+    {
+        return $this->requestOptions;
+    }
+
+    /**
+     * Get request params
+     * @return array
+     */
+    public function getRequestParams()
+    {
+        return $this->requestParams;
+    }
+
+    /**
+     * Get request type (get/post)
+     * @return string
+     */
+    public function getRequestType()
+    {
+        return $this->requestType;
+    }
+
+    /**
+     * Set API URL
+     * @param string $apiURL
+     * @return self
+     */
+    public static function setApiURL($apiURL)
+    {
+        self::$apiURL = $apiURL;
+        return self;
+    }
+
+    /**
+     * Set API VERSION
+     * @param string $apiVersion
+     * @return self
+     */
+    public static function setApiVersion($apiVersion)
+    {
+        self::$apiVersion = $apiVersion;
+        return self;
+    }
+
+    /**
+     * Set Bit.ly Generic OAuth Access Token
+     * @param string $accessToken
+     * @return \Jelovac\Bitly4laravel\Model
+     */
     public function setAccessToken($accessToken)
     {
         $this->accessToken = $accessToken;
         return $this;
     }
 
+    /**
+     * Set use cache (Enables/Disables caching)
+     * @param boolean $useCache
+     * @return \Jelovac\Bitly4laravel\Model
+     */
     public function setUseCache($useCache)
     {
         $this->useCache = $useCache;
         return $this;
     }
 
-    public static function setCacheKey($cacheKey)
+    /**
+     * Set cache key (prefix)
+     * @param string $cacheKey
+     * @return \Jelovac\Bitly4laravel\Model
+     */
+    public function setCacheKey($cacheKey)
     {
-        self::$cacheKey = $cacheKey;
-        return self;
+        $this->cacheKey = $cacheKey;
+        return $this;
     }
 
+    /**
+     * Set cache duration in minutes
+     * @param int $cacheDuration
+     * @return \Jelovac\Bitly4laravel\Model
+     */
     public function setCacheDuration($cacheDuration)
     {
         $this->cacheDuration = $cacheDuration;
         return $this;
     }
 
-    public function setFormat($format)
+    /**
+     * Set response format (json/xml)
+     * @param string $responseFormat
+     * @return \Jelovac\Bitly4laravel\Model
+     */
+    public function setResponseFormat($responseFormat)
     {
-        $this->format = $format;
+        $this->responseFormat = $responseFormat;
         return $this;
     }
 
-    public function setVariableOutput($variableOutput)
-    {
-        $this->variableOutput = $variableOutput;
-        return $this;
-    }
-
-    public function setCallType($callType)
-    {
-        $this->callType = $callType;
-        return $this;
-    }
-
-    public function setCache(type $cache)
-    {
-        $this->cache = $cache;
-        return $this;
-    }
-
-    public function setPostRequest($postRequest)
-    {
-        $this->postRequest = $postRequest;
-        return $this;
-    }
-
-    public function setResponse($response)
-    {
-        $this->response = $response;
-        return $this;
-    }
-
-    public function setResponseData($responseData)
-    {
-        $this->responseData = $responseData;
-        return $this;
-    }
-
-    public function setConnectionOptions($connectionOptions)
+    /**
+     * Set GuzzleHttp\Client config options
+     * @param array $connectionOptions
+     * @return \Jelovac\Bitly4laravel\Model
+     */
+    public function setConnectionOptions(array $connectionOptions)
     {
         $this->connectionOptions = $connectionOptions;
+        return $this;
+    }
+
+    /**
+     * Set GuzzleHttp\Client request options
+     * @param array $requestOptions
+     * @return \Jelovac\Bitly4laravel\Model
+     */
+    public function setRequestOptions(array $requestOptions)
+    {
+        $this->requestOptions = $requestOptions;
+        return $this;
+    }
+
+    /**
+     * Set request params
+     * @param string $key
+     * @param mixed $value
+     * @return \Jelovac\Bitly4laravel\Model
+     */
+    public function setRequestParams($key, $value)
+    {
+        if ($value !== null) {
+            $this->requestParams[$key] = $value;
+        }
+        return $this;
+    }
+
+    /**
+     * Set request type (get/post)
+     * @param string $requestType
+     * @return \Jelovac\Bitly4laravel\Model
+     */
+    public function setRequestType($requestType)
+    {
+        $this->requestType = $requestType;
         return $this;
     }
 

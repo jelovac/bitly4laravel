@@ -1,6 +1,6 @@
 <?php namespace Jelovac\Bitly4laravel;
 
-interface CallbackInterface {
+interface BitlyInterface {
     
     // Data APIs
     public function highvalue($limit);
