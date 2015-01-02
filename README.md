@@ -89,18 +89,9 @@ To specifiy alternative Access Token, Format, Variable Output and Connection Opt
         ->setRequestOptions(array())
         ->expand('http://bit.ly/1RmnUT');
 
-About
-=====
-
-Converted bitly-url-shortener yii framework extension to a Laravel package.
-
-The original YII extension you can download here: 
-http://www.yiiframework.com/extension/bitly-url-shortener
-
-Credits
-=======
-
-bitly4laravel - [Vladimir Jelovac](https://github.com/jelovac "Github profile")
+Repository
+==========
+https://github.com/jelovac/bitly4laravel
 
 License
 =======
