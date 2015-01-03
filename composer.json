@@ -9,7 +9,7 @@
     ],
     "license": "BSD-2-Clause",
     "require": {
-        "php": ">=5.3.7",
+        "php": ">=5.4",
         "illuminate/support": "4.*",
         "guzzlehttp/guzzle": "5.*"
     },
