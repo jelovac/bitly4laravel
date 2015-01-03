@@ -81,7 +81,7 @@ Expand links
                     )
             )
 
-To specifiy alternative Access Token, Format, Variable Output and Connection Options you have following public setters which can be chained.
+To specifiy alternative Access Token, Response Format and Guzzle Client options you have following public setters which can be chained.
 
     Bitly::setAccessToken('my-access-token')
         ->setResponseFormat('json')
