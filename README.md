@@ -39,7 +39,7 @@ Usage
 
 Shorten links
 
-    Bitly::shorten('http://spea.rs');
+    Bitly::shorten('http://google.com/');
 
     Response format: JSON
 
@@ -57,7 +57,7 @@ Shorten links
 
 Expand links
 
-    Bitly::expand('http://bit.ly/1RmnUT');
+    Bitly::expand('http://bit.ly/ze6poY');
 
     Response format: JSON
 
