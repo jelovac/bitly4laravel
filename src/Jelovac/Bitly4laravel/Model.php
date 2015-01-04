@@ -51,7 +51,7 @@ class Model
      * GuzzleHttp Client configuration settings
      * @var array
      */
-    protected $connectionOptions = array();
+    protected $clientConfig = array();
 
     /**
      * GuzzleHttp Client request options
@@ -80,7 +80,7 @@ class Model
         $this->cacheKey = isset($config['cache_key']) ? $config['cache_key'] : $this->cacheKey;
         $this->cacheDuration = isset($config['cache_duration']) ? $config['cache_duration'] : $this->cacheDuration;
         $this->responseFormat = isset($config['response_format']) ? $config['response_format'] : $this->responseFormat;
-        $this->connectionOptions = isset($config['connection_options']) ? $config['connection_options'] : $this->connectionOptions;
+        $this->clientConfig = isset($config['client_config']) ? $config['client_config'] : $this->clientConfig;
         $this->requestOptions = isset($config['request_options']) ? $config['request_options'] : $this->requestOptions;
         $this->requestType = isset($config['request_type']) ? $config['request_type'] : $this->requestType;
     }
@@ -153,9 +153,9 @@ class Model
      * Get GuzzleHttp\Client config options
      * @return array
      */
-    public function getConnectionOptions()
+    public function getClientConfig()
     {
-        return $this->connectionOptions;
+        return $this->clientConfig;
     }
 
     /**
@@ -264,12 +264,12 @@ class Model
 
     /**
      * Set GuzzleHttp\Client config options
-     * @param array $connectionOptions
+     * @param array $clientConfig
      * @return \Jelovac\Bitly4laravel\Model
      */
-    public function setConnectionOptions(array $connectionOptions)
+    public function setClientConfig(array $clientConfig)
     {
-        $this->connectionOptions = $connectionOptions;
+        $this->clientConfig = $clientConfig;
         return $this;
     }
 

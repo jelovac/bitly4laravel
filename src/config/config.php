@@ -12,7 +12,7 @@ return array(
     "cache_key" => "Laravel.Bitly.",
     "cache_duration" => 3600,
     "response_format" => "json",
-    "connection_options" => array(),
+    "client_config" => array(),
     "request_options" => array(),
     "request_type" => "get",
 );
