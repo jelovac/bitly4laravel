@@ -41,44 +41,40 @@ Shorten links
 
         Bitly::shorten('http://spea.rs');
 
-        Output: array
+        Response format: JSON
 
-        Array
-            (
-                [status_code] => 200
-                [status_txt] => OK
-                [data] => Array
-                    (
-                        [url] => http://bit.ly/9PCy42
-                        [hash] => 9PCy42
-                        [global_hash] => 25iRBL
-                        [long_url] => http://www.betaworks.com
-                        [new_hash] => 0
-                    )
-            )
+        {
+            "data": {
+              "global_hash": "900913",
+              "hash": "ze6poY",
+              "long_url": "http://google.com/",
+              "new_hash": 0,
+              "url": "http://bit.ly/ze6poY"
+            },
+            "status_code": 200,
+            "status_txt": "OK"
+        }
 
 Expand links
 
         Bitly::expand('http://bit.ly/1RmnUT');
 
-        Output: array
+        Response format: JSON
 
-        Array
-            (
-                [status_code] => 200
-                [status_txt] => OK
-                [data] => Array
-                    (
-                        [entry] => Array
-                            (
-                                [short_url] => http://bit.ly/1RmnUT
-                                [long_url] => http://google.com
-                                [user_hash] => 1RmnUT
-                                [global_hash] => 1RmnUT
-                            )
-
-                    )
-            )
+        {
+            "data": {
+              "expand": [
+                {
+                  "global_hash": "900913",
+                  "long_url": "http://google.com/",
+                  "short_url": "http://bit.ly/ze6poY",
+                  "user_hash": "ze6poY"
+                }
+              ]
+            },
+            "status_code": 200,
+            "status_txt": "OK"
+        }
 
 To specifiy alternative Access Token, Response Format and Guzzle Client options you have following public setters which can be chained.
 
