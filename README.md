@@ -5,15 +5,14 @@ bitly4laravel
 Provides basic bitly API to use with Laravel 4.
 
 In order to use this API you need to get [OAuth Generic Access Token](https://bitly.com/a/oauth_apps) from Bitly website.
- 
+
 Instalation
 ===========
 
 Add bitly4laravel to your composer.json file.
 
     require : {
-        "laravel/framework": "4.1.*",
-        "jelovac/bitly4laravel": "dev-master"
+        "jelovac/bitly4laravel": "3.*"
     }
 
 Or with composer command:
@@ -41,7 +40,7 @@ Usage
 Shorten links
 
         Bitly::shorten('http://spea.rs');
-        
+
         Output: array
 
         Array
@@ -55,7 +54,7 @@ Shorten links
                         [global_hash] => 25iRBL
                         [long_url] => http://www.betaworks.com
                         [new_hash] => 0
-                    ) 
+                    )
             )
 
 Expand links
@@ -85,7 +84,7 @@ To specifiy alternative Access Token, Response Format and Guzzle Client options 
 
     Bitly::setAccessToken('my-access-token')
         ->setResponseFormat('json')
-        ->setConnectionOptions(array())
+        ->setClientConfig(array())
         ->setRequestOptions(array())
         ->expand('http://bit.ly/1RmnUT');
 
@@ -96,4 +95,4 @@ https://github.com/jelovac/bitly4laravel
 License
 =======
 
-See the LICENSE.md
+The Bitly4laravel package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
