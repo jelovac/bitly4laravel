@@ -39,42 +39,42 @@ Usage
 
 Shorten links
 
-        Bitly::shorten('http://spea.rs');
+    Bitly::shorten('http://spea.rs');
 
-        Response format: JSON
+    Response format: JSON
 
-        {
-            "data": {
-              "global_hash": "900913",
-              "hash": "ze6poY",
-              "long_url": "http://google.com/",
-              "new_hash": 0,
-              "url": "http://bit.ly/ze6poY"
-            },
-            "status_code": 200,
-            "status_txt": "OK"
-        }
+    {
+        "data": {
+          "global_hash": "900913",
+          "hash": "ze6poY",
+          "long_url": "http://google.com/",
+          "new_hash": 0,
+          "url": "http://bit.ly/ze6poY"
+        },
+        "status_code": 200,
+        "status_txt": "OK"
+    }
 
 Expand links
 
-        Bitly::expand('http://bit.ly/1RmnUT');
+    Bitly::expand('http://bit.ly/1RmnUT');
 
-        Response format: JSON
+    Response format: JSON
 
-        {
-            "data": {
-              "expand": [
-                {
-                  "global_hash": "900913",
-                  "long_url": "http://google.com/",
-                  "short_url": "http://bit.ly/ze6poY",
-                  "user_hash": "ze6poY"
-                }
-              ]
-            },
-            "status_code": 200,
-            "status_txt": "OK"
-        }
+    {
+        "data": {
+          "expand": [
+            {
+              "global_hash": "900913",
+              "long_url": "http://google.com/",
+              "short_url": "http://bit.ly/ze6poY",
+              "user_hash": "ze6poY"
+            }
+          ]
+        },
+        "status_code": 200,
+        "status_txt": "OK"
+    }
 
 To specifiy alternative Access Token, Response Format and Guzzle Client options you have following public setters which can be chained.
 
