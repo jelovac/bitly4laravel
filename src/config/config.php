@@ -1,18 +1,15 @@
 <?php
-
 /**
  * Configuraton file for bitly4laravel
- * Populate only the needed fields and comment others
+ * Populate only the needed fields and comment/remove the others
  */
 return array(
-    "api_url" => "https://api-ssl.bitly.com/",
-    "api_version" => "v3/",
     "access_token" => null,
-    "use_cache" => false,
-    "cache_key" => "Laravel.Bitly.",
-    "cache_duration" => 3600,
-    "response_format" => "json",
-    "client_config" => array(),
+    "cache_enabled" => false,
+    "cache_duration" => 3600, // Duration in minutes
+    "cache_key_prefix" => "Bitly4Laravel.",
+    "response_format" => "json", // json, xml
+    "request_type" => "get", // get, post
     "request_options" => array(),
-    "request_type" => "get",
+    "client_config" => array(),
 );
