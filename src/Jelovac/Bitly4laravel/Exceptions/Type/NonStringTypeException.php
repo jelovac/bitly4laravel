@@ -1,4 +1,4 @@
-<?php namespace Jelovac\Bitly4laravel;
+<?php namespace Jelovac\Bitly4laravel\Exceptions\Type;
 
 /**
  * Exception thrown if an argument is not String type.

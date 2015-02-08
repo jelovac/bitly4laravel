@@ -1,7 +1,6 @@
 <?php namespace Jelovac\Bitly4laravel;
 
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Hash;
 use GuzzleHttp;
 
 class API extends Model {
@@ -101,7 +100,7 @@ class API extends Model {
     protected function createCacheKey($action)
     {
         $key = $this->cacheKeyPrefix . $action . json_encode($this->requestParams);
-        return Hash::make($key);
+        return sha1($key);
     }
 
 }

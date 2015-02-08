@@ -1,5 +1,11 @@
 <?php namespace Jelovac\Bitly4laravel;
 
+use \OutOfRangeException,
+    \InvalidArgumentException;
+use Jelovac\Bitly4laravel\Exceptions\Type\NonStringTypeException,
+    Jelovac\Bitly4laravel\Exceptions\Type\NonBooleanTypeException,
+    Jelovac\Bitly4laravel\Exceptions\Type\NonIntegerTypeException;
+
 class Model {
 
     /**
@@ -82,7 +88,7 @@ class Model {
     public function __construct(array $config = array())
     {
         if (!empty($config)) {
-            $this->setConfigurationDefaults($config);
+            $this->setConfig($config);
         }
     }
 
@@ -91,9 +97,51 @@ class Model {
      *
      * @param array $config
      */
-    public function setConfiguration(array $config)
+    public function setConfig(array $config)
     {
+        foreach ($config as $key => $value) {
+            if (is_string($key)) {
+                $key = "set_" . $key;
+                $name = $this->snakeCaseToCamelCase($key);
+                $this->callSetter($name, $value);
+            } else {
+                throw new InvalidArgumentException("Invalid config key set!");
+            }
+        }
+    }
 
+    /**
+     * Call the setter method
+     *
+     * @param type $name
+     * @param type $value
+     * @throws InvalidArgumentException
+     */
+    protected function callSetter($name, $value)
+    {
+        if (method_exists(__CLASS__, $name)) {
+            $this->{$name}($value);
+        } else {
+            throw new InvalidArgumentException("Invalid config key set!");
+        }
+    }
+
+    /**
+     * Converts snake_case to camelCase
+     *
+     * @param type $value
+     * @return string
+     * @throws NonStringTypeException
+     */
+    protected function snakeCaseToCamelCase($value)
+    {
+        if (is_string($value)) {
+            $value = str_replace(' ', '', ucwords(str_replace('_', ' ', $value)));
+            $value = strtolower(substr($value, 0, 1)) . substr($value, 1);
+            return $value;
+        } else {
+            throw new NonStringTypeException($value);
+        }
     }
 
     /**
@@ -111,11 +159,11 @@ class Model {
      *
      * @param type $accessToken
      * @return \Jelovac\Bitly4laravel\Model
-     * @throws \InvalidArgumentException
+     * @throws NonStringTypeException
      */
     public function setAccessToken($accessToken)
     {
-        if (is_string($this->accessToken)) {
+        if (is_string($accessToken)) {
             $this->accessToken = $accessToken;
             return $this;
         } else {
@@ -138,7 +186,7 @@ class Model {
      *
      * @param bool $cacheEnabled
      * @return \Jelovac\Bitly4laravel\Model
-     * @throws NonBooleanException
+     * @throws NonBooleanTypeException
      */
     public function setCacheEnabled($cacheEnabled)
     {
@@ -165,7 +213,7 @@ class Model {
      *
      * @param type $cacheDuration
      * @return \Jelovac\Bitly4laravel\Model
-     * @throws NonIntegerException
+     * @throws NonIntegerTypeException
      */
     public function setCacheDuration($cacheDuration)
     {
@@ -192,7 +240,7 @@ class Model {
      *
      * @param type $cacheKeyPrefix
      * @return \Jelovac\Bitly4laravel\Model
-     * @throws NonStringException
+     * @throws NonStringTypeException
      */
     public function setCacheKeyPrefix($cacheKeyPrefix)
     {
@@ -241,7 +289,7 @@ class Model {
      *
      * @param string $responseFormat
      * @return \Jelovac\Bitly4laravel\Model
-     * @throws NonStringException
+     * @throws NonStringTypeException
      */
     public function setResponseFormat($responseFormat)
     {
@@ -280,14 +328,14 @@ class Model {
      *
      * @param mixed $key
      * @return mixed
-     * @throws \OutOfRangeException
+     * @throws OutOfRangeException
      */
     public function getRequestParam($key)
     {
         if (array_key_exists($key, $this->requestParams)) {
             return $this->requestParams[$key];
         } else {
-            throw new \OutOfRangeException("Provided array key is out of range.");
+            throw new OutOfRangeException("Provided array key is out of range.");
         }
     }
 
@@ -341,7 +389,7 @@ class Model {
      *
      * @param string $requestType
      * @return \Jelovac\Bitly4laravel\Model
-     * @throws NonStringException
+     * @throws NonStringTypeException
      */
     public function setRequestType($requestType)
     {
