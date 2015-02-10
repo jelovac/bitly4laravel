@@ -18,7 +18,7 @@ class Bitly4laravelServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        $configPath = __DIR__ . '/../config/bitly4laravel.php';
+        $configPath = __DIR__ . '/../../config/bitly4laravel.php';
 
         $paths = array(
             $configPath => config_path("bitly4laravel.php"),
@@ -34,7 +34,7 @@ class Bitly4laravelServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $configPath = __DIR__ . '/../config/bitly4laravel.php';
+        $configPath = __DIR__ . '/../../config/bitly4laravel.php';
 
         $this->mergeConfigFrom($configPath, 'bitly4laravel');
 
