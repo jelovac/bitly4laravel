@@ -21,7 +21,7 @@ class Bitly4laravelServiceProvider extends ServiceProvider {
         $configPath = __DIR__ . '/../../config/bitly4laravel.php';
 
         $paths = array(
-            $configPath => config_path("bitly4laravel.php"),
+            $configPath => $this->config_path("bitly4laravel.php"),
         );
 
         $this->publishes($paths, 'config');
@@ -67,6 +67,21 @@ class Bitly4laravelServiceProvider extends ServiceProvider {
         } else {
             $config = $this->app['config']->get($key, []);
             $this->app['config']->set($key, array_merge(require $path, $config));
+        }
+    }
+
+    /**
+     * Get the configuration path.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    protected function config_path($path = '')
+    {
+        if (!function_exists('config_path')) {
+            return $this->app->make('path.config') . ($path ? '/' . $path : $path);
+        } else {
+            return config_path($path);
         }
     }
 
