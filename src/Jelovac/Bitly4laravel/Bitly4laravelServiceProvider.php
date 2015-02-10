@@ -53,4 +53,21 @@ class Bitly4laravelServiceProvider extends ServiceProvider {
         return array('bitly4laravel');
     }
 
+    /**
+     * Merge the given configuration with the existing configuration.
+     *
+     * @param  string  $path
+     * @param  string  $key
+     * @return void
+     */
+    protected function mergeConfigFrom($path, $key)
+    {
+        if (is_callable('parent::mergeConfigFrom')) {
+            parent::mergeConfigFrom($path, $key);
+        } else {
+            $config = $this->app['config']->get($key, []);
+            $this->app['config']->set($key, array_merge(require $path, $config));
+        }
+    }
+
 }
