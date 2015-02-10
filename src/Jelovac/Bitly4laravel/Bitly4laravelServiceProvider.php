@@ -12,19 +12,32 @@ class Bitly4laravelServiceProvider extends ServiceProvider {
     protected $defer = false;
 
     /**
+     * Actual provider
+     *
+     * @var \Illuminate\Support\ServiceProvider
+     */
+    protected $provider;
+
+    /**
+     * Create a new service provider instance.
+     *
+     * @param \Illuminate\Contracts\Foundation\Application $app
+     * @return void
+     */
+    public function __construct($app)
+    {
+        parent::__construct($app);
+        $this->provider = $this->getProvider();
+    }
+
+    /**
      * Bootstrap the application events.
      *
      * @return void
      */
     public function boot()
     {
-        $configPath = __DIR__ . '/../../config/bitly4laravel.php';
-
-        $paths = array(
-            $configPath => $this->config_path("bitly4laravel.php"),
-        );
-
-        $this->publishes($paths, 'config');
+        return $this->provider->boot();
     }
 
     /**
@@ -34,13 +47,22 @@ class Bitly4laravelServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $configPath = __DIR__ . '/../../config/bitly4laravel.php';
+        return $this->provider->register();
+    }
 
-        $this->mergeConfigFrom($configPath, 'bitly4laravel');
-
-        $this->app['bitly4laravel'] = $this->app->share(function($app) {
-            return new Bitly4laravel($app['config']);
-        });
+    /**
+     * Return ServiceProvider according to Laravel version
+     *
+     * @return \Intervention\Image\Provider\ProviderInterface
+     */
+    private function getProvider()
+    {
+        $app = $this->app;
+        $version = intval($app::VERSION);
+        $provider = sprintf(
+                '\Jelovac\Bitly4laravel\ServiceProviders\Laravel%dServiceProvider', $version
+        );
+        return new $provider($app);
     }
 
     /**
@@ -51,38 +73,6 @@ class Bitly4laravelServiceProvider extends ServiceProvider {
     public function provides()
     {
         return array('bitly4laravel');
-    }
-
-    /**
-     * Merge the given configuration with the existing configuration.
-     *
-     * @param  string  $path
-     * @param  string  $key
-     * @return void
-     */
-    protected function mergeConfigFrom($path, $key)
-    {
-        if (is_callable('parent::mergeConfigFrom')) {
-            parent::mergeConfigFrom($path, $key);
-        } else {
-            $config = $this->app['config']->get($key, []);
-            $this->app['config']->set($key, array_merge(require $path, $config));
-        }
-    }
-
-    /**
-     * Get the configuration path.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    protected function config_path($path = '')
-    {
-        if (!function_exists('config_path')) {
-            return $this->app->make('path.config') . ($path ? '/' . $path : $path);
-        } else {
-            return config_path($path);
-        }
     }
 
 }
