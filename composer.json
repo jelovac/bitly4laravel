@@ -1,10 +1,10 @@
 {
     "name": "jelovac/bitly4laravel",
-    "description": "Provides basic bitly API to use with Laravel",
+    "description": "Provides a Laravel package to communicate with Bit.ly API",
     "authors": [
         {
             "name": "Vladimir Jelovac",
-            "email": "vladimir.jelovac@jeftinodosajta.com"
+            "email": "jelovac@users.noreply.github.com"
         }
     ],
     "license": "BSD-2-Clause",

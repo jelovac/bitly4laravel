@@ -12,13 +12,32 @@ class Bitly4laravelServiceProvider extends ServiceProvider {
     protected $defer = false;
 
     /**
+     * Actual provider
+     *
+     * @var \Illuminate\Support\ServiceProvider
+     */
+    protected $provider;
+
+    /**
+     * Create a new service provider instance.
+     *
+     * @param \Illuminate\Contracts\Foundation\Application $app
+     * @return void
+     */
+    public function __construct($app)
+    {
+        parent::__construct($app);
+        $this->provider = $this->getProvider();
+    }
+
+    /**
      * Bootstrap the application events.
      *
      * @return void
      */
     public function boot()
     {
-        $this->package('jelovac/bitly4laravel');
+        return $this->provider->boot();
     }
 
     /**
@@ -28,10 +47,22 @@ class Bitly4laravelServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app['bitly4laravel'] = $this->app->share(function($app) {
-            $config = $app['config']->get('bitly4laravel::config');
-            return new Bitly4laravel($config);
-        });
+        return $this->provider->register();
+    }
+
+    /**
+     * Return ServiceProvider according to Laravel version
+     *
+     * @return \Intervention\Image\Provider\ProviderInterface
+     */
+    private function getProvider()
+    {
+        $app = $this->app;
+        $version = intval($app::VERSION);
+        $provider = sprintf(
+                '\Jelovac\Bitly4laravel\ServiceProviders\Laravel%dServiceProvider', $version
+        );
+        return new $provider($app);
     }
 
     /**
