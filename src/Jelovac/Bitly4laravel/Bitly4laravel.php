@@ -155,8 +155,8 @@ class Bitly4laravel extends API implements BitlyInterface {
             $params['preview'] = $preview;
         }
 
-        if ($og_image !== null) {
-            $params['og_image'] = $og_image;
+        if ($ogImage !== null) {
+            $params['og_image'] = $ogImage;
         }
 
         return $this->make('bundle/edit', $params);
@@ -385,9 +385,13 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function highvalue($limit = null)
     {
-        return $this->make('highvalue', array(
-                    'limit' => $limit,
-        ));
+        $params = array();
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        return $this->make('highvalue', $params);
     }
 
     /**
@@ -400,11 +404,19 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function info($shortURLOrHash, $expandUser = null)
     {
-        return $this->make('info', array(
-                    'shortUrl' => $shortURL,
-                    'hash' => $hash,
-                    'expand_user' => $expandUser,
-        ));
+        $params = array();
+
+        if (filter_var($shortURLOrHash, FILTER_VALIDATE_URL) === true) {
+            $params['shortUrl'] = $shortURLOrHash;
+        } else {
+            $params['hash'] = $shortURLOrHash;
+        }
+
+        if ($expandUser !== null) {
+            $params['expand_user'] = $expandUser;
+        }
+
+        return $this->make('info', $params);
     }
 
     /**
@@ -434,15 +446,33 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkClicks($link, $unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('link/clicks', array(
-                    'link' => $link,
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'rollup' => $rollup,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array('link' => $link);
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($rollup !== null) {
+            $params['rollup'] = $rollup;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('link/clicks', $params);
     }
 
     /**
@@ -454,10 +484,13 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkContent($link, $contentType = null)
     {
-        return $this->make('link/content', array(
-                    'link' => $link,
-                    'content_type' => $contentType,
-        ));
+        $params = array('link' => $link);
+
+        if ($contentType !== null) {
+            $params['content_type'] = $contentType;
+        }
+
+        return $this->make('link/content', $params);
     }
 
     /**
@@ -473,14 +506,29 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkCountries($link, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('link/countries', array(
-                    'link' => $link,
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array('link' => $link);
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('link/countries', $params);
     }
 
     /**
@@ -630,14 +678,29 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkReferrers($link, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('link/referrers', array(
-                    'link' => $link,
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array('link' => $link);
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('link/referrers', $params);
     }
 
     /**
@@ -653,14 +716,29 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkReferrersByDomain($link, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('link/referrers_by_domain', array(
-                    'link' => $link,
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array('link' => $link);
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('link/referrers_by_domain', $params);
     }
 
     /**
@@ -676,14 +754,29 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkReferringDomains($link, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('link/referring_domains', array(
-                    'link' => $link,
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array('link' => $link);
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('link/referring_domains', $params);
     }
 
     /**
@@ -700,15 +793,29 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkShares($link, $unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('link/shares', array(
-                    'link' => $link,
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'rollup' => $rollup,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array('link' => $link);
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('link/shares', $params);
     }
 
     /**
@@ -751,14 +858,33 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function organizationBrandMessages($domain = null, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('organization/brand_messages', array(
-                    'domain' => $domain,
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array();
+
+        if ($domain !== null) {
+            $params['domain'] = $domain;
+        }
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('organization/brand_messages', $params);
     }
 
     /**
@@ -775,14 +901,33 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function organizationIntersectingLinks($domain = null, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('organization/interesecting_links', array(
-                    'domain' => $domain,
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array();
+
+        if ($domain !== null) {
+            $params['domain'] = $domain;
+        }
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('organization/interesecting_links', $params);
     }
 
     /**
@@ -800,15 +945,37 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function organizationLeaderboard($domain = null, $orderBy = null, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('organization/leaderboard', array(
-                    'domain' => $domain,
-                    'order_by' => $orderBy,
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array();
+
+        if ($domain !== null) {
+            $params['domain'] = $domain;
+        }
+
+        if ($orderBy !== null) {
+            $params['order_by'] = $orderBy;
+        }
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('organization/leaderboard', $params);
     }
 
     /**
@@ -825,14 +992,33 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function organizationMissedOpportunities($domain = null, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('organization/missed_opportunities', array(
-                    'domain' => $domain,
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array();
+
+        if ($domain !== null) {
+            $params['domain'] = $domain;
+        }
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('organization/missed_opportunities', $params);
     }
 
     /**
@@ -883,16 +1069,36 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function search($query, $domain, $fields = null, $offset = null, $limit = null, $fullDomain = null, $cities = null, $lang = null)
     {
-        return $this->make('search', array(
-                    'query' => $query,
-                    'fields' => $fields,
-                    'offset' => $offset,
-                    'limit' => $limit,
-                    'domain' => $domain,
-                    'full_domain' => $fullDomain,
-                    'cities' => $cities,
-                    'lang' => $lang,
-        ));
+        $params = array(
+            'query' => $query,
+            'domain' => $domain,
+        );
+
+        if ($fields !== null) {
+            $params['fields'] = $fields;
+        }
+
+        if ($offset !== null) {
+            $params['offset'] = $offset;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($fullDomain !== null) {
+            $params['full_domain'] = $fullDomain;
+        }
+
+        if ($cities !== null) {
+            $params['cities'] = $cities;
+        }
+
+        if ($lang !== null) {
+            $params['lang'] = $lang;
+        }
+
+        return $this->make('search', $params);
     }
 
     /**
@@ -926,14 +1132,33 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userClicks($unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('user/clicks', array(
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'rollup' => $rollup,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array();
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($rollup !== null) {
+            $params['rollup'] = $rollup;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('user/clicks', $params);
     }
 
     /**
@@ -949,14 +1174,33 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userCountries($unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('user/countries', array(
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'rollup' => $rollup,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array();
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($rollup !== null) {
+            $params['rollup'] = $rollup;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('user/countries', $params);
     }
 
     /**
@@ -1198,14 +1442,33 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userPopularEarnedByClicks($domain = null, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('user/popular_earned_by_clicks', array(
-                    'domain' => $domain,
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array();
+
+        if ($domain !== null) {
+            $params['domain'] = $domain;
+        }
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('user/popular_earned_by_clicks', $params);
     }
 
     /**
@@ -1223,14 +1486,33 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userPopularEarnedByShortens($domain = null, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('user/popular_earned_by_shortens', array(
-                    'domain' => $domain,
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array();
+
+        if ($domain !== null) {
+            $params['domain'] = $domain;
+        }
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('user/popular_earned_by_shortens', $params);
     }
 
     /**
@@ -1246,13 +1528,29 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userPopularLinks($unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('user/popular_links', array(
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array();
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('user/popular_links', $params);
     }
 
     /**
@@ -1271,15 +1569,37 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userPopularOwnedByClicks($domain = null, $subaccount = null, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('user/popular_owned_by_clicks', array(
-                    'domain' => $domain,
-                    'subaccount' => $subaccount,
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array();
+
+        if ($domain !== null) {
+            $params['domain'] = $domain;
+        }
+
+        if ($subaccount !== null) {
+            $params['subaccount'] = $subaccount;
+        }
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('user/popular_owned_by_clicks', $params);
     }
 
     /**
@@ -1298,15 +1618,37 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userPopularOwnedByShortens($domain = null, $subaccount = null, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('user/popular_owned_by_shortens', array(
-                    'domain' => $domain,
-                    'subaccount' => $subaccount,
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array();
+
+        if ($domain !== null) {
+            $params['domain'] = $domain;
+        }
+
+        if ($subaccount !== null) {
+            $params['subaccount'] = $subaccount;
+        }
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('user/popular_owned_by_shortens', $params);
     }
 
     /**
@@ -1322,14 +1664,33 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userReferrers($unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('user/referrers', array(
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'rollup' => $rollup,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array();
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($rollup !== null) {
+            $params['rollup'] = $rollup;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('user/referrers', $params);
     }
 
     /**
@@ -1345,14 +1706,33 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userReferringDomains($unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('user/referring_domains', array(
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'rollup' => $rollup,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array();
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($rollup !== null) {
+            $params['rollup'] = $rollup;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('user/referring_domains', $params);
     }
 
     /**
@@ -1383,14 +1763,33 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userShareCounts($unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('user/share_counts', array(
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'rollup' => $rollup,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array();
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($rollup !== null) {
+            $params['rollup'] = $rollup;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('user/share_counts', $params);
     }
 
     /**
@@ -1406,14 +1805,33 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userShareCountsByShareType($unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('user/share_counts_by_share_type', array(
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'rollup' => $rollup,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array();
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($rollup !== null) {
+            $params['rollup'] = $rollup;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('user/share_counts_by_share_type', $params);
     }
 
     /**
@@ -1429,14 +1847,33 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userShortenCounts($unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        return $this->make('user/shorten_counts', array(
-                    'unit' => $unit,
-                    'units' => $units,
-                    'timezone' => $timezone,
-                    'rollup' => $rollup,
-                    'limit' => $limit,
-                    'unit_reference_ts' => $unitReferenceTimeStamp,
-        ));
+        $params = array();
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($rollup !== null) {
+            $params['rollup'] = $rollup;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('user/shorten_counts', $params);
     }
 
     /**
@@ -1450,36 +1887,38 @@ class Bitly4laravel extends API implements BitlyInterface {
     }
 
     /**
-     * Query whether a given domain is a valid bitly pro domain. 
-     * Keep in mind that bitly custom short domains are restricted 
+     * Query whether a given domain is a valid bitly pro domain.
+     * Keep in mind that bitly custom short domains are restricted
      * to less than 15 characters in length.
-     * 
+     *
      * @param string $domain
      * @return type
      */
     public function domainBitlyProDomain($domain)
     {
-        $this->setPostData('domain', $domain);
-        return $this->get('bitly_pro_domain');
+        return $this->make('bitly_pro_domain', array(
+                    'domain' => $domain,
+        ));
     }
 
     /**
      * This lists NSQ Topic and Channel Message Information and Connection State for a Topic.
-     * 
+     *
      * @param type $topic NSQ Data Stream Topic
      * @return type
      */
     public function nsqStats($topic)
     {
-        $this->setPostData('topic', $topic);
-        return $this->get('nsq/stats');
+        return $this->make('nsq/stats', array(
+                    'topic' => $topic,
+        ));
     }
 
     /**
-     * Returns the number of clicks on Bitlinks pointing to the specified 
-     * tracking domain that have occured in a given time period. 
+     * Returns the number of clicks on Bitlinks pointing to the specified
+     * tracking domain that have occured in a given time period.
      * Users can register a tracking domain from their bitly settings page.
-     * 
+     *
      * @param string $domain
      * @param string $unit
      * @param integer $units
@@ -1491,21 +1930,40 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userTrackingDomainClicks($domain, $unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('domain', $domain);
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('rollup', $rollup);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('user/tracking_domain_clicks');
+        $params = array('domain' => $domain);
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($rollup !== null) {
+            $params['rollup'] = $rollup;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('user/tracking_domain_clicks', $params);
     }
 
     /**
-     * Returns the number of links, pointing to a specified tracking domain, 
+     * Returns the number of links, pointing to a specified tracking domain,
      * shortened (encoded) in a given time period by all bitly users.
      * Users can register a tracking domain from their bitly settings page.
-     * 
+     *
      * @param string $domain
      * @param string $unit
      * @param integer $units
@@ -1517,14 +1975,33 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userTrackingDomainShortenCounts($domain, $unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('domain', $domain);
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('rollup', $rollup);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('user/tracking_domain_shorten_counts');
+        $params = array('domain' => $domain);
+
+        if ($unit !== null) {
+            $params['unit'] = $unit;
+        }
+
+        if ($units !== null) {
+            $params['units'] = $units;
+        }
+
+        if ($timezone !== null) {
+            $params['timezone'] = $timezone;
+        }
+
+        if ($rollup !== null) {
+            $params['rollup'] = $rollup;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($unitReferenceTimeStamp !== null) {
+            $params['unit_reference_ts'] = $unitReferenceTimeStamp;
+        }
+
+        return $this->make('user/tracking_domain_shorten_counts', $params);
     }
 
 }
