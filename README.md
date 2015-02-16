@@ -12,19 +12,24 @@ Instalation
 Add bitly4laravel to your composer.json file.
 
     require : {
-        "laravel/framework": "4.1.*",
-        "jelovac/bitly4laravel": "dev-master"
+        "jelovac/bitly4laravel": "2.*"
     }
 
 Or with composer command:
 
-    composer require "jelovac/bitly4laravel": "dev-master"
+    composer require "jelovac/bitly4laravel": "2.*"
 
 Add provider to your app/config/app.php providers
 
     'Jelovac\Bitly4laravel\Bitly4laravelServiceProvider',
 
 Publish config
+
+For Laravel 5 use:
+
+    php artisan vendor:publish
+
+For Laravel 4 use:
 
     php artisan config:publish jelovac/bitly4laravel
 
