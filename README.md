@@ -6,11 +6,6 @@ Provides a Laravel package to communicate with Bit.ly API.
 
 In order to use this package you need to get [OAuth Generic Access Token](https://bitly.com/a/oauth_apps) from Bitly website.
 
-Warning
-=======
-
-V3 is not recommended for production usage as it is still under heavy development.
-
 Instalation
 ===========
 
@@ -29,6 +24,12 @@ Add provider to your app/config/app.php providers
     'Jelovac\Bitly4laravel\Bitly4laravelServiceProvider',
 
 Publish config
+
+For Laravel 5 use:
+
+    php artisan vendor:publish
+
+For Laravel 4 use:
 
     php artisan config:publish jelovac/bitly4laravel
 
@@ -80,14 +81,6 @@ Expand links
         "status_code": 200,
         "status_txt": "OK"
     }
-
-To specifiy alternative Access Token, Response Format and Guzzle Client options you have following public setters which can be chained.
-
-    Bitly::setAccessToken('my-access-token')
-        ->setResponseFormat('json')
-        ->setClientConfig(array())
-        ->setRequestOptions(array())
-        ->expand('http://bit.ly/1RmnUT');
 
 Repository
 ==========

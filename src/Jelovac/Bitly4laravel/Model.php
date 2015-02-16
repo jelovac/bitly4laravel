@@ -96,6 +96,8 @@ class Model {
      * Set configuration
      *
      * @param array $config
+     * @return \Jelovac\Bitly4laravel\Model
+     * @throws InvalidArgumentException
      */
     public function setConfig(array $config)
     {
@@ -108,6 +110,8 @@ class Model {
                 throw new InvalidArgumentException("Invalid config key set!");
             }
         }
+
+        return $this;
     }
 
     /**
