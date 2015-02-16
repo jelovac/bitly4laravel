@@ -1,138 +1,100 @@
 <?php namespace Jelovac\Bitly4laravel;
 
-class Bitly4laravel extends CallbackEngine implements CallbackInterface
-{
-
-    /**
-     * Set Generic oAuth Access Token
-     * 
-     * @param string $accessToken
-     * @return \Jelovac\Bitly4laravel\Bitly4laravel
-     */
-    public function setAccessToken($accessToken)
-    {
-        $this->model->setAccessToken($accessToken);
-        return $this;
-    }
-
-    /**
-     * Set response format
-     * 
-     * @param string $format
-     * @return \Jelovac\Bitly4laravel\Bitly4laravel
-     */
-    public function setFormat($format)
-    {
-        $this->model->setFormat($format);
-        return $this;
-    }
-
-    /**
-     * Set variable output type: array, json object, string
-     * 
-     * @param string $variableOutput
-     * @return \Jelovac\Bitly4laravel\Bitly4laravel
-     */
-    public function setVariableOutput($variableOutput)
-    {
-        $this->model->setVariableOutput($variableOutput);
-        return $this;
-    }
-
-    /**
-     * Set additional cURL connection options
-     * 
-     * @param array $options
-     */
-    public function setConnectionOptions(array $options)
-    {
-        $this->model->setConnectionOptions($options);
-        return $this;
-    }
+class Bitly4laravel extends API implements BitlyInterface {
 
     /**
      * Archive a bundle for the authenticated user. Only a bundle's owner is allowed to archive a bundle.
-     * 
+     *
      * @param string $budleLink
      * @return type
      */
     public function bundleArchive($budleLink)
     {
-        $this->setPostData('bundle_link', $budleLink);
-        return $this->get('bundle/archive');
+        return $this->make('bundle/archive', array(
+                    'bundle_link' => $budleLink
+        ));
     }
 
     /**
      * Returns a list of public bundles created by a user.
-     * 
+     *
      * @param string $user
      * @param boolean $expandUser
      * @return type
      */
     public function bundleBundlesByUser($user, $expandUser = null)
     {
-        $this->setPostData('user', $user);
-        $this->setPostData('expand_user', $expandUser);
-        return $this->get('bundle/bundles_by_user');
+        $params = array('user' => $user);
+
+        if ($expandUser !== null) {
+            $params['expand_user'] = $expandUser;
+        }
+
+        return $this->make('bundle/bundles_by_user', $params);
     }
 
     /**
      * Clone a bundle for the authenticated user.
-     * 
+     *
      * @param string $budleLink
      * @return type
      */
     public function bundleClone($budleLink)
     {
-        $this->setPostData('bundle_link', $budleLink);
-        return $this->get('bundle/clone');
+        return $this->make('bundle/clone', array('bundle_link', $budleLink));
     }
 
     /**
      * Add a collaborator to a bundle.
-     * 
+     *
      * @param string $budleLink
      * @param string $collaborator
      * @return type
      */
     public function bundleCollaboratorAdd($budleLink, $collaborator)
     {
-        $this->setPostData('bundle_link', $budleLink);
-        $this->setPostData('collaborator', $collaborator);
-        return $this->get('bundle/collaborator_add');
+        return $this->make('bundle/collaborator_add', array(
+                    'bundle_link' => $budleLink,
+                    'collaborator' => $collaborator,
+        ));
     }
 
     /**
      * Remove a collaborator from a bundle.
-     * 
+     *
      * @param string $budleLink
      * @param string $collaborator
      * @return type
      */
     public function bundleCollaboratorRemove($budleLink, $collaborator)
     {
-        $this->setPostData('bundle_link', $budleLink);
-        $this->setPostData('collaborator', $collaborator);
-        return $this->get('bundle/collaborator_remove');
+        return $this->make('bundle/collaborator_remove', array(
+                    'bundle_link' => $budleLink,
+                    'collaborator' => $collaborator
+        ));
     }
 
     /**
      * Returns information about a bundle.
-     * 
+     *
      * @param string $bundleLink
      * @param boolean $expandUser
      * @return type
      */
     public function bundleContents($bundleLink, $expandUser = null)
     {
-        $this->setPostData('bundle_link', $bundleLink);
-        $this->setPostData('expand_user', $expandUser);
-        return $this->get('bundle/contents');
+        $params = array('bundle_link' => $bundleLink);
+
+        if ($expandUser !== null) {
+            $params['expand_user'] = $expandUser;
+        }
+
+        return $this->make('bundle/contents', $params);
     }
 
     /**
      * Create a new bundle for the authenticated user.
-     * 
+     *
      * @param boolean $private
      * @param string $title
      * @param string $description
@@ -140,15 +102,26 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function bundleCreate($private = null, $title = null, $description = null)
     {
-        $this->setPostData('private', $private);
-        $this->setPostData('title', $title);
-        $this->setPostData('description', $description);
-        return $this->get('bundle/create');
+        $params = array();
+
+        if ($private !== null) {
+            $params['private'] = $private;
+        }
+
+        if ($title !== null) {
+            $params['title'] = $title;
+        }
+
+        if ($description !== null) {
+            $params['description'] = $description;
+        }
+
+        return $this->make('bundle/create', $params);
     }
 
     /**
      * Edit a bundle for the authenticated user
-     * 
+     *
      * @param string $bundleLink
      * @param string $edit
      * @param string $title
@@ -160,31 +133,55 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function bundleEdit($bundleLink, $edit = null, $title = null, $description = null, $private = null, $preview = null, $ogImage = null)
     {
-        $this->setPostData('bundle_link', $bundleLink);
-        $this->setPostData('edit', $edit);
-        $this->setPostData('title', $title);
-        $this->setPostData('description', $description);
-        $this->setPostData('private', $private);
-        $this->setPostData('preview', $preview);
-        $this->setPostData('og_image', $ogImage);
-        return $this->get('bundle/edit');
+        $params = array('bundle_link' => $bundleLink);
+
+        if ($edit !== null) {
+            $params['edit'] = $edit;
+        }
+
+        if ($title !== null) {
+            $params['title'] = $title;
+        }
+
+        if ($description !== null) {
+            $params['description'] = $description;
+        }
+
+        if ($private !== null) {
+            $params['private'] = $private;
+        }
+
+        if ($preview !== null) {
+            $params['preview'] = $preview;
+        }
+
+        if ($og_image !== null) {
+            $params['og_image'] = $og_image;
+        }
+
+        return $this->make('bundle/edit', $params);
     }
 
     /**
      * Returns all bundles this user has access to (public + private + collaborator).
-     * 
+     *
      * @param boolean $expandUser
      * @return type
      */
     public function userBundleHistory($expandUser = null)
     {
-        $this->setPostData('expand_user', $expandUser);
-        return $this->get('user/bundle_history');
+        $params = array();
+
+        if ($expandUser !== null) {
+            $params['expand_user'] = $expandUser;
+        }
+
+        return $this->make('user/bundle_history', $params);
     }
 
     /**
      * Adds a link to a bitly bundle. Links are automatically added to the top (position 0) of a bundle.
-     * 
+     *
      * @param string $bundleLink
      * @param string $link
      * @param string $title
@@ -192,15 +189,21 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function bundleLinkAdd($bundleLink, $link, $title = null)
     {
-        $this->setPostData('bundle_link', $bundleLink);
-        $this->setPostData('link', $link);
-        $this->setPostData('title', $title);
-        return $this->get('bundle/link_add');
+        $params = array(
+            'bundle_link' => $bundleLink,
+            'link' => $link,
+        );
+
+        if ($title !== null) {
+            $params['title'] = $title;
+        }
+
+        return $this->make('bundle/link_add', $params);
     }
 
     /**
      * Add a comment to bundle item.
-     * 
+     *
      * @param string $bundleLink
      * @param string $link
      * @param string $comment
@@ -208,15 +211,16 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function bundleLinkCommentAdd($bundleLink, $link, $comment)
     {
-        $this->setPostData('bundle_link', $bundleLink);
-        $this->setPostData('link', $link);
-        $this->setPostData('comment', $comment);
-        return $this->get('bundle/link_comment_add');
+        return $this->make('bundle/link_comment_add', array(
+                    'bundle_link' => $bundleLink,
+                    'link' => $link,
+                    'comment' => $comment,
+        ));
     }
 
     /**
      * Add a comment to bundle item.
-     * 
+     *
      * @param string $bundleLink
      * @param string $link
      * @param integer $commentId
@@ -225,16 +229,17 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function bundleLinkCommentEdit($bundleLink, $link, $commentId, $comment)
     {
-        $this->setPostData('bundle_link', $bundleLink);
-        $this->setPostData('link', $link);
-        $this->setPostData('comment_id', $commentId);
-        $this->setPostData('comment', $comment);
-        return $this->get('bundle/link_comment_edit');
+        return $this->make('bundle/link_comment_edit', array(
+                    'bundle_link' => $bundleLink,
+                    'link' => $link,
+                    'comment_id' => $commentId,
+                    'comment' => $comment,
+        ));
     }
 
     /**
      * Remove a comment from a bundle item. Only the original commenter and the bundles owner may perform this action.
-     * 
+     *
      * @param string $bundleLink
      * @param string $link
      * @param integer $commentId
@@ -242,15 +247,16 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function bundleLinkCommentRemove($bundleLink, $link, $commentId)
     {
-        $this->setPostData('bundle_link', $bundleLink);
-        $this->setPostData('link', $link);
-        $this->setPostData('comment_id', $commentId);
-        return $this->get('bundle/link_comment_remove');
+        return $this->make('bundle/link_comment_remove', array(
+                    'bundle_link' => $bundleLink,
+                    'link' => $link,
+                    'comment_id' => $commentId,
+        ));
     }
 
     /**
      * Edit the title for a link.
-     * 
+     *
      * @param string $bundleLink
      * @param string $link
      * @param string $edit
@@ -260,31 +266,41 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function bundleLinkEdit($bundleLink, $link, $edit, $title = null, $preview = null)
     {
-        $this->setPostData('bundle_link', $bundleLink);
-        $this->setPostData('link', $link);
-        $this->setPostData('edit', $edit);
-        $this->setPostData('title', $title);
-        $this->setPostData('preview', $preview);
-        return $this->get('bundle/link_edit');
+        $params = array(
+            'bundle_link' => $bundleLink,
+            'link' => $link,
+            'edit' => $edit,
+        );
+
+        if ($title !== null) {
+            $params['title'] = $title;
+        }
+
+        if ($preview !== null) {
+            $params['preview'] = $preview;
+        }
+
+        return $this->make('bundle/link_edit', $params);
     }
 
     /**
      * Remove a link from a bitly bundle
-     * 
+     *
      * @param string $bundleLink
      * @param string $link
      * @return type
      */
     public function bundleLinkRemove($bundleLink, $link)
     {
-        $this->setPostData('bundle_link', $bundleLink);
-        $this->setPostData('link', $link);
-        return $this->get('bundle/link_remove');
+        return $this->make('bundle/link_remove', array(
+                    'bundle_link' => $bundleLink,
+                    'link' => $link,
+        ));
     }
 
     /**
      * Change the position of a link in a bitly bundle.
-     * 
+     *
      * @param string $bundleLink
      * @param string $link
      * @param integer $displayOrder
@@ -292,83 +308,91 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function bundleLinkReorder($bundleLink, $link, $displayOrder)
     {
-        $this->setPostData('bundle_link', $bundleLink);
-        $this->setPostData('link', $link);
-        $this->setPostData('display_order', $displayOrder);
-        return $this->get('bundle/link_reorder');
+        return $this->make('bundle/link_reorder', array(
+                    'bundle_link' => $bundleLink,
+                    'link' => $link,
+                    'display_order' => $displayOrder,
+        ));
     }
 
     /**
      * Removes a pending/invited collaborator from a bundle.
-     * 
+     *
      * @param string $bundleLink
      * @param string $collaborator
      * @return type
      */
     public function bundlePendingCollaboratorRemove($bundleLink, $collaborator)
     {
-        $this->setPostData('bundle_link', $bundleLink);
-        $this->setPostData('collaborator', $collaborator);
-        return $this->get('bundle/pending_collaborator_remove');
+        return $this->make('bundle/pending_collaborator_remove', array(
+                    'bundle_link' => $bundleLink,
+                    'collaborator' => $collaborator,
+        ));
     }
 
     /**
      * Re-order the links in a bundle.
-     * 
+     *
      * @param string $bundleLink
      * @param string $link
      * @return type
      */
     public function bundleReorder($bundleLink, $link)
     {
-        $this->setPostData('bundle_link', $bundleLink);
-        $this->setPostData('link', $link);
-        return $this->get('bundle/reorder');
+        return $this->make('bundle/reorder', array(
+                    'bundle_link' => $bundleLink,
+                    'link' => $link,
+        ));
     }
 
     /**
      * Get the number of views for a bundle.
-     * 
+     *
      * @param string $bundleLink
      * @return type
      */
     public function bundleViewCount($bundleLink)
     {
-        $this->setPostData('bundle_link', $bundleLink);
-        return $this->get('bundle/view_count');
+        return $this->make('bundle/view_count', array(
+                    'bundle_link' => $bundleLink,
+        ));
     }
 
     /**
      * Given a bitly URL or hash (or multiple), returns the target (long) URL.
-     * 
+     *
      * @param string $shortURLOrHash
      * @return type
      */
     public function expand($shortURLOrHash)
     {
+        $params = array();
+
         if (filter_var($shortURLOrHash, FILTER_VALIDATE_URL) === true) {
-            $this->setPostData('shortUrl', $shortURLOrHash);
+            $params['shortUrl'] = $shortURLOrHash;
         } else {
-            $this->setPostData('hash', $shortURLOrHash);
+            $params['hash'] = $shortURLOrHash;
         }
-        return $this->get('expand');
+
+        return $this->make('expand', $params);
     }
 
     /**
      * Returns a specified number of "high-value" bitly links that are popular across bitly at this particular moment.
-     * 
+     *
      * @param integer $limit
      * @return type
      */
     public function highvalue($limit = null)
     {
-        $this->setPostData('limit', $limit);
-        return $this->get('highvalue');
+        return $this->make('highvalue', array(
+                    'limit' => $limit,
+        ));
     }
 
     /**
      * This is used to return the page title for a given bitly link.
-     * 
+     *
      * @param string $hash
      * @param string $shortURL
      * @param boolean $expandUser
@@ -376,30 +400,29 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function info($shortURLOrHash, $expandUser = null)
     {
-        if (filter_var($shortURLOrHash, FILTER_VALIDATE_URL) === true) {
-            $this->setPostData('shortUrl', $shortURLOrHash);
-        } else {
-            $this->setPostData('hash', $shortURLOrHash);
-        }
-        $this->setPostData('expand_user', $expandUser);
-        return $this->get('info');
+        return $this->make('info', array(
+                    'shortUrl' => $shortURL,
+                    'hash' => $hash,
+                    'expand_user' => $expandUser,
+        ));
     }
 
     /**
      * Returns the detected categories for a document, in descending order of confidence.
-     * 
+     *
      * @param string $link
      * @return type
      */
     public function linkCategory($link)
     {
-        $this->setPostData('link', $link);
-        return $this->get('link/category');
+        return $this->make('link/category', array(
+                    'link' => $link,
+        ));
     }
 
     /**
      * Returns the number of clicks on a single bitly link.
-     * 
+     *
      * @param string $link
      * @param string $unit
      * @param integer $units
@@ -411,33 +434,35 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function linkClicks($link, $unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('link', $link);
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('rollup', $rollup);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('link/clicks');
+        return $this->make('link/clicks', array(
+                    'link' => $link,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns the “main article” from the linked page, as determined by the content extractor, in either HTML or plain text format.
-     * 
+     *
      * @param string $link
      * @param string $contentType
      * @return type
      */
     public function linkContent($link, $contentType = null)
     {
-        $this->setPostData('link', $link);
-        $this->setPostData('content_type', $contentType);
-        return $this->get('link/content');
+        return $this->make('link/content', array(
+                    'link' => $link,
+                    'content_type' => $contentType,
+        ));
     }
 
     /**
      * Returns metrics about the countries referring click traffic to a single bitly link.
-     * 
+     *
      * @param string $link
      * @param string $unit
      * @param integer $units
@@ -448,19 +473,20 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function linkCountries($link, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('link', $link);
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('link/countries');
+        return $this->make('link/countries', array(
+                    'link' => $link,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns users who have encoded this link (optionally only those in the requesting user's social graph).
      * Note: Some users may not be returned from this call depending on link privacy settings.
-     * 
+     *
      * @param string $link
      * @param boolean $myNetwork
      * @param boolean $subaccounts
@@ -470,18 +496,31 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function linkEncoders($link, $myNetwork = null, $subaccounts = null, $limit = null, $expandUser = null)
     {
-        $this->setPostData('link', $link);
-        $this->setPostData('my_network', $myNetwork);
-        $this->setPostData('subaccounts', $subaccounts);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('expand_user', $expandUser);
-        return $this->get('link/encoders');
+        $params = array('link' => $link);
+
+        if ($myNetwork !== null) {
+            $params['my_network'] = $myNetwork;
+        }
+
+        if ($subaccounts !== null) {
+            $params['subaccounts'] = $subaccounts;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($expandUser !== null) {
+            $params['expand_user'] = $expandUser;
+        }
+
+        return $this->make('link/encoders', $params);
     }
 
     /**
      * Returns users who have encoded this link (optionally only those in the requesting user's social graph), sorted by the number of clicks on each encoding user's link.
      * Note: The response will only contain users whose links have gotten at least one click, and will not contain any users whose links are private.
-     * 
+     *
      * @param string $link
      * @param boolean $myNetwork
      * @param boolean $subaccounts
@@ -491,78 +530,96 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function linkEncodersByCount($link, $myNetwork = null, $subaccounts = null, $limit = null, $expandUser = null)
     {
-        $this->setPostData('link', $link);
-        $this->setPostData('my_network', $myNetwork);
-        $this->setPostData('subaccounts', $subaccounts);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('expand_user', $expandUser);
-        return $this->get('link/encoders_by_count');
+        $params = array('link' => $link);
+
+        if ($myNetwork !== null) {
+            $params['my_network'] = $myNetwork;
+        }
+
+        if ($subaccounts !== null) {
+            $params['subaccounts'] = $subaccounts;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($expandUser !== null) {
+            $params['expand_user'] = $expandUser;
+        }
+
+        return $this->make('link/encoders_by_count', $params);
     }
 
     /**
      * Returns the number of users who have shortened (encoded) a single bitly link.
-     * 
+     *
      * @param string $link
      * @return type
      */
     public function linkEncodersCount($link)
     {
-        $this->setPostData('link', $link);
-        return $this->get('link/encoders_count');
+        return $this->make('link/encoders_count', array(
+                    'link' => $link,
+        ));
     }
 
     /**
      * Returns metadata about a single bitly link.
-     * 
+     *
      * @param string $link
      * @return type
      */
     public function linkInfo($link)
     {
-        $this->setPostData('link', $link);
-        return $this->get('link/info');
+        return $this->make('link/info', array(
+                    'link' => $link,
+        ));
     }
 
     /**
      * Returns the significant languages for the bitly link. Note that languages are highly dependent upon activity (clicks) occurring on the bitly link. If there have not been clicks on a bitly link within the last 24 hours, it is possible that language data for that link does not exist.
-     * 
+     *
      * @param string $link
      * @return type
      */
     public function linkLanguage($link)
     {
-        $this->setPostData('link', $link);
-        return $this->get('link/language');
+        return $this->make('link/language', array(
+                    'link' => $link,
+        ));
     }
 
     /**
      * Returns the significant locations for the bitly link or None if locations do not exist. Note that locations are highly dependent upon activity (clicks) occurring on the bitly link. If there have not been clicks on a bitly link within the last 24 hours, it is possible that location data for that link does not exist.
-     * 
+     *
      * @param string $link
      * @return type
      */
     public function linkLocation($link)
     {
-        $this->setPostData('link', $link);
-        return $this->get('link/location');
+        return $this->make('link/location', array(
+                    'link' => $link,
+        ));
     }
 
     /**
      * This is used to query for a bitly link based on a long URL.
-     * 
+     *
      * @param string $url
      * @return type
      */
     public function linkLookup($url)
     {
-        $this->setPostData('url', $url);
-        return $this->get('link/lookup');
+        return $this->make('link/lookup', array(
+                    'url' => $url,
+        ));
     }
 
     /**
-     * 
+     *
      * Returns metrics about the pages referring click traffic to a single bitly link.
-     * 
+     *
      * @param string $link
      * @param string $unit
      * @param integer $units
@@ -573,18 +630,19 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function linkReferrers($link, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('link', $link);
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('link/referrers');
+        return $this->make('link/referrers', array(
+                    'link' => $link,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns metrics about the pages referring click traffic to a single bitly link, grouped by referring domain.
-     * 
+     *
      * @param string $link
      * @param string $unit
      * @param integer $units
@@ -595,18 +653,19 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function linkReferrersByDomain($link, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('link', $link);
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('link/referrers_by_domain');
+        return $this->make('link/referrers_by_domain', array(
+                    'link' => $link,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns metrics about the domains referring click traffic to a single bitly link.
-     * 
+     *
      * @param string $link
      * @param string $unit
      * @param integer $units
@@ -617,18 +676,19 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function linkReferringDomains($link, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('link', $link);
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('link/referring_domains');
+        return $this->make('link/referring_domains', array(
+                    'link' => $link,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns metrics about a shares of a single link.
-     * 
+     *
      * @param string $link
      * @param string $unit
      * @param integer $units
@@ -640,44 +700,47 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function linkShares($link, $unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('link', $link);
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('rollup', $rollup);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('link/shares');
+        return $this->make('link/shares', array(
+                    'link' => $link,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns the "social score" for a specified bitly link. Note that the social score are highly dependent upon activity (clicks) occurring on the bitly link. If there have not been clicks on a bitly link within the last 24 hours, it is possible a social score for that link does not exist.
-     * 
+     *
      * @param string $link
      * @return type
      */
     public function linkSocial($link)
     {
-        $this->setPostData('link', $link);
-        return $this->get('link/social');
+        return $this->make('link/social', array(
+                    'link' => $link,
+        ));
     }
 
     /**
      * Return information about an OAuth app.
-     * 
+     *
      * @param string $clientId
      * @return type
      */
     public function oAuthApp($clientId)
     {
-        $this->setPostData('client_id', $clientId);
-        return $this->get('oauth/app');
+        return $this->make('oauth/app', array(
+                    'client_id' => $clientId,
+        ));
     }
 
     /**
      * Returns the top links shared by you, but not by your audience, ordered by clicks.
      * This endpoint is only available to paid customers.
-     * 
+     *
      * @param string $domain
      * @param string $unit
      * @param integer $units
@@ -688,19 +751,20 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function organizationBrandMessages($domain = null, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('domain', $domain);
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('organization/brand_messages');
+        return $this->make('organization/brand_messages', array(
+                    'domain' => $domain,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns the top links shared by both your audience and by your account, ordered by clicks.
      * This endpoint is only available to paid customers.
-     * 
+     *
      * @param string $domain
      * @param string $unit
      * @param integer $units
@@ -711,19 +775,20 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function organizationIntersectingLinks($domain = null, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('domain', $domain);
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('organization/interesecting_links');
+        return $this->make('organization/interesecting_links', array(
+                    'domain' => $domain,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns the top-performing organization members ordered by clicks or shortens.
      * This endpoint is only available to paid customers.
-     * 
+     *
      * @param string $domain
      * @param string $orderBy
      * @param string $unit
@@ -735,20 +800,21 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function organizationLeaderboard($domain = null, $orderBy = null, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('domain', $domain);
-        $this->setPostData('order_by', $orderBy);
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('organization/leaderboard');
+        return $this->make('organization/leaderboard', array(
+                    'domain' => $domain,
+                    'order_by' => $orderBy,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns the top links shared by your audience, but not by you, ordered by clicks.
      * This endpoint is only available to paid customers.
-     * 
+     *
      * @param string $domain
      * @param string $unit
      * @param integer $units
@@ -759,50 +825,52 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function organizationMissedOpportunities($domain = null, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('domain', $domain);
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('organization/missed_opportunities');
+        return $this->make('organization/missed_opportunities', array(
+                    'domain' => $domain,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns phrases that are receiving an uncharacteristically high volume of click traffic, and the individual links (hashes) driving traffic to pages containing these phrases.
-     * 
+     *
      * @return type
      */
     public function realtimeBurstingPhrases()
     {
-        return $this->get('realtime/bursting_phrases');
+        return $this->make('realtime/bursting_phrases');
     }
 
     /**
      * Returns the click rate for content containing a specified phrase.
-     * 
+     *
      * @param string $phrase
      * @return type
      */
     public function realtimeClickrate($phrase)
     {
-        $this->setPostData('phrase', $phrase);
-        return $this->get('realtime/clickrate');
+        return $this->make('realtime/clickrate', array(
+                    'phrase' => $phrase,
+        ));
     }
 
     /**
      * Returns phrases that are receiving a consistently high volume of click traffic, and the individual links (hashes) driving traffic to pages containing these phrases.
-     * 
+     *
      * @return type
      */
     public function realtimeHotPhrases()
     {
-        return $this->get('realtime/hot_phrases');
+        return $this->make('realtime/hot_phrases');
     }
 
     /**
      * Search links receiving clicks across bitly by content, language, location, and more.
-     * 
+     *
      * @param string $query
      * @param string $fields
      * @param integer $offset
@@ -815,34 +883,39 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function search($query, $domain, $fields = null, $offset = null, $limit = null, $fullDomain = null, $cities = null, $lang = null)
     {
-        $this->setPostData('query', $query);
-        $this->setPostData('fields', $fields);
-        $this->setPostData('offset', $offset);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('domain', $domain);
-        $this->setPostData('full_domain', $fullDomain);
-        $this->setPostData('cities', $cities);
-        $this->setPostData('lang', $lang);
-        return $this->get('search');
+        return $this->make('search', array(
+                    'query' => $query,
+                    'fields' => $fields,
+                    'offset' => $offset,
+                    'limit' => $limit,
+                    'domain' => $domain,
+                    'full_domain' => $fullDomain,
+                    'cities' => $cities,
+                    'lang' => $lang,
+        ));
     }
 
     /**
      * Given a long URL, returns a bitly short URL.
-     * 
+     *
      * @param string $longURL
      * @param type $domain
      * @return type
      */
     public function shorten($longURL, $domain = null)
     {
-        $this->setPostData('longUrl', $longURL);
-        $this->setPostData('domain', $domain);
-        return $this->get('shorten');
+        $params = array('longUrl' => $longURL);
+
+        if ($domain !== null) {
+            $params['domain'] = $domain;
+        }
+
+        return $this->make('shorten', $params);
     }
 
     /**
      * Returns the aggregate number of clicks on all of the authenticated user's bitly links.
-     * 
+     *
      * @param string $unit
      * @param integer $units
      * @param string $timezone
@@ -853,18 +926,19 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function userClicks($unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('rollup', $rollup);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('user/clicks');
+        return $this->make('user/clicks', array(
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns aggregate metrics about the countries referring click traffic to all of the authenticated user's bitly links.
-     * 
+     *
      * @param string $unit
      * @param integer $units
      * @param string $timezone
@@ -875,32 +949,41 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function userCountries($unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('rollup', $rollup);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('user/countries');
+        return $this->make('user/countries', array(
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Return or update information about a user.
-     * 
+     *
      * @param string $login
      * @param string $fullName
      * @return type
      */
     public function userInfo($login = null, $fullName = null)
     {
-        $this->setPostData('login', $login);
-        $this->setPostData('full_name', $fullName);
-        return $this->get('user/info');
+        $params = array();
+
+        if ($login !== null) {
+            $params['login'] = $login;
+        }
+
+        if ($fullName !== null) {
+            $params['full_name'] = $fullName;
+        }
+
+        return $this->make('user/info', $params);
     }
 
     /**
      * Changes link metadata in a user's history.
-     * 
+     *
      * @param string $link
      * @param string $edit
      * @param string $title
@@ -912,20 +995,38 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function userLinkEdit($link, $edit, $title = null, $note = null, $private = null, $userTimeStamp = null, $archived = null)
     {
-        $this->setPostData('link', $link);
-        $this->setPostData('edit', $edit);
-        $this->setPostData('title', $title);
-        $this->setPostData('note', $note);
-        $this->setPostData('private', $private);
-        $this->setPostData('user_ts', $userTimeStamp);
-        $this->setPostData('archived', $archived);
-        return $this->get('user/link_edit');
+        $params = array(
+            'link' => $link,
+            'edit' => $edit,
+        );
+
+        if ($title !== null) {
+            $params['title'] = $title;
+        }
+
+        if ($note !== null) {
+            $params['note'] = $note;
+        }
+
+        if ($private !== null) {
+            $params['private'] = $private;
+        }
+
+        if ($userTimeStamp !== null) {
+            $params['user_ts'] = $userTimeStamp;
+        }
+
+        if ($archived !== null) {
+            $params['archived'] = $archived;
+        }
+
+        return $this->make('user/link_edit', $params);
     }
 
     /**
      * Returns entries from a user's link history in reverse chronological order.
      * Note: Entries will be sorted by the user_ts field found in the response data.
-     * 
+     *
      * @param string $link
      * @param string $query
      * @param integer $offset
@@ -943,38 +1044,83 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function userLinkHistory($link = null, $query = null, $offset = null, $limit = null, $createdBefore = null, $createdAfter = null, $modifiedAfter = null, $expandClientId = null, $archived = null, $private = null, $user = null, $exactDomain = null, $rootDomain = null)
     {
-        $this->setPostData('link', $link);
-        $this->setPostData('query', $query);
-        $this->setPostData('offset', $offset);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('created_before', $createdBefore);
-        $this->setPostData('created_after', $createdAfter);
-        $this->setPostData('modified_after', $modifiedAfter);
-        $this->setPostData('expand_client_id', $expandClientId);
-        $this->setPostData('archived', $archived);
-        $this->setPostData('private', $private);
-        $this->setPostData('offset', $offset);
-        $this->setPostData('user', $user);
-        $this->setPostData('exact_domain', $exactDomain);
-        $this->setPostData('root_domain', $rootDomain);
-        return $this->get('user/link_history');
+        $params = array();
+
+        if ($link !== null) {
+            $params['link'] = $link;
+        }
+
+        if ($query !== null) {
+            $params['query'] = $query;
+        }
+
+        if ($offset !== null) {
+            $params['offset'] = $offset;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($createdBefore !== null) {
+            $params['created_before'] = $createdBefore;
+        }
+
+        if ($createdAfter !== null) {
+            $params['created_after'] = $createdAfter;
+        }
+
+        if ($modifiedAfter !== null) {
+            $params['modified_after'] = $modifiedAfter;
+        }
+
+        if ($expandClientId !== null) {
+            $params['expand_client_id'] = $expandClientId;
+        }
+
+        if ($archived !== null) {
+            $params['archived'] = $archived;
+        }
+
+        if ($private !== null) {
+            $params['private'] = $private;
+        }
+
+        if ($offset !== null) {
+            $params['offset'] = $offset;
+        }
+
+        if ($user !== null) {
+            $params['user'] = $user;
+        }
+
+        if ($exactDomain !== null) {
+            $params['exact_domain'] = $exactDomain;
+        }
+
+        if ($rootDomain !== null) {
+            $params['root_domain'] = $rootDomain;
+        }
+
+        return $this->make('user/link_history', $params);
     }
 
     /**
      * This is used to query for a bitly link shortened by the authenticated user based on a long URL.
-     * 
+     *
      * @param string $url
      * @return type
      */
     public function userLinkLookup($url)
     {
-        $this->setPostData('url', $url);
-        return $this->get('user/link_lookup');
+        return $this->make('user/link_lookup', array(
+                    'url' => $url,
+        ));
     }
 
     /**
      * Saves a link as a bitmark in a user's history, with optional pre-set metadata. (Also returns a short URL for that link.)
-     * 
+     *
      * @param string $longURL
      * @param string $title
      * @param string $note
@@ -984,17 +1130,30 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function userLinkSave($longURL, $title = null, $note = null, $private = null, $userTimeStamp = null)
     {
-        $this->setPostData('longUrl', $longURL);
-        $this->setPostData('title', $title);
-        $this->setPostData('note', $note);
-        $this->setPostData('private', $private);
-        $this->setPostData('user_ts', $userTimeStamp);
-        return $this->get('user/link_save');
+        $params = array('longUrl' => $longURL);
+
+        if ($title !== null) {
+            $params['title'] = $title;
+        }
+
+        if ($note !== null) {
+            $params['note'] = $note;
+        }
+
+        if ($private !== null) {
+            $params['private'] = $private;
+        }
+
+        if ($userTimeStamp !== null) {
+            $params['user_ts'] = $userTimeStamp;
+        }
+
+        return $this->make('user/link_save', $params);
     }
 
     /**
      * Returns entries from a user's network history in reverse chronogical order. (A user's network history includes publicly saved links from Twitter and Facebook connections.)
-     * 
+     *
      * @param integer $offset
      * @param boolean $expandClientId
      * @param integer $limit
@@ -1003,18 +1162,32 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function userNetworkHistory($offset = null, $expandClientId = null, $limit = null, $expandUser = null)
     {
-        $this->setPostData('offset', $offset);
-        $this->setPostData('expand_client_id', $expandClientId);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('expand_user', $expandUser);
-        return $this->get('user/newtork_history');
+        $params = array();
+
+        if ($offset !== null) {
+            $params['offset'] = $offset;
+        }
+
+        if ($expandClientId !== null) {
+            $params['expand_client_id'] = $expandClientId;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($expandUser !== null) {
+            $params['expand_user'] = $expandUser;
+        }
+
+        return $this->make('user/newtork_history', $params);
     }
 
     /**
      * Returns the top links to your tracking domain (or domains) created by users not associated with your account, ordered by clicks.
      * Users can register a tracking domain from their bitly settings page.
      * This endpoint is only available to paid customers.
-     * 
+     *
      * @param string $domain
      * @param string $unit
      * @param integer $units
@@ -1025,20 +1198,21 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function userPopularEarnedByClicks($domain = null, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('domain', $domain);
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('user/popular_earned_by_clicks');
+        return $this->make('user/popular_earned_by_clicks', array(
+                    'domain' => $domain,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns the top links to your tracking domain (or domains) created by users not associated with your account, ordered by shortens.
      * Users can register a tracking domain from their bitly settings page.
      * This endpoint is only available to paid customers.
-     * 
+     *
      * @param string $domain
      * @param string $unit
      * @param integer $units
@@ -1049,19 +1223,20 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function userPopularEarnedByShortens($domain = null, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('domain', $domain);
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('user/popular_earned_by_shortens');
+        return $this->make('user/popular_earned_by_shortens', array(
+                    'domain' => $domain,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns the authenticated user's most-clicked bitly links (ordered by number of clicks) in a given time period.
      * Note: This replaces the realtime_links endpoint.
-     * 
+     *
      * @param string $unit
      * @param integer $units
      * @param string $timezone
@@ -1071,19 +1246,20 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function userPopularLinks($unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('user/popular_links');
+        return $this->make('user/popular_links', array(
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns the top links to your tracking domain (or domains) created by you or your subaccounts ordered by clicks.
      * Users can register a tracking domain from their bitly settings page.
      * This endpoint is only available to paid customers.
-     * 
+     *
      * @param string $domain
      * @param string $subaccount
      * @param string $unit
@@ -1095,21 +1271,22 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function userPopularOwnedByClicks($domain = null, $subaccount = null, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('domain', $domain);
-        $this->setPostData('subaccount', $subaccount);
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('user/popular_owned_by_clicks');
+        return $this->make('user/popular_owned_by_clicks', array(
+                    'domain' => $domain,
+                    'subaccount' => $subaccount,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns the top links to your tracking domain (or domains) created by you or your subaccounts ordered by number of shortens.
      * Users can register a tracking domain from their bitly settings page.
      * This endpoint is only available to paid customers.
-     * 
+     *
      * @param string $domain
      * @param string $subaccount
      * @param string $unit
@@ -1121,19 +1298,20 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function userPopularOwnedByShortens($domain = null, $subaccount = null, $unit = null, $units = null, $timezone = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('domain', $domain);
-        $this->setPostData('subaccount', $subaccount);
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('user/popular_owned_by_shortens');
+        return $this->make('user/popular_owned_by_shortens', array(
+                    'domain' => $domain,
+                    'subaccount' => $subaccount,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns aggregate metrics about the pages referring click traffic to all of the authenticated user's bitly links.
-     * 
+     *
      * @param string $unit
      * @param integer $units
      * @param string $timezone
@@ -1144,18 +1322,19 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function userReferrers($unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('rollup', $rollup);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('user/referrers');
+        return $this->make('user/referrers', array(
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns aggregate metrics about the domains referring click traffic to all of the authenticated user's bitly links.
-     * 
+     *
      * @param string $unit
      * @param integer $units
      * @param string $timezone
@@ -1166,32 +1345,34 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function userReferringDomains($unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('rollup', $rollup);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('user/referring_domains');
+        return $this->make('user/referring_domains', array(
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Save a custom keyword for a custom short domain.
-     * 
+     *
      * @param string $keywordLink
      * @param string $targetLink
      * @return type
      */
     public function userSaveCustomDomainKeyword($keywordLink, $targetLink)
     {
-        $this->setPostData('keyword_link', $keywordLink);
-        $this->setPostData('target_link', $targetLink);
-        return $this->get('user/save_custom_domain_keyword');
+        return $this->make('user/save_custom_domain_keyword', array(
+                    'keyword_link' => $keywordLink,
+                    'target_link' => $targetLink,
+        ));
     }
 
     /**
      * Returns the number of shares by the authenticated user in a given time period.
-     * 
+     *
      * @param string $unit
      * @param integer $units
      * @param string $timezone
@@ -1202,18 +1383,19 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function userShareCounts($unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('rollup', $rollup);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('user/share_counts');
+        return $this->make('user/share_counts', array(
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns the number of shares by the authenticated user, broken down by share type (ie: twitter, facebook, email) in a given time period.
-     * 
+     *
      * @param string $unit
      * @param integer $units
      * @param string $timezone
@@ -1224,18 +1406,19 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function userShareCountsByShareType($unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('rollup', $rollup);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('user/share_counts_by_share_type');
+        return $this->make('user/share_counts_by_share_type', array(
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns the number of links shortened (encoded) in a given time period by the authenticated user.
-     * 
+     *
      * @param string $unit
      * @param integer $units
      * @param string $timezone
@@ -1246,23 +1429,24 @@ class Bitly4laravel extends CallbackEngine implements CallbackInterface
      */
     public function userShortenCounts($unit = null, $units = null, $timezone = null, $rollup = null, $limit = null, $unitReferenceTimeStamp = null)
     {
-        $this->setPostData('unit', $unit);
-        $this->setPostData('units', $units);
-        $this->setPostData('timezone', $timezone);
-        $this->setPostData('rollup', $rollup);
-        $this->setPostData('limit', $limit);
-        $this->setPostData('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->get('user/shorten_counts');
+        return $this->make('user/shorten_counts', array(
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
      * Returns a list of tracking domains a user has configured.
-     * 
+     *
      * @return type
      */
     public function userTrackingDomainList()
     {
-        return $this->get('user/tracking_domain_list');
+        return $this->make('user/tracking_domain_list');
     }
 
     /**

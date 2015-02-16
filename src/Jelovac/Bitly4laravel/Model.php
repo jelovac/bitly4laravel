@@ -1,230 +1,408 @@
 <?php namespace Jelovac\Bitly4laravel;
 
-class Model
-{
+use \OutOfRangeException,
+    \InvalidArgumentException;
+use Jelovac\Bitly4laravel\Exceptions\Type\NonStringTypeException,
+    Jelovac\Bitly4laravel\Exceptions\Type\NonBooleanTypeException,
+    Jelovac\Bitly4laravel\Exceptions\Type\NonIntegerTypeException;
+
+class Model {
 
     /**
-     * Bitly generic access token
-     * @var string 
+     * Bit.ly API URL
      */
-    private $accessToken = null;
+    const API_URL = "https://api-ssl.bitly.com";
 
     /**
-     * Enable cache
-     * @var boolean 
+     * Bit.ly API version
      */
-    private $useCache = false;
+    const API_VERSION = "v3";
 
     /**
-     * Cache key
-     * @var string 
+     * Bitly Generic OAuth access token
+     *
+     * @var string
      */
-    private static $cacheKey = "Laravel.Bitly.";
+    protected $accessToken = null;
+
+    /**
+     * Enable caching
+     * @var bool
+     */
+    protected $cacheEnabled = false;
 
     /**
      * Cache duration in minutes
-     * @var integer 
+     *
+     * @var int
      */
-    private $cacheDuration = 3600;
+    protected $cacheDuration = 3600;
 
     /**
-     * Default format, values can be json, xml, array
-     * @var string 
-     */
-    private $format = 'json';
-
-    /**
-     * If true convert from format to object or array depending on the format
-     * object, array, string
-     * @var string 
-     */
-    private $variableOutput = "array";
-
-    /**
-     * Default callback call type
+     * Cache key prefix
+     *
      * @var string
      */
-    private $callType = "shorten";
+    protected $cacheKeyPrefix = "Laravel.Bitly.";
 
     /**
+     * GuzzleHttp Client configuration
      *
-     * @var type 
+     * @var array
      */
-    private $cache = null;
+    protected $clientConfig = array();
 
     /**
-     * If true send post request
-     * @var boolean 
+     * Response format. Can be either json or xml
+     *
+     * @var string
      */
-    private $postRequest = false;
+    protected $responseFormat = "json";
 
     /**
-     * Storing the connection response into multidimensional array
-     * [response]
-     *      [headers]
-     *      [content]
-     * [error]
-     *      [number]
-     *      [message]
-     * @var array 
+     * GuzzleHttp client request options
+     *
+     * @var array
      */
-    public $response = null;
+    protected $requestOptions = array();
 
     /**
-     * Storing response data
-     * @var mixed 
+     * Request params
+     *
+     * @var array
      */
-    private $responseData = null;
+    protected $requestParams = array();
 
     /**
-     * Storing cURL connection options
-     * @var array 
+     * Request type, can be either get or post
+     *
+     * @var string
      */
-    public $connectionOptions = array();
+    protected $requestType = "get";
 
-    function __construct(array $config)
+    /**
+     * Constructor
+     *
+     * @param array $config
+     */
+    public function __construct(array $config = array())
     {
-
-        $this->accessToken = isset($config['access_token']) ? $config['access_token'] : $this->accessToken;
-        $this->useCache = isset($config['use_cache']) ? $config['use_cache'] : $this->useCache;
-        self::$cacheKey = isset($config['cache_key']) ? $config['cache_key'] : self::$cacheKey;
-        $this->cacheDuration = isset($config['cache_duration']) ? $config['cache_duration'] : $this->cacheDuration;
-        $this->format = isset($config['format']) ? $config['format'] : $this->format;
-        $this->callType = isset($config['call_type']) ? $config['call_type'] : $this->callType;
-        $this->variableOutput = isset($config['variable_output']) ? $config['variable_output'] : $this->variableOutput;
-        $this->connectionOptions = isset($config['connection_options']) ? $config['connection_options'] : $this->connectionOptions;
+        if (!empty($config)) {
+            $this->setConfig($config);
+        }
     }
 
+    /**
+     * Set configuration
+     *
+     * @param array $config
+     * @return \Jelovac\Bitly4laravel\Model
+     * @throws InvalidArgumentException
+     */
+    public function setConfig(array $config)
+    {
+        foreach ($config as $key => $value) {
+            if (is_string($key)) {
+                $key = "set_" . $key;
+                $name = $this->snakeCaseToCamelCase($key);
+                $this->callSetter($name, $value);
+            } else {
+                throw new InvalidArgumentException("Invalid config key set!");
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Call the setter method
+     *
+     * @param type $name
+     * @param type $value
+     * @throws InvalidArgumentException
+     */
+    protected function callSetter($name, $value)
+    {
+        if (method_exists(__CLASS__, $name)) {
+            $this->{$name}($value);
+        } else {
+            throw new InvalidArgumentException("Invalid config key set!");
+        }
+    }
+
+    /**
+     * Converts snake_case to camelCase
+     *
+     * @param type $value
+     * @return string
+     * @throws NonStringTypeException
+     */
+    protected function snakeCaseToCamelCase($value)
+    {
+        if (is_string($value)) {
+            $value = str_replace(' ', '', ucwords(str_replace('_', ' ', $value)));
+            $value = strtolower(substr($value, 0, 1)) . substr($value, 1);
+            return $value;
+        } else {
+            throw new NonStringTypeException($value);
+        }
+    }
+
+    /**
+     * Get Bitly OAuth Generic Access Token
+     *
+     * @return string
+     */
     public function getAccessToken()
     {
         return $this->accessToken;
     }
 
-    public function getUseCache()
+    /**
+     * Set Bitly OAuth Generic Access Token
+     *
+     * @param type $accessToken
+     * @return \Jelovac\Bitly4laravel\Model
+     * @throws NonStringTypeException
+     */
+    public function setAccessToken($accessToken)
     {
-        return $this->useCache;
+        if (is_string($accessToken)) {
+            $this->accessToken = $accessToken;
+            return $this;
+        } else {
+            throw new NonStringTypeException($accessToken);
+        }
     }
 
-    public static function getCacheKey()
+    /**
+     * Get cache enabled
+     *
+     * @return bool
+     */
+    public function getCacheEnabled()
     {
-        return self::$cacheKey;
+        return $this->cacheEnabled;
     }
 
+    /**
+     * Set cache enabled
+     *
+     * @param bool $cacheEnabled
+     * @return \Jelovac\Bitly4laravel\Model
+     * @throws NonBooleanTypeException
+     */
+    public function setCacheEnabled($cacheEnabled)
+    {
+        if (is_bool($cacheEnabled)) {
+            $this->cacheEnabled = $cacheEnabled;
+            return $this;
+        } else {
+            throw new NonBooleanTypeException($cacheEnabled);
+        }
+    }
+
+    /**
+     * Get cache duration in minutes
+     *
+     * @return int
+     */
     public function getCacheDuration()
     {
         return $this->cacheDuration;
     }
 
-    public function getFormat()
-    {
-        return $this->format;
-    }
-
-    public function getVariableOutput()
-    {
-        return $this->variableOutput;
-    }
-
-    public function getCallType()
-    {
-        return $this->callType;
-    }
-
-    public function getCache()
-    {
-        return $this->cache;
-    }
-
-    public function getPostRequest()
-    {
-        return $this->postRequest;
-    }
-
-    public function getResponse()
-    {
-        return $this->response;
-    }
-
-    public function getResponseData()
-    {
-        return $this->responseData;
-    }
-
-    public function getConnectionOptions()
-    {
-        return $this->connectionOptions;
-    }
-
-    public function setAccessToken($accessToken)
-    {
-        $this->accessToken = $accessToken;
-        return $this;
-    }
-
-    public function setUseCache($useCache)
-    {
-        $this->useCache = $useCache;
-        return $this;
-    }
-
-    public static function setCacheKey($cacheKey)
-    {
-        self::$cacheKey = $cacheKey;
-        return self;
-    }
-
+    /**
+     * Set cache duration in minutes
+     *
+     * @param type $cacheDuration
+     * @return \Jelovac\Bitly4laravel\Model
+     * @throws NonIntegerTypeException
+     */
     public function setCacheDuration($cacheDuration)
     {
-        $this->cacheDuration = $cacheDuration;
+        if (is_int($cacheDuration)) {
+            $this->cacheDuration = $cacheDuration;
+            return $this;
+        } else {
+            throw new NonIntegerTypeException($cacheDuration);
+        }
+    }
+
+    /**
+     * Get cache key prefix
+     *
+     * @return string
+     */
+    public function getCacheKeyPrefix()
+    {
+        return $this->cacheKeyPrefix;
+    }
+
+    /**
+     * Set cache key prefix
+     *
+     * @param type $cacheKeyPrefix
+     * @return \Jelovac\Bitly4laravel\Model
+     * @throws NonStringTypeException
+     */
+    public function setCacheKeyPrefix($cacheKeyPrefix)
+    {
+        if (is_string($cacheKeyPrefix)) {
+            $this->cacheKeyPrefix = $cacheKeyPrefix;
+            return $this;
+        } else {
+            throw new NonStringTypeException($cacheKeyPrefix);
+        }
+    }
+
+    /**
+     * Get GuzzleHttp Client configuration
+     *
+     * @return array
+     */
+    public function getClientConfig()
+    {
+        return $this->clientConfig;
+    }
+
+    /**
+     * Set GuzzleHttp Client configuration
+     *
+     * @param array $clientConfig
+     * @return \Jelovac\Bitly4laravel\Model
+     */
+    public function setClientConfig(array $clientConfig)
+    {
+        $this->clientConfig = $clientConfig;
         return $this;
     }
 
-    public function setFormat($format)
+    /**
+     * Get Bitly API response format
+     *
+     * @return string
+     */
+    public function getResponseFormat()
     {
-        $this->format = $format;
+        return $this->responseFormat;
+    }
+
+    /**
+     * Set Bitly API response format
+     *
+     * @param string $responseFormat
+     * @return \Jelovac\Bitly4laravel\Model
+     * @throws NonStringTypeException
+     */
+    public function setResponseFormat($responseFormat)
+    {
+        if (is_string($responseFormat)) {
+            $this->responseFormat = $responseFormat;
+            return $this;
+        } else {
+            throw new NonStringTypeException($responseFormat);
+        }
+    }
+
+    /**
+     * Get GuzzleHttp Client request options
+     *
+     * @return array
+     */
+    public function getRequestOptions()
+    {
+        return $this->requestOptions;
+    }
+
+    /**
+     * Set GuzzleHttp Client request options
+     *
+     * @param array $requestOptions
+     * @return \Jelovac\Bitly4laravel\Model
+     */
+    public function setRequestOptions(array $requestOptions)
+    {
+        $this->requestOptions = $requestOptions;
         return $this;
     }
 
-    public function setVariableOutput($variableOutput)
+    /**
+     * Get request param
+     *
+     * @param mixed $key
+     * @return mixed
+     * @throws OutOfRangeException
+     */
+    public function getRequestParam($key)
     {
-        $this->variableOutput = $variableOutput;
+        if (array_key_exists($key, $this->requestParams)) {
+            return $this->requestParams[$key];
+        } else {
+            throw new OutOfRangeException("Provided array key is out of range.");
+        }
+    }
+
+    /**
+     * Set request param
+     *
+     * @param type $key
+     * @param type $value
+     * @return \Jelovac\Bitly4laravel\Model
+     */
+    public function setRequestParam($key, $value)
+    {
+        $this->requestParams[$key] = $value;
         return $this;
     }
 
-    public function setCallType($callType)
+    /**
+     * Get request params
+     *
+     * @return array
+     */
+    public function getRequestParams()
     {
-        $this->callType = $callType;
+        return $this->requestParams;
+    }
+
+    /**
+     * Set request params
+     *
+     * @param array $requestParams
+     * @return \Jelovac\Bitly4laravel\Model
+     */
+    public function setRequestParams(array $requestParams)
+    {
+        $this->requestParams = $requestParams;
         return $this;
     }
 
-    public function setCache(type $cache)
+    /**
+     * Get GuzzleHttp Client request type
+     *
+     * @return string
+     */
+    public function getRequestType()
     {
-        $this->cache = $cache;
-        return $this;
+        return $this->requestType;
     }
 
-    public function setPostRequest($postRequest)
+    /**
+     * Set GuzzleHttp Client request type
+     *
+     * @param string $requestType
+     * @return \Jelovac\Bitly4laravel\Model
+     * @throws NonStringTypeException
+     */
+    public function setRequestType($requestType)
     {
-        $this->postRequest = $postRequest;
-        return $this;
-    }
-
-    public function setResponse($response)
-    {
-        $this->response = $response;
-        return $this;
-    }
-
-    public function setResponseData($responseData)
-    {
-        $this->responseData = $responseData;
-        return $this;
-    }
-
-    public function setConnectionOptions($connectionOptions)
-    {
-        $this->connectionOptions = $connectionOptions;
-        return $this;
+        if (is_string($requestType)) {
+            $this->requestType = $requestType;
+            return $this;
+        } else {
+            throw new NonStringTypeException($requestType);
+        }
     }
 
 }
