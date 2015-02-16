@@ -11,7 +11,7 @@ class Laravel5ServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        $configPath = __DIR__ . '/../../config/bitly4laravel.php';
+        $configPath = __DIR__ . '/../../../config/bitly4laravel.php';
 
         $paths = array(
             $configPath => $this->config_path("bitly4laravel.php"),
@@ -27,7 +27,7 @@ class Laravel5ServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $configPath = __DIR__ . '/../../config/bitly4laravel.php';
+        $configPath = __DIR__ . '/../../../config/bitly4laravel.php';
 
         $this->mergeConfigFrom($configPath, 'bitly4laravel');
 
