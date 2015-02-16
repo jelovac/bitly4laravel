@@ -33,7 +33,8 @@ class Laravel5ServiceProvider extends ServiceProvider {
         $this->mergeConfigFrom($configPath, 'bitly4laravel');
 
         $this->app['bitly4laravel'] = $this->app->share(function($app) {
-            return new Bitly4laravel($app['config']);
+            $config = $app['config']->get('bitly4laravel');
+            return new Bitly4laravel($config);
         });
     }
 
