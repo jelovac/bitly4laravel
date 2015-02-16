@@ -6,14 +6,13 @@ use GuzzleHttp\Client;
 class API extends Model {
 
     /**
-     * Make the call ang get the response from Bitly API
+     * Make the call and get the response from Bitly API
      *
      * @param string $action
      * @param array $params
      */
     public function make($action, array $params = array())
     {
-
         $this->requestParams['access_token'] = $this->accessToken;
         $this->requestParams['format'] = $this->responseFormat;
 

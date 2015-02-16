@@ -10,8 +10,9 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundleArchive($budleLink)
     {
-        $this->setRequestParam('bundle_link', $budleLink);
-        return $this->make('bundle/archive');
+        return $this->make('bundle/archive', array(
+                    'bundle_link' => $budleLink
+        ));
     }
 
     /**
@@ -23,9 +24,13 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundleBundlesByUser($user, $expandUser = null)
     {
-        $this->setRequestParam('user', $user);
-        $this->setRequestParam('expand_user', $expandUser);
-        return $this->make('bundle/bundles_by_user');
+        $params = array('user' => $user);
+
+        if ($expandUser !== null) {
+            $params['expand_user'] = $expandUser;
+        }
+
+        return $this->make('bundle/bundles_by_user', $params);
     }
 
     /**
@@ -36,8 +41,7 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundleClone($budleLink)
     {
-        $this->setRequestParam('bundle_link', $budleLink);
-        return $this->make('bundle/clone');
+        return $this->make('bundle/clone', array('bundle_link', $budleLink));
     }
 
     /**
@@ -49,9 +53,10 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundleCollaboratorAdd($budleLink, $collaborator)
     {
-        $this->setRequestParam('bundle_link', $budleLink);
-        $this->setRequestParam('collaborator', $collaborator);
-        return $this->make('bundle/collaborator_add');
+        return $this->make('bundle/collaborator_add', array(
+                    'bundle_link' => $budleLink,
+                    'collaborator' => $collaborator,
+        ));
     }
 
     /**
@@ -63,9 +68,10 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundleCollaboratorRemove($budleLink, $collaborator)
     {
-        $this->setRequestParam('bundle_link', $budleLink);
-        $this->setRequestParam('collaborator', $collaborator);
-        return $this->make('bundle/collaborator_remove');
+        return $this->make('bundle/collaborator_remove', array(
+                    'bundle_link' => $budleLink,
+                    'collaborator' => $collaborator
+        ));
     }
 
     /**
@@ -77,9 +83,13 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundleContents($bundleLink, $expandUser = null)
     {
-        $this->setRequestParam('bundle_link', $bundleLink);
-        $this->setRequestParam('expand_user', $expandUser);
-        return $this->make('bundle/contents');
+        $params = array('bundle_link' => $bundleLink);
+
+        if ($expandUser !== null) {
+            $params['expand_user'] = $expandUser;
+        }
+
+        return $this->make('bundle/contents', $params);
     }
 
     /**
@@ -92,10 +102,21 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundleCreate($private = null, $title = null, $description = null)
     {
-        $this->setRequestParam('private', $private);
-        $this->setRequestParam('title', $title);
-        $this->setRequestParam('description', $description);
-        return $this->make('bundle/create');
+        $params = array();
+
+        if ($private !== null) {
+            $params['private'] = $private;
+        }
+
+        if ($title !== null) {
+            $params['title'] = $title;
+        }
+
+        if ($description !== null) {
+            $params['description'] = $description;
+        }
+
+        return $this->make('bundle/create', $params);
     }
 
     /**
@@ -112,14 +133,33 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundleEdit($bundleLink, $edit = null, $title = null, $description = null, $private = null, $preview = null, $ogImage = null)
     {
-        $this->setRequestParam('bundle_link', $bundleLink);
-        $this->setRequestParam('edit', $edit);
-        $this->setRequestParam('title', $title);
-        $this->setRequestParam('description', $description);
-        $this->setRequestParam('private', $private);
-        $this->setRequestParam('preview', $preview);
-        $this->setRequestParam('og_image', $ogImage);
-        return $this->make('bundle/edit');
+        $params = array('bundle_link' => $bundleLink);
+
+        if ($edit !== null) {
+            $params['edit'] = $edit;
+        }
+
+        if ($title !== null) {
+            $params['title'] = $title;
+        }
+
+        if ($description !== null) {
+            $params['description'] = $description;
+        }
+
+        if ($private !== null) {
+            $params['private'] = $private;
+        }
+
+        if ($preview !== null) {
+            $params['preview'] = $preview;
+        }
+
+        if ($og_image !== null) {
+            $params['og_image'] = $og_image;
+        }
+
+        return $this->make('bundle/edit', $params);
     }
 
     /**
@@ -130,8 +170,13 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userBundleHistory($expandUser = null)
     {
-        $this->setRequestParam('expand_user', $expandUser);
-        return $this->make('user/bundle_history');
+        $params = array();
+
+        if ($expandUser !== null) {
+            $params['expand_user'] = $expandUser;
+        }
+
+        return $this->make('user/bundle_history', $params);
     }
 
     /**
@@ -144,10 +189,16 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundleLinkAdd($bundleLink, $link, $title = null)
     {
-        $this->setRequestParam('bundle_link', $bundleLink);
-        $this->setRequestParam('link', $link);
-        $this->setRequestParam('title', $title);
-        return $this->make('bundle/link_add');
+        $params = array(
+            'bundle_link' => $bundleLink,
+            'link' => $link,
+        );
+
+        if ($title !== null) {
+            $params['title'] = $title;
+        }
+
+        return $this->make('bundle/link_add', $params);
     }
 
     /**
@@ -160,10 +211,11 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundleLinkCommentAdd($bundleLink, $link, $comment)
     {
-        $this->setRequestParam('bundle_link', $bundleLink);
-        $this->setRequestParam('link', $link);
-        $this->setRequestParam('comment', $comment);
-        return $this->make('bundle/link_comment_add');
+        return $this->make('bundle/link_comment_add', array(
+                    'bundle_link' => $bundleLink,
+                    'link' => $link,
+                    'comment' => $comment,
+        ));
     }
 
     /**
@@ -177,11 +229,12 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundleLinkCommentEdit($bundleLink, $link, $commentId, $comment)
     {
-        $this->setRequestParam('bundle_link', $bundleLink);
-        $this->setRequestParam('link', $link);
-        $this->setRequestParam('comment_id', $commentId);
-        $this->setRequestParam('comment', $comment);
-        return $this->make('bundle/link_comment_edit');
+        return $this->make('bundle/link_comment_edit', array(
+                    'bundle_link' => $bundleLink,
+                    'link' => $link,
+                    'comment_id' => $commentId,
+                    'comment' => $comment,
+        ));
     }
 
     /**
@@ -194,10 +247,11 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundleLinkCommentRemove($bundleLink, $link, $commentId)
     {
-        $this->setRequestParam('bundle_link', $bundleLink);
-        $this->setRequestParam('link', $link);
-        $this->setRequestParam('comment_id', $commentId);
-        return $this->make('bundle/link_comment_remove');
+        return $this->make('bundle/link_comment_remove', array(
+                    'bundle_link' => $bundleLink,
+                    'link' => $link,
+                    'comment_id' => $commentId,
+        ));
     }
 
     /**
@@ -212,12 +266,21 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundleLinkEdit($bundleLink, $link, $edit, $title = null, $preview = null)
     {
-        $this->setRequestParam('bundle_link', $bundleLink);
-        $this->setRequestParam('link', $link);
-        $this->setRequestParam('edit', $edit);
-        $this->setRequestParam('title', $title);
-        $this->setRequestParam('preview', $preview);
-        return $this->make('bundle/link_edit');
+        $params = array(
+            'bundle_link' => $bundleLink,
+            'link' => $link,
+            'edit' => $edit,
+        );
+
+        if ($title !== null) {
+            $params['title'] = $title;
+        }
+
+        if ($preview !== null) {
+            $params['preview'] = $preview;
+        }
+
+        return $this->make('bundle/link_edit', $params);
     }
 
     /**
@@ -229,9 +292,10 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundleLinkRemove($bundleLink, $link)
     {
-        $this->setRequestParam('bundle_link', $bundleLink);
-        $this->setRequestParam('link', $link);
-        return $this->make('bundle/link_remove');
+        return $this->make('bundle/link_remove', array(
+                    'bundle_link' => $bundleLink,
+                    'link' => $link,
+        ));
     }
 
     /**
@@ -244,10 +308,11 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundleLinkReorder($bundleLink, $link, $displayOrder)
     {
-        $this->setRequestParam('bundle_link', $bundleLink);
-        $this->setRequestParam('link', $link);
-        $this->setRequestParam('display_order', $displayOrder);
-        return $this->make('bundle/link_reorder');
+        return $this->make('bundle/link_reorder', array(
+                    'bundle_link' => $bundleLink,
+                    'link' => $link,
+                    'display_order' => $displayOrder,
+        ));
     }
 
     /**
@@ -259,9 +324,10 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundlePendingCollaboratorRemove($bundleLink, $collaborator)
     {
-        $this->setRequestParam('bundle_link', $bundleLink);
-        $this->setRequestParam('collaborator', $collaborator);
-        return $this->make('bundle/pending_collaborator_remove');
+        return $this->make('bundle/pending_collaborator_remove', array(
+                    'bundle_link' => $bundleLink,
+                    'collaborator' => $collaborator,
+        ));
     }
 
     /**
@@ -273,9 +339,10 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundleReorder($bundleLink, $link)
     {
-        $this->setRequestParam('bundle_link', $bundleLink);
-        $this->setRequestParam('link', $link);
-        return $this->make('bundle/reorder');
+        return $this->make('bundle/reorder', array(
+                    'bundle_link' => $bundleLink,
+                    'link' => $link,
+        ));
     }
 
     /**
@@ -286,8 +353,9 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function bundleViewCount($bundleLink)
     {
-        $this->setRequestParam('bundle_link', $bundleLink);
-        return $this->make('bundle/view_count');
+        return $this->make('bundle/view_count', array(
+                    'bundle_link' => $bundleLink,
+        ));
     }
 
     /**
@@ -298,12 +366,15 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function expand($shortURLOrHash)
     {
+        $params = array();
+
         if (filter_var($shortURLOrHash, FILTER_VALIDATE_URL) === true) {
-            $this->setRequestParam('shortUrl', $shortURLOrHash);
+            $params['shortUrl'] = $shortURLOrHash;
         } else {
-            $this->setRequestParam('hash', $shortURLOrHash);
+            $params['hash'] = $shortURLOrHash;
         }
-        return $this->make('expand');
+
+        return $this->make('expand', $params);
     }
 
     /**
@@ -314,8 +385,9 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function highvalue($limit)
     {
-        $this->setRequestParam('limit', $limit);
-        return $this->make('highvalue');
+        return $this->make('highvalue', array(
+                    'limit' => $limit,
+        ));
     }
 
     /**
@@ -328,10 +400,11 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function info($hash, $shortURL, $expandUser)
     {
-        $this->setRequestParam('shortUrl', $shortURL);
-        $this->setRequestParam('hash', $hash);
-        $this->setRequestParam('expand_user', $expandUser);
-        return $this->make('info');
+        return $this->make('info', array(
+                    'shortUrl' => $shortURL,
+                    'hash' => $hash,
+                    'expand_user' => $expandUser,
+        ));
     }
 
     /**
@@ -342,8 +415,9 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkCategory($link)
     {
-        $this->setRequestParam('link', $link);
-        return $this->make('link/category');
+        return $this->make('link/category', array(
+                    'link' => $link,
+        ));
     }
 
     /**
@@ -360,14 +434,15 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkClicks($link, $unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('link', $link);
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('rollup', $rollup);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('link/clicks');
+        return $this->make('link/clicks', array(
+                    'link' => $link,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -379,9 +454,10 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkContent($link, $contentType)
     {
-        $this->setRequestParam('link', $link);
-        $this->setRequestParam('content_type', $contentType);
-        return $this->make('link/content');
+        return $this->make('link/content', array(
+                    'link' => $link,
+                    'content_type' => $contentType,
+        ));
     }
 
     /**
@@ -397,13 +473,14 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkCountries($link, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('link', $link);
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('link/countries');
+        return $this->make('link/countries', array(
+                    'link' => $link,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -419,12 +496,25 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkEncoders($link, $myNetwork = null, $subaccounts = null, $limit = null, $expandUser = null)
     {
-        $this->setRequestParam('link', $link);
-        $this->setRequestParam('my_network', $myNetwork);
-        $this->setRequestParam('subaccounts', $subaccounts);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('expand_user', $expandUser);
-        return $this->make('link/encoders');
+        $params = array('link' => $link);
+
+        if ($myNetwork !== null) {
+            $params['my_network'] = $myNetwork;
+        }
+
+        if ($subaccounts !== null) {
+            $params['subaccounts'] = $subaccounts;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($expandUser !== null) {
+            $params['expand_user'] = $expandUser;
+        }
+
+        return $this->make('link/encoders', $params);
     }
 
     /**
@@ -440,12 +530,25 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkEncodersByCount($link, $myNetwork = null, $subaccounts = null, $limit = null, $expandUser = null)
     {
-        $this->setRequestParam('link', $link);
-        $this->setRequestParam('my_network', $myNetwork);
-        $this->setRequestParam('subaccounts', $subaccounts);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('expand_user', $expandUser);
-        return $this->make('link/encoders_by_count');
+        $params = array('link' => $link);
+
+        if ($myNetwork !== null) {
+            $params['my_network'] = $myNetwork;
+        }
+
+        if ($subaccounts !== null) {
+            $params['subaccounts'] = $subaccounts;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($expandUser !== null) {
+            $params['expand_user'] = $expandUser;
+        }
+
+        return $this->make('link/encoders_by_count', $params);
     }
 
     /**
@@ -456,8 +559,9 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkEncodersCount($link)
     {
-        $this->setRequestParam('link', $link);
-        return $this->make('link/encoders_count');
+        return $this->make('link/encoders_count', array(
+                    'link' => $link,
+        ));
     }
 
     /**
@@ -468,8 +572,9 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkInfo($link)
     {
-        $this->setRequestParam('link', $link);
-        return $this->make('link/info');
+        return $this->make('link/info', array(
+                    'link' => $link,
+        ));
     }
 
     /**
@@ -480,8 +585,9 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkLanguage($link)
     {
-        $this->setRequestParam('link', $link);
-        return $this->make('link/language');
+        return $this->make('link/language', array(
+                    'link' => $link,
+        ));
     }
 
     /**
@@ -492,8 +598,9 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkLocation($link)
     {
-        $this->setRequestParam('link', $link);
-        return $this->make('link/location');
+        return $this->make('link/location', array(
+                    'link' => $link,
+        ));
     }
 
     /**
@@ -504,8 +611,9 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkLookup($url)
     {
-        $this->setRequestParam('url', $url);
-        return $this->make('link/lookup');
+        return $this->make('link/lookup', array(
+                    'url' => $url,
+        ));
     }
 
     /**
@@ -522,13 +630,14 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkReferrers($link, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('link', $link);
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('link/referrers');
+        return $this->make('link/referrers', array(
+                    'link' => $link,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -544,13 +653,14 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkReferrersByDomain($link, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('link', $link);
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('link/referrers_by_domain');
+        return $this->make('link/referrers_by_domain', array(
+                    'link' => $link,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -566,13 +676,14 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkReferringDomains($link, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('link', $link);
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('link/referring_domains');
+        return $this->make('link/referring_domains', array(
+                    'link' => $link,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -589,14 +700,15 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkShares($link, $unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('link', $link);
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('rollup', $rollup);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('link/shares');
+        return $this->make('link/shares', array(
+                    'link' => $link,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -607,8 +719,9 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function linkSocial($link)
     {
-        $this->setRequestParam('link', $link);
-        return $this->make('link/social');
+        return $this->make('link/social', array(
+                    'link' => $link,
+        ));
     }
 
     /**
@@ -619,8 +732,9 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function oAuthApp($clientId)
     {
-        $this->setRequestParam('client_id', $clientId);
-        return $this->make('oauth/app');
+        return $this->make('oauth/app', array(
+                    'client_id' => $clientId,
+        ));
     }
 
     /**
@@ -637,13 +751,14 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function organizationBrandMessages($domain, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('domain', $domain);
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('organization/brand_messages');
+        return $this->make('organization/brand_messages', array(
+                    'domain' => $domain,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -660,13 +775,14 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function organizationIntersectingLinks($domain, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('domain', $domain);
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('organization/interesecting_links');
+        return $this->make('organization/interesecting_links', array(
+                    'domain' => $domain,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -684,14 +800,15 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function organizationLeaderboard($domain, $orderBy, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('domain', $domain);
-        $this->setRequestParam('order_by', $orderBy);
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('organization/leaderboard');
+        return $this->make('organization/leaderboard', array(
+                    'domain' => $domain,
+                    'order_by' => $orderBy,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -708,13 +825,14 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function organizationMissedOpportunities($domain, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('domain', $domain);
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('organization/missed_opportunities');
+        return $this->make('organization/missed_opportunities', array(
+                    'domain' => $domain,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -735,8 +853,9 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function realtimeClickrate($phrase)
     {
-        $this->setRequestParam('phrase', $phrase);
-        return $this->make('realtime/clickrate');
+        return $this->make('realtime/clickrate', array(
+                    'phrase' => $phrase,
+        ));
     }
 
     /**
@@ -764,15 +883,16 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function search($query, $fields, $offset, $limit, $domain, $fullDomain, $cities, $lang)
     {
-        $this->setRequestParam('query', $query);
-        $this->setRequestParam('fields', $fields);
-        $this->setRequestParam('offset', $offset);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('domain', $domain);
-        $this->setRequestParam('full_domain', $fullDomain);
-        $this->setRequestParam('cities', $cities);
-        $this->setRequestParam('lang', $lang);
-        return $this->make('search');
+        return $this->make('search', array(
+                    'query' => $query,
+                    'fields' => $fields,
+                    'offset' => $offset,
+                    'limit' => $limit,
+                    'domain' => $domain,
+                    'full_domain' => $fullDomain,
+                    'cities' => $cities,
+                    'lang' => $lang,
+        ));
     }
 
     /**
@@ -784,9 +904,13 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function shorten($longURL, $domain = null)
     {
-        $this->setRequestParam('longUrl', $longURL);
-        $this->setRequestParam('domain', $domain);
-        return $this->make('shorten');
+        $params = array('longUrl' => $longURL);
+
+        if ($domain !== null) {
+            $params['domain'] = $domain;
+        }
+
+        return $this->make('shorten', $params);
     }
 
     /**
@@ -802,13 +926,14 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userClicks($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('rollup', $rollup);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('user/clicks');
+        return $this->make('user/clicks', array(
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -824,13 +949,14 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userCountries($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('rollup', $rollup);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('user/countries');
+        return $this->make('user/countries', array(
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -842,9 +968,17 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userInfo($login = null, $fullName = null)
     {
-        $this->setRequestParam('login', $login);
-        $this->setRequestParam('full_name', $fullName);
-        return $this->make('user/info');
+        $params = array();
+
+        if ($login !== null) {
+            $params['login'] = $login;
+        }
+
+        if ($fullName !== null) {
+            $params['full_name'] = $fullName;
+        }
+
+        return $this->make('user/info', $params);
     }
 
     /**
@@ -861,14 +995,32 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userLinkEdit($link, $edit, $title = null, $note = null, $private = null, $userTimeStamp = null, $archived = null)
     {
-        $this->setRequestParam('link', $link);
-        $this->setRequestParam('edit', $edit);
-        $this->setRequestParam('title', $title);
-        $this->setRequestParam('note', $note);
-        $this->setRequestParam('private', $private);
-        $this->setRequestParam('user_ts', $userTimeStamp);
-        $this->setRequestParam('archived', $archived);
-        return $this->make('user/link_edit');
+        $params = array(
+            'link' => $link,
+            'edit' => $edit,
+        );
+
+        if ($title !== null) {
+            $params['title'] = $title;
+        }
+
+        if ($note !== null) {
+            $params['note'] = $note;
+        }
+
+        if ($private !== null) {
+            $params['private'] = $private;
+        }
+
+        if ($userTimeStamp !== null) {
+            $params['user_ts'] = $userTimeStamp;
+        }
+
+        if ($archived !== null) {
+            $params['archived'] = $archived;
+        }
+
+        return $this->make('user/link_edit', $params);
     }
 
     /**
@@ -892,21 +1044,65 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userLinkHistory($link = null, $query = null, $offset = null, $limit = null, $createdBefore = null, $createdAfter = null, $modifiedAfter = null, $expandClientId = null, $archived = null, $private = null, $user = null, $exactDomain = null, $rootDomain = null)
     {
-        $this->setRequestParam('link', $link);
-        $this->setRequestParam('query', $query);
-        $this->setRequestParam('offset', $offset);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('created_before', $createdBefore);
-        $this->setRequestParam('created_after', $createdAfter);
-        $this->setRequestParam('modified_after', $modifiedAfter);
-        $this->setRequestParam('expand_client_id', $expandClientId);
-        $this->setRequestParam('archived', $archived);
-        $this->setRequestParam('private', $private);
-        $this->setRequestParam('offset', $offset);
-        $this->setRequestParam('user', $user);
-        $this->setRequestParam('exact_domain', $exactDomain);
-        $this->setRequestParam('root_domain', $rootDomain);
-        return $this->make('user/link_history');
+        $params = array();
+
+        if ($link !== null) {
+            $params['link'] = $link;
+        }
+
+        if ($query !== null) {
+            $params['query'] = $query;
+        }
+
+        if ($offset !== null) {
+            $params['offset'] = $offset;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($createdBefore !== null) {
+            $params['created_before'] = $createdBefore;
+        }
+
+        if ($createdAfter !== null) {
+            $params['created_after'] = $createdAfter;
+        }
+
+        if ($modifiedAfter !== null) {
+            $params['modified_after'] = $modifiedAfter;
+        }
+
+        if ($expandClientId !== null) {
+            $params['expand_client_id'] = $expandClientId;
+        }
+
+        if ($archived !== null) {
+            $params['archived'] = $archived;
+        }
+
+        if ($private !== null) {
+            $params['private'] = $private;
+        }
+
+        if ($offset !== null) {
+            $params['offset'] = $offset;
+        }
+
+        if ($user !== null) {
+            $params['user'] = $user;
+        }
+
+        if ($exactDomain !== null) {
+            $params['exact_domain'] = $exactDomain;
+        }
+
+        if ($rootDomain !== null) {
+            $params['root_domain'] = $rootDomain;
+        }
+
+        return $this->make('user/link_history', $params);
     }
 
     /**
@@ -917,8 +1113,9 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userLinkLookup($url)
     {
-        $this->setRequestParam('url', $url);
-        return $this->make('user/link_lookup');
+        return $this->make('user/link_lookup', array(
+                    'url' => $url,
+        ));
     }
 
     /**
@@ -933,12 +1130,25 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userLinkSave($longURL, $title = null, $note = null, $private = null, $userTimeStamp = null)
     {
-        $this->setRequestParam('longUrl', $longURL);
-        $this->setRequestParam('title', $title);
-        $this->setRequestParam('note', $note);
-        $this->setRequestParam('private', $private);
-        $this->setRequestParam('user_ts', $userTimeStamp);
-        return $this->make('user/link_save');
+        $params = array('longUrl' => $longURL);
+
+        if ($title !== null) {
+            $params['title'] = $title;
+        }
+
+        if ($note !== null) {
+            $params['note'] = $note;
+        }
+
+        if ($private !== null) {
+            $params['private'] = $private;
+        }
+
+        if ($userTimeStamp !== null) {
+            $params['user_ts'] = $userTimeStamp;
+        }
+
+        return $this->make('user/link_save', $params);
     }
 
     /**
@@ -952,11 +1162,25 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userNetworkHistory($offset = null, $expandClientId = null, $limit = null, $expandUser = null)
     {
-        $this->setRequestParam('offset', $offset);
-        $this->setRequestParam('expand_client_id', $expandClientId);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('expand_user', $expandUser);
-        return $this->make('user/newtork_history');
+        $params = array();
+
+        if ($offset !== null) {
+            $params['offset'] = $offset;
+        }
+
+        if ($expandClientId !== null) {
+            $params['expand_client_id'] = $expandClientId;
+        }
+
+        if ($limit !== null) {
+            $params['limit'] = $limit;
+        }
+
+        if ($expandUser !== null) {
+            $params['expand_user'] = $expandUser;
+        }
+
+        return $this->make('user/newtork_history', $params);
     }
 
     /**
@@ -974,13 +1198,14 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userPopularEarnedByClicks($domain, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('domain', $domain);
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('user/popular_earned_by_clicks');
+        return $this->make('user/popular_earned_by_clicks', array(
+                    'domain' => $domain,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -998,13 +1223,14 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userPopularEarnedByShortens($domain, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('domain', $domain);
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('user/popular_earned_by_shortens');
+        return $this->make('user/popular_earned_by_shortens', array(
+                    'domain' => $domain,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -1020,12 +1246,13 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userPopularLinks($unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('user/popular_links');
+        return $this->make('user/popular_links', array(
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -1044,14 +1271,15 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userPopularOwnedByClicks($domain, $subaccount, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('domain', $domain);
-        $this->setRequestParam('subaccount', $subaccount);
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('user/popular_owned_by_clicks');
+        return $this->make('user/popular_owned_by_clicks', array(
+                    'domain' => $domain,
+                    'subaccount' => $subaccount,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -1070,14 +1298,15 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userPopularOwnedByShortens($domain, $subaccount, $unit, $units, $timezone, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('domain', $domain);
-        $this->setRequestParam('subaccount', $subaccount);
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('user/popular_owned_by_shortens');
+        return $this->make('user/popular_owned_by_shortens', array(
+                    'domain' => $domain,
+                    'subaccount' => $subaccount,
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -1093,13 +1322,14 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userReferrers($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('rollup', $rollup);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('user/referrers');
+        return $this->make('user/referrers', array(
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -1115,13 +1345,14 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userReferringDomains($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('rollup', $rollup);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('user/referring_domains');
+        return $this->make('user/referring_domains', array(
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -1133,9 +1364,10 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userSaveCustomDomainKeyword($keywordLink, $targetLink)
     {
-        $this->setRequestParam('keyword_link', $keywordLink);
-        $this->setRequestParam('target_link', $targetLink);
-        return $this->make('user/save_custom_domain_keyword');
+        return $this->make('user/save_custom_domain_keyword', array(
+                    'keyword_link' => $keywordLink,
+                    'target_link' => $targetLink,
+        ));
     }
 
     /**
@@ -1151,13 +1383,14 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userShareCounts($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('rollup', $rollup);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('user/share_counts');
+        return $this->make('user/share_counts', array(
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -1173,13 +1406,14 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userShareCountsByShareType($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('rollup', $rollup);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('user/share_counts_by_share_type');
+        return $this->make('user/share_counts_by_share_type', array(
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
@@ -1195,13 +1429,14 @@ class Bitly4laravel extends API implements BitlyInterface {
      */
     public function userShortenCounts($unit, $units, $timezone, $rollup, $limit, $unitReferenceTimeStamp)
     {
-        $this->setRequestParam('unit', $unit);
-        $this->setRequestParam('units', $units);
-        $this->setRequestParam('timezone', $timezone);
-        $this->setRequestParam('rollup', $rollup);
-        $this->setRequestParam('limit', $limit);
-        $this->setRequestParam('unit_reference_ts', $unitReferenceTimeStamp);
-        return $this->make('user/shorten_counts');
+        return $this->make('user/shorten_counts', array(
+                    'unit' => $unit,
+                    'units' => $units,
+                    'timezone' => $timezone,
+                    'rollup' => $rollup,
+                    'limit' => $limit,
+                    'unit_reference_ts' => $unitReferenceTimeStamp,
+        ));
     }
 
     /**
