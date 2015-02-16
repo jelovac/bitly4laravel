@@ -14,7 +14,7 @@ class Laravel5ServiceProvider extends ServiceProvider {
         $configPath = __DIR__ . '/../../../config/bitly4laravel.php';
 
         $paths = array(
-            $configPath => $this->config_path("bitly4laravel.php"),
+            $configPath => config_path("bitly4laravel.php"),
         );
 
         $this->publishes($paths, 'config');
