@@ -1,6 +1,7 @@
 <?php namespace Jelovac\Bitly4laravel\ServiceProviders;
 
 use Illuminate\Support\ServiceProvider;
+use Jelovac\Bitly4laravel\Bitly4laravel;
 
 class Laravel5ServiceProvider extends ServiceProvider {
 
