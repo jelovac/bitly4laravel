@@ -1,7 +1,7 @@
 <?php namespace Jelovac\Bitly4laravel;
 
 use Illuminate\Support\Facades\Cache;
-use GuzzleHttp;
+use GuzzleHttp\Client;
 
 class API extends Model {
 
