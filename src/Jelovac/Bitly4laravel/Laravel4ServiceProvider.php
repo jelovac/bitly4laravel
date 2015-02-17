@@ -1,7 +1,6 @@
-<?php namespace Jelovac\Bitly4laravel\ServiceProviders;
+<?php namespace Jelovac\Bitly4laravel;
 
 use Illuminate\Support\ServiceProvider;
-use Jelovac\Bitly4laravel\Bitly4laravel;
 
 class Laravel4ServiceProvider extends ServiceProvider {
 
@@ -23,7 +22,7 @@ class Laravel4ServiceProvider extends ServiceProvider {
     public function register()
     {
         $this->app['bitly4laravel'] = $this->app->share(function($app) {
-            $config = $app['config']->get('bitly4laravel::config');
+            $config = $app['config']->get('bitly4laravel::bitly4laravel');
             return new Bitly4laravel($config);
         });
     }
