@@ -9,9 +9,7 @@ In order to use this package you need to get [OAuth Generic Access Token](https:
 Instalation
 ===========
 
-Warning this is v3 version of bitly4laravel package. 
-
-If you want to use the old v2 version use the v2 branch.
+Warning this is v3 version of bitly4laravel package. If you want to use the old v2 version use the v2 branch.
 
 Add bitly4laravel to your composer.json file.
 
