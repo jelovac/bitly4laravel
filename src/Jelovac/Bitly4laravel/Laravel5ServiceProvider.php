@@ -27,10 +27,6 @@ class Laravel5ServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $configPath = __DIR__ . '/../../../config/bitly4laravel.php';
-
-        $this->mergeConfigFrom($configPath, 'bitly4laravel');
-
         $this->app['bitly4laravel'] = $this->app->share(function($app) {
             $config = $app['config']->get('bitly4laravel');
             return new Bitly4laravel($config);
