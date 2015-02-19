@@ -1,6 +1,8 @@
 <?php namespace Jelovac\Bitly4laravel\Exceptions\Type;
 
-abstract class InvalidTypeException extends \InvalidArgumentException {
+use \InvalidArgumentException;
+
+abstract class InvalidTypeException extends InvalidArgumentException {
 
     /**
      * Assemble exception message

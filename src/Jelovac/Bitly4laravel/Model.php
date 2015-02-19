@@ -1,10 +1,10 @@
 <?php namespace Jelovac\Bitly4laravel;
 
-use \OutOfRangeException,
-    \InvalidArgumentException;
-use Jelovac\Bitly4laravel\Exceptions\Type\NonStringTypeException,
-    Jelovac\Bitly4laravel\Exceptions\Type\NonBooleanTypeException,
-    Jelovac\Bitly4laravel\Exceptions\Type\NonIntegerTypeException;
+use \OutOfRangeException;
+use \InvalidArgumentException;
+use Jelovac\Bitly4laravel\Exceptions\Type\NonStringTypeException;
+use Jelovac\Bitly4laravel\Exceptions\Type\NonBooleanTypeException;
+use Jelovac\Bitly4laravel\Exceptions\Type\NonIntegerTypeException;
 
 class Model {
 

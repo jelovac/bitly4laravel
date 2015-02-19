@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Cache;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\BadResponseException;
 
 class API extends Model {
 
@@ -85,7 +86,7 @@ class API extends Model {
             }
 
             return $body;
-        } catch (GuzzleHttp\Exception\BadResponseException $ex) {
+        } catch (BadResponseException $ex) {
             return $ex->getResponse()->getBody();
         }
     }
