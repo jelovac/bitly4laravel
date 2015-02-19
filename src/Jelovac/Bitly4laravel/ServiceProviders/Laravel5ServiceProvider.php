@@ -14,7 +14,7 @@ class Laravel5ServiceProvider extends ServiceProvider {
     {
         $configPath = __DIR__ . '/../../../config/config.php';
         $paths = array(
-            $configPath => config_path("packages/jelovac/bitly4laravel/config.php"),
+            $configPath => config_path("bitly4laravel.php"),
         );
         $this->publishes($paths, 'config');
     }
@@ -26,8 +26,6 @@ class Laravel5ServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $configPath = config_path("packages/jelovac/bitly4laravel/config.php");
-        $this->mergeConfigFrom($configPath, 'bitly4laravel');
         $this->app['bitly4laravel'] = $this->app->share(function($app) {
             $config = $app['config']->get('bitly4laravel');
             return new Bitly4laravel($config);
