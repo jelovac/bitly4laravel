@@ -1,6 +1,6 @@
 <?php namespace Jelovac\Bitly4laravel\Facades;
 
-use Illuminate\Support\Facades\Facade;
+use \Illuminate\Support\Facades\Facade;
 
 class Bitly4laravel extends Facade {
 

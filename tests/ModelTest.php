@@ -4,6 +4,9 @@ use \Jelovac\Bitly4laravel\Model;
 
 class ModelTest extends \PHPUnit_Framework_TestCase {
 
+    /**
+     * @var \Jelovac\Bitly4laravel\Model 
+     */
     protected $model;
 
     protected function setUp()

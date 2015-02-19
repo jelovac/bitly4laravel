@@ -1,8 +1,8 @@
 <?php namespace Jelovac\Bitly4laravel;
 
-use Illuminate\Support\Facades\Cache;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\BadResponseException;
+use \Illuminate\Support\Facades\Cache;
+use \GuzzleHttp\Client;
+use \GuzzleHttp\Exception\BadResponseException;
 
 class API extends Model {
 

@@ -2,9 +2,9 @@
 
 use \OutOfRangeException;
 use \InvalidArgumentException;
-use Jelovac\Bitly4laravel\Exceptions\Type\NonStringTypeException;
-use Jelovac\Bitly4laravel\Exceptions\Type\NonBooleanTypeException;
-use Jelovac\Bitly4laravel\Exceptions\Type\NonIntegerTypeException;
+use \Jelovac\Bitly4laravel\Exceptions\Type\NonStringTypeException;
+use \Jelovac\Bitly4laravel\Exceptions\Type\NonBooleanTypeException;
+use \Jelovac\Bitly4laravel\Exceptions\Type\NonIntegerTypeException;
 
 class Model {
 

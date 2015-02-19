@@ -1,6 +1,6 @@
 <?php namespace Jelovac\Bitly4laravel;
 
-use Illuminate\Support\ServiceProvider;
+use \Illuminate\Support\ServiceProvider;
 
 class Bitly4laravelServiceProvider extends ServiceProvider {
 
