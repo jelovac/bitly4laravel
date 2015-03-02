@@ -1,8 +1,9 @@
 <?php namespace Jelovac\Bitly4laravel\Tests;
 
 use \Jelovac\Bitly4laravel\Model;
+use \PHPUnit_Framework_TestCase;
 
-class ModelTest extends \PHPUnit_Framework_TestCase {
+class ModelTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @var \Jelovac\Bitly4laravel\Model 
@@ -31,7 +32,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Jelovac\Bitly4laravel\Exceptions\Type\NonStringTypeException
+     * @expectedException \Jelovac\Bitly4laravel\Exceptions\NonStringTypeException
      */
     public function testSetAccessTokenThrowsNonStringTypeException()
     {

@@ -17,7 +17,7 @@
         "phpunit/phpunit": "4.4.*"
     },
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "Jelovac\\Bitly4laravel\\": "src/"
         }
     },

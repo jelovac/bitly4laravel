@@ -1,4 +1,4 @@
-<?php namespace Jelovac\Bitly4laravel\Exceptions\Type;
+<?php namespace Jelovac\Bitly4laravel\Exceptions;
 
 use \InvalidArgumentException;
 
