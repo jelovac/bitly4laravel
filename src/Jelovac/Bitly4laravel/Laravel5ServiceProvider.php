@@ -2,7 +2,7 @@
 
 use \Illuminate\Support\ServiceProvider;
 
-class Laravel4ServiceProvider extends ServiceProvider
+class Laravel5ServiceProvider extends ServiceProvider
 {
 
     /**
@@ -12,7 +12,13 @@ class Laravel4ServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->package('jelovac/bitly4laravel');
+        $configPath = __DIR__ . '/../../config/config.php';
+
+        $paths = array(
+            $configPath => config_path("bitly4laravel.php"),
+        );
+
+        $this->publishes($paths, 'config');
     }
 
     /**
@@ -23,7 +29,7 @@ class Laravel4ServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app['bitly4laravel'] = $this->app->share(function($app) {
-            $config = $app['config']->get('bitly4laravel::bitly4laravel');
+            $config = $app['config']->get('bitly4laravel');
             return new Bitly4laravel($config);
         });
     }
