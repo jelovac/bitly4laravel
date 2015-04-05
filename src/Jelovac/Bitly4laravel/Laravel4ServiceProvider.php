@@ -1,9 +1,8 @@
-<?php namespace Jelovac\Bitly4laravel\ServiceProviders;
+<?php namespace Jelovac\Bitly4laravel;
 
 use Illuminate\Support\ServiceProvider;
-use Jelovac\Bitly4laravel\Bitly4laravel;
 
-class Laravel5ServiceProvider extends ServiceProvider {
+class Laravel4ServiceProvider extends ServiceProvider {
 
     /**
      * Bootstrap the application events.
@@ -12,11 +11,7 @@ class Laravel5ServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        $configPath = __DIR__ . '/../../../config/config.php';
-        $paths = array(
-            $configPath => config_path("bitly4laravel.php"),
-        );
-        $this->publishes($paths, 'config');
+        $this->package('jelovac/bitly4laravel');
     }
 
     /**
@@ -27,7 +22,7 @@ class Laravel5ServiceProvider extends ServiceProvider {
     public function register()
     {
         $this->app['bitly4laravel'] = $this->app->share(function($app) {
-            $config = $app['config']->get('bitly4laravel');
+            $config = $app['config']->get('bitly4laravel::config');
             return new Bitly4laravel($config);
         });
     }
