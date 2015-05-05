@@ -14,12 +14,12 @@ Warning this is v3 version of bitly4laravel package. If you want to use the old 
 Add bitly4laravel to your composer.json file.
 
     require : {
-        "jelovac/bitly4laravel": "3.*"
+        "shivergard/bitly4laravel": "3.*"
     }
 
 Or with composer command:
 
-    composer require "jelovac/bitly4laravel": "3.*"
+    composer require "shivergard/bitly4laravel": "3.*"
 
 Add provider to your app/config/app.php providers
 
@@ -33,14 +33,14 @@ For Laravel 5 use:
 
 For Laravel 4 use:
 
-    php artisan config:publish jelovac/bitly4laravel
+    php artisan config:publish shivergard/bitly4laravel
 
 Optional (recommended)
 ======================
 
 Add alias to app/config/app.php aliases
 
-    'Bitly' => 'Jelovac\Bitly4laravel\Facades\Bitly4laravel',
+    'Bitly' => 'Shivergard\Bitly4laravel\Facades\Bitly4laravel',
 
 Usage
 =====

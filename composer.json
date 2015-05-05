@@ -1,5 +1,5 @@
 {
-    "name": "jelovac/bitly4laravel",
+    "name": "shivergard/bitly4laravel",
     "description": "Provides a Laravel package to communicate with Bit.ly API",
     "authors": [
         {
@@ -8,6 +8,7 @@
         }
     ],
     "license": "MIT",
+
     "require": {
         "php": ">=5.4",
         "illuminate/support": "~4|~5",
@@ -18,7 +19,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Jelovac\\Bitly4laravel\\": "src/"
+            "Shivergard\\Bitly4laravel\\": "src/"
         }
     },
     "minimum-stability": "dev"
