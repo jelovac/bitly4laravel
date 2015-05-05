@@ -18,7 +18,7 @@ class API extends Model {
         $this->requestParams['format'] = $this->responseFormat;
 
         if (!empty($params)) {
-            $this->requestParams = array_merge($params, $this->requestParams);
+            $this->requestParams = array_merge($this->requestParams , $params);
         }
 
         if ($this->cacheEnabled) {
