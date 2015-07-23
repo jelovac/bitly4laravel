@@ -82,7 +82,7 @@ class API extends Model {
                 case 'json':
 
                 default:
-                    $body = $response->json();
+                    $body = $response->getBody()->getContents();
             }
 
             return $body;
