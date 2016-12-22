@@ -82,7 +82,7 @@ class API extends Model {
                 case 'json':
 
                 default:
-                    $body = json_decode($response->getBody());
+                    $body = method_exists($response, 'json') ? $response->json() : json_decode($response->getBody());
             }
 
             return $body;
