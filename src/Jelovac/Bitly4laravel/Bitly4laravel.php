@@ -1,6 +1,4 @@
-<?php
-
-namespace Jelovac\Bitly4laravel;
+<?php namespace Jelovac\Bitly4laravel;
 
 class Bitly4laravel extends API implements BitlyInterface
 {
@@ -371,10 +369,10 @@ class Bitly4laravel extends API implements BitlyInterface
     {
         $params = array();
 
-        if (filter_var($shortURLOrHash, FILTER_VALIDATE_URL) === false) {
-            $params['hash'] = $shortURLOrHash;
-        } else {
+        if (filter_var($shortURLOrHash, FILTER_VALIDATE_URL) !== false) {
             $params['shortUrl'] = $shortURLOrHash;
+        } else {
+            $params['hash'] = $shortURLOrHash;
         }
 
         return $this->make('expand', $params);
@@ -409,10 +407,10 @@ class Bitly4laravel extends API implements BitlyInterface
     {
         $params = array();
 
-        if (filter_var($shortURLOrHash, FILTER_VALIDATE_URL) === false) {
-            $params['hash'] = $shortURLOrHash;
-        } else {
+        if (filter_var($shortURLOrHash, FILTER_VALIDATE_URL) !== false) {
             $params['shortUrl'] = $shortURLOrHash;
+        } else {
+            $params['hash'] = $shortURLOrHash;
         }
 
         if ($expandUser !== null) {
