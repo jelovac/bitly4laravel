@@ -15,5 +15,6 @@
             "Jelovac\\Bitly4laravel\\": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
