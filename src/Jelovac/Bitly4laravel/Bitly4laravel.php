@@ -1,6 +1,7 @@
 <?php namespace Jelovac\Bitly4laravel;
 
-class Bitly4laravel extends API implements BitlyInterface {
+class Bitly4laravel extends API implements BitlyInterface
+{
 
     /**
      * Archive a bundle for the authenticated user. Only a bundle's owner is allowed to archive a bundle.
@@ -368,7 +369,7 @@ class Bitly4laravel extends API implements BitlyInterface {
     {
         $params = array();
 
-        if (filter_var($shortURLOrHash, FILTER_VALIDATE_URL) === true) {
+        if (filter_var($shortURLOrHash, FILTER_VALIDATE_URL) !== false) {
             $params['shortUrl'] = $shortURLOrHash;
         } else {
             $params['hash'] = $shortURLOrHash;
@@ -406,7 +407,7 @@ class Bitly4laravel extends API implements BitlyInterface {
     {
         $params = array();
 
-        if (filter_var($shortURLOrHash, FILTER_VALIDATE_URL) === true) {
+        if (filter_var($shortURLOrHash, FILTER_VALIDATE_URL) !== false) {
             $params['shortUrl'] = $shortURLOrHash;
         } else {
             $params['hash'] = $shortURLOrHash;
