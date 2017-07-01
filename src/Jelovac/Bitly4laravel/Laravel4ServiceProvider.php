@@ -22,7 +22,7 @@ class Laravel4ServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app['bitly4laravel'] = $this->app->share(function($app) {
+        $this->app->singleton(Bitly4laravel::class, function($app) {
             $config = $app['config']->get('bitly4laravel::config');
             return new Bitly4laravel($config);
         });
