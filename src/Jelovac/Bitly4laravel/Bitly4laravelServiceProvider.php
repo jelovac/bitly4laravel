@@ -54,7 +54,7 @@ class Bitly4laravelServiceProvider extends ServiceProvider
     /**
      * Return ServiceProvider according to Laravel version
      *
-     * @return \Intervention\Image\Provider\ProviderInterface
+     * @return \Jelovac\Bitly4laravel\Laravel4ServiceProvider | \Jelovac\Bitly4laravel\Laravel5ServiceProvider
      */
     private function getProvider()
     {

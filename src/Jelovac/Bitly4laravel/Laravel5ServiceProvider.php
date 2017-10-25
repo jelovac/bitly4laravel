@@ -28,6 +28,8 @@ class Laravel5ServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind('bitly4laravel', Bitly4laravel::class);
+        
         $this->app->singleton(Bitly4laravel::class, function($app) {
             $config = $app['config']['bitly4laravel'];
             return new Bitly4laravel($config);
