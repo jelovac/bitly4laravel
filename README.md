@@ -19,11 +19,11 @@ Add bitly4laravel to your composer.json file.
 
 Or with composer command:
 
-    composer require "jelovac/bitly4laravel": "3.*"
+    composer require jelovac/bitly4laravel: 3.*
 
 Add provider to your app/config/app.php providers
 
-    'Jelovac\Bitly4laravel\Bitly4laravelServiceProvider',
+    Jelovac\Bitly4laravel\Bitly4laravelServiceProvider::class,
 
 Publish config
 
@@ -40,7 +40,7 @@ Optional (recommended)
 
 Add alias to app/config/app.php aliases
 
-    'Bitly' => 'Jelovac\Bitly4laravel\Facades\Bitly4laravel',
+    'Bitly' => Jelovac\Bitly4laravel\Facades\Bitly4laravel::class,
 
 Usage
 =====
