@@ -19,7 +19,7 @@ Add bitly4laravel to your composer.json file.
 
 Or with composer command:
 
-    composer require jelovac/bitly4laravel: 3.*
+    composer require jelovac/bitly4laravel 3.*
 
 Add provider to your app/config/app.php providers
 
