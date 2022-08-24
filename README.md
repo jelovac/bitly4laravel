@@ -6,6 +6,15 @@ Provides a Laravel package to communicate with Bit.ly API.
 
 In order to use this package you need to get [OAuth Generic Access Token](https://bitly.com/a/oauth_apps) from Bitly website.
 
+Project status: Archived (Abandoned)
+====================================
+
+Due to security concerns decided to archive the project since it hasn't been maintained for years.
+
+Either fork it or seek other libraries which are more up to date.
+
+All the best Vladimir J.
+
 Instalation
 ===========
 
